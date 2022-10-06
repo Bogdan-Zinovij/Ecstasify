@@ -1,6 +1,6 @@
 'use strict';
 
-const getRateService = async () => {
+const getAllUsersService = async () => {
   const users = [
     {
       id: '864c8856-387d-4a62-b9c4-7f39eb0ba604',
@@ -24,4 +24,4 @@ const getRateService = async () => {
   return users;
 };
 
-module.exports = getRateService;
+module.exports = getAllUsersService;
