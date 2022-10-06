@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const PORT = 8080;
-  const HOST = 'localhost';
+  const HOST = '0.0.0.0';
   const GLOBAL_PREFIX = '/api/v1';
 
   const app = await NestFactory.create(AppModule);
