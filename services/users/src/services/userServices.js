@@ -1,6 +1,9 @@
 'use strict';
 
 const { Users } = require('../db/models/Users');
+const bcrypt = require('bcryptjs');
+const { SALT } = require('../config');
+const { v4: uuid } = require('uuid');
 
 class UserServices {
   async getUsers() {
@@ -16,6 +19,10 @@ class UserServices {
   }
 
   async createUser(userData) {
+    const userID = uuid();
+    const hashPassword = await bcrypt.hash(userData.password, SALT);
+    userData.password = hashPassword;
+    userData.id = userID;
     return await Users.create(userData);
   }
 
