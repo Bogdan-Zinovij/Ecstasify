@@ -14,7 +14,8 @@ spec:
     spec:
       initContainers:
         - name: run-migrations-subscriptions
-          image: subscriptions-migrations:0.1
+          image: khrapkovasyl/ecstasify-subscriptions-migrations:0.1
+          imagePullPolicy: Always # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
           command: [
               'migrate',
               '-path',
@@ -31,9 +32,9 @@ spec:
               value: '20221030231112'
 
       containers:
-        - image: subscriptions:0.1 # образ Docker
+        - image: khrapkovasyl/ecstasify-subscriptions:0.1 # образ Docker
           name: subscriptions # ім'я контейнеру
-          imagePullPolicy: Never # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
+          imagePullPolicy: Always # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
           ports:
             - containerPort: 8080 # порт по якому можна звертатись до поди
           envFrom:
