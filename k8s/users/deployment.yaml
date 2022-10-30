@@ -12,9 +12,23 @@ spec:
       labels:
         app: users
     spec:
+      initContainers:
+        - name: run-migrations
+          image: users-migrations:0.1
+          command: ["migrate", "-path", "/migrations", "-database",  "$(POSTGRESQL_URL)", "goto", "$(VERSION)"] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
+          env:
+            - name: POSTGRESQL_URL
+              value: "postgres://demo:demo@postgres:5432/demo?sslmode=disable"
+            - name: VERSION
+              value: "20221030101907"
       containers:
         - image: users:1.0
           imagePullPolicy: Never
           name: users
           ports:
             - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: users-config
+            - secretRef:
+                name: users-secret
