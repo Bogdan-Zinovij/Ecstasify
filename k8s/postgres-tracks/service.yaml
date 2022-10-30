@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-tracks
+  labels:
+    app: postgres-tracks
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-tracks
