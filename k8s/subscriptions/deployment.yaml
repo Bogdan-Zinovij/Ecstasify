@@ -13,7 +13,7 @@ spec:
         app: subscriptions # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
       initContainers:
-        - name: run-migrations
+        - name: run-migrations-subscriptions
           image: subscriptions-migrations:0.1
           command: [
               'migrate',
@@ -26,7 +26,7 @@ spec:
             ] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
           env:
             - name: POSTGRESQL_URL
-              value: 'postgres://demo:demo@postgres:5432/demo?sslmode=disable'
+              value: 'postgres://postgres:postgres@postgres-subscriptions:5432/demo?sslmode=disable'
             - name: VERSION
               value: '20221030231112'
 
@@ -38,6 +38,6 @@ spec:
             - containerPort: 8080 # порт по якому можна звертатись до поди
           envFrom:
             - configMapRef:
-                name: tracks-config
+                name: subscriptions-config
             - secretRef:
-                name: tracks-secret
+                name: subscriptions-secret

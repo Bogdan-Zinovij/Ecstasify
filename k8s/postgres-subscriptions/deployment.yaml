@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-subscriptions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-subscriptions
+  template:
+    metadata:
+      labels:
+        app: postgres-subscriptions
+    spec:
+      containers:
+        - name: postgres-subscriptions
+          image: postgres:14.1-alpine3.15
+          imagePullPolicy: 'IfNotPresent'
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-subscriptions-config
+            - secretRef:
+                name: postgres-subscriptions-secret
+          volumeMounts:
+            - mountPath: /var/lib/pg/data/subscriptions
+              name: postgres-subscriptionsdb
+      volumes:
+        - name: postgres-subscriptionsdb
+          persistentVolumeClaim:
+            claimName: postgres-subscriptions-volume-claim

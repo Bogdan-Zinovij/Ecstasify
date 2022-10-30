@@ -6,11 +6,11 @@ import { dirname } from 'path';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'postgres-subscriptions',
       port: 5432,
       logging: true,
-      username: 'ZGVtbw==',
-      password: 'ZGVtbw==',
+      username: 'postgres',
+      password: 'postgres',
       database: 'demo',
       entities: [dirname(__dirname) + '/modules/**/*.entity.{ts,js}'],
       migrations: [__dirname + '/migrations/*.{ts,js}'],
