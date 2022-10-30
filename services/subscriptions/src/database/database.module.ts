@@ -14,9 +14,9 @@ import { dirname } from 'path';
       database: 'postgres',
       entities: [dirname(__dirname) + '/modules/**/*.entity.{ts,js}'],
       migrations: [__dirname + '/migrations/*.{ts,js}'],
-      migrationsRun: true,
+      migrationsRun: false,
       dropSchema: false,
-      synchronize: true,
+      synchronize: false,
     }),
   ],
 })
