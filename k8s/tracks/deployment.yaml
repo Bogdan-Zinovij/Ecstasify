@@ -9,8 +9,8 @@ spec:
       app: tracks                # селектор по якому Deployment зв'язаний з Pod
   template:
     metadata:
-     labels:
-       app: tracks               # мітка Pod по якому вона буде зв'язана з Deployment та Service
+      labels:
+        app: tracks               # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
       initContainers:
         - name: run-migrations
@@ -18,18 +18,13 @@ spec:
           command: ["migrate", "-path", "/migrations", "-database",  "$(POSTGRESQL_URL)", "goto", "$(VERSION)"] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
           env:
             - name: POSTGRESQL_URL
-              value: "postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):5432/$(POSTGRES_DB)?sslmode=disable"
+              value: "postgres://demo:demo@postgres:5432/demo?sslmode=disable"
             - name: VERSION
               value: "20221029185755"
-          envFrom:
-            - configMapRef:
-                name: tracks-config
-            - secretRef:
-                name: tracks-secret
       containers:
-        - image: tracks:1.0       # образ Docker
-          imagePullPolicy: Never   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
-          name: tracks           # ім'я контейнеру
+        - image: tracks:1.0      # образ Docker
+          name: tracks           # ім'я контейнера
+          imagePullPolicy: Never
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
           envFrom:
