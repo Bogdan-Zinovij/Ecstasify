@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS public."subscription-plans";
+DROP TABLE IF EXISTS "subscription-plans";

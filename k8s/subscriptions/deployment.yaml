@@ -13,8 +13,9 @@ spec:
         app: subscriptions # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
       initContainers:
-        - name: run-migrations
-          image: subscriptions-migrations:0.1
+        - name: run-migrations-subscriptions
+          image: khrapkovasyl/ecstasify-subscriptions-migrations:0.1
+          imagePullPolicy: Always # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
           command: [
               'migrate',
               '-path',
@@ -26,18 +27,18 @@ spec:
             ] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
           env:
             - name: POSTGRESQL_URL
-              value: 'postgres://demo:demo@postgres:5432/demo?sslmode=disable'
+              value: 'postgres://postgres:postgres@postgres-subscriptions:5432/demo?sslmode=disable'
             - name: VERSION
               value: '20221030231112'
 
       containers:
-        - image: subscriptions:0.1 # образ Docker
+        - image: khrapkovasyl/ecstasify-subscriptions:0.1 # образ Docker
           name: subscriptions # ім'я контейнеру
-          imagePullPolicy: Never # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
+          imagePullPolicy: Always # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
           ports:
             - containerPort: 8080 # порт по якому можна звертатись до поди
           envFrom:
             - configMapRef:
-                name: tracks-config
+                name: subscriptions-config
             - secretRef:
-                name: tracks-secret
+                name: subscriptions-secret
