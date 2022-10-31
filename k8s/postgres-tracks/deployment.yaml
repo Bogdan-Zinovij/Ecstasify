@@ -24,7 +24,7 @@ spec:
             - secretRef:
                 name: postgres-tracks-secret
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data/tracks
+            - mountPath: /var/lib/pg/data/tracks
               name: postgres-tracksdb
       volumes:
         - name: postgres-tracksdb
