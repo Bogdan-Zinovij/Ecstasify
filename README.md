@@ -3,6 +3,8 @@
 # k8s lab-2
 
 ## How to start
+NOTE: Make sure that minikube is running and ingress addons are enabled.
+
 In directory of the project run .sh file:
 `./lab2.sh`
 
