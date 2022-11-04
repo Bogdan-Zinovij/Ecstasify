@@ -11,8 +11,6 @@ const CreateSubModal = ({ open, onClose, onSubmit }) => {
       price: priceInputRef.current.value,
     };
 
-    console.log(data, nameInputRef.current);
-
     onSubmit(data);
   };
 
@@ -37,8 +35,8 @@ const CreateSubModal = ({ open, onClose, onSubmit }) => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography>Create</Typography>
-          <TextField ref={nameInputRef} placeholder="Name" fullWidth />
-          <TextField ref={priceInputRef} placeholder="Price" fullWidth />
+          <TextField inputRef={nameInputRef} placeholder="Name" fullWidth />
+          <TextField inputRef={priceInputRef} placeholder="Price" fullWidth />
           <Button onClick={handleSubmit}>Save</Button>
         </Box>
       </Box>

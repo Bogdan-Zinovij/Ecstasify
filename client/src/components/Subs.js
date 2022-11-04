@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import EditSubModal from './EditSubModal';
 import CreateSubModal from './CreateSubModal';
 
+const baseUrl = 'http://127.0.0.1:80/api/v1/subscriptions/subscription-plans';
+
 const Subs = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,9 +17,7 @@ const Subs = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const resp = await fetch(
-        `http://127.0.0.1:80/api/v1/subscriptions/subscription-plans`
-      );
+      const resp = await fetch(baseUrl);
       const data = await resp.json();
       console.log(data);
       setItems(data.todos.slice(0, 10));
@@ -30,36 +30,27 @@ const Subs = () => {
 
   const handleDeleteSub = async () => {
     // req to delete
-    const resp = await fetch(
-      `http://127.0.0.1:80/api/v1/subscriptions/subscription-plans`,
-      {
-        method: 'DELETE',
-      }
-    );
+    const resp = await fetch(baseUrl, {
+      method: 'DELETE',
+    });
 
     fetchData();
   };
 
   const handleUpdateSub = async (data) => {
     // req to update
-    const resp = await fetch(
-      `http://127.0.0.1:80/api/v1/subscriptions/subscription-plans`,
-      {
-        method: 'PATCH',
-      }
-    );
+    const resp = await fetch(baseUrl, {
+      method: 'PATCH',
+    });
 
     fetchData();
   };
 
   const handleCreateSub = async (data) => {
     // req to update
-    const resp = await fetch(
-      `http://127.0.0.1:80/api/v1/subscriptions/subscription-plans`,
-      {
-        method: 'PATCH',
-      }
-    );
+    const resp = await fetch(baseUrl, {
+      method: 'PATCH',
+    });
     setCreateModalOpen(false);
 
     fetchData();

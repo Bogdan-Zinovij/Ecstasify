@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Button, CircularProgress, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Link } from 'react-router-dom';
-import EditUserModal from '../components/EditUserModal';
 import EditTrackModal from './EditTrackModal';
-import CreateUserModal from './CreateUserModal';
 import CreateTrackModal from './CreateTrackModal';
+
+const baseUrl = '/api/v1/tracks';
 
 const Tracks = () => {
   const [items, setItems] = useState([]);
@@ -17,7 +17,7 @@ const Tracks = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const resp = await fetch(`http://127.0.0.1:80/api/v1/tracks`);
+      const resp = await fetch(baseUrl);
       const data = await resp.json();
       console.log(data);
       setItems(data.todos.slice(0, 10));
@@ -28,19 +28,20 @@ const Tracks = () => {
     }
   };
 
-  const handleDeleteUser = async () => {
+  const handleDeleteTrack = async (id) => {
     // req to delete
-    const resp = await fetch(`http://127.0.0.1:80/api/v1/tracks`, {
+    const resp = await fetch(baseUrl + `/${id}`, {
       method: 'DELETE',
     });
 
     fetchData();
   };
 
-  const handleUpdateUser = async (data) => {
+  const handleUpdateTrack = async (id, data) => {
     // req to update
-    const resp = await fetch(`http://127.0.0.1:80/api/v1/tracks`, {
+    const resp = await fetch(baseUrl + `/${id}`, {
       method: 'PATCH',
+      body: { ...data },
     });
 
     fetchData();
@@ -48,8 +49,9 @@ const Tracks = () => {
 
   const handleCreateTrack = async (data) => {
     // req to update
-    const resp = await fetch(`http://127.0.0.1:80/api/v1/users`, {
-      method: 'PATCH',
+    const resp = await fetch(baseUrl, {
+      method: 'POST',
+      body: { ...data },
     });
 
     setCreateModalOpen(false);
@@ -69,7 +71,9 @@ const Tracks = () => {
         onClose={() => {
           setEditModalOpen(false);
         }}
-        onSubmit={handleUpdateUser}
+        onSubmit={(data) => {
+          handleUpdateTrack(currentUser.id, data);
+        }}
         currentUser={currentUser}
       />
       <CreateTrackModal
@@ -77,7 +81,9 @@ const Tracks = () => {
         onClose={() => {
           setCreateModalOpen(false);
         }}
-        onSubmit={handleCreateTrack}
+        onSubmit={(data) => {
+          handleCreateTrack(data);
+        }}
         currentUser={currentUser}
       />
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -125,7 +131,12 @@ const Tracks = () => {
                 >
                   ✏
                 </Button>
-                <Button onClick={handleDeleteUser} variant="contained">
+                <Button
+                  onClick={() => {
+                    handleDeleteTrack(item.id);
+                  }}
+                  variant="contained"
+                >
                   ⛔
                 </Button>
               </Box>

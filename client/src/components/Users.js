@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import EditUserModal from '../components/EditUserModal';
 import CreateUserModal from './CreateUserModal';
 
+const baseUrl = 'http://127.0.0.1:80/api/v1/users';
+
 const Users = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +17,7 @@ const Users = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const resp = await fetch(`http://127.0.0.1:80/api/v1/users`);
+      const resp = await fetch(baseUrl);
       const data = await resp.json();
       console.log(data);
       setItems([]);
@@ -28,7 +30,7 @@ const Users = () => {
 
   const handleDeleteUser = async () => {
     // req to delete
-    const resp = await fetch(`http://127.0.0.1:80/api/v1/users`, {
+    const resp = await fetch(baseUrl, {
       method: 'DELETE',
     });
 
@@ -37,7 +39,7 @@ const Users = () => {
 
   const handleUpdateUser = async (data) => {
     // req to update
-    const resp = await fetch(`http://127.0.0.1:80/api/v1/users`, {
+    const resp = await fetch(baseUrl, {
       method: 'PATCH',
     });
 
