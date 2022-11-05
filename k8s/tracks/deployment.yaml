@@ -9,12 +9,27 @@ spec:
       app: tracks                # селектор по якому Deployment зв'язаний з Pod
   template:
     metadata:
-     labels:
-       app: tracks               # мітка Pod по якому вона буде зв'язана з Deployment та Service
+      labels:
+        app: tracks               # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
+      initContainers:
+        - name: run-migrations
+          image: bialyidanil/ecstasify-tracks-migrations:0.1
+          imagePullPolicy: Always
+          command: ["migrate", "-path", "/migrations", "-database",  "$(POSTGRESQL_URL)", "goto", "$(VERSION)"] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
+          env:
+            - name: POSTGRESQL_URL
+              value: "postgres://demo:demo@postgres-tracks:5432/demo?sslmode=disable"
+            - name: VERSION
+              value: "20221029185755"
       containers:
-        - image: tracks:1.0       # образ Docker
-          imagePullPolicy: Never   # вказує k8s, що образ не потрібно завантажувати (варто використовувати лише для випадків, коли образи локальні)
-          name: tracks           # ім'я контейнеру
+        - image: bialyidanil/ecstasify-tracks:0.1      # образ Docker
+          name: tracks           # ім'я контейнера
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080  # порт по якому можна звертатись до поди
+          envFrom:
+            - configMapRef:
+                name: tracks-config
+            - secretRef:
+                name: tracks-secret

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-tracks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-tracks
+  template:
+    metadata:
+      labels:
+        app: postgres-tracks
+    spec:
+      containers:
+        - name: postgres-tracks
+          image: postgres:14.1-alpine3.15
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-tracks-config
+            - secretRef:
+                name: postgres-tracks-secret
+          volumeMounts:
+            - mountPath: /var/lib/pg/data/tracks
+              name: postgres-tracksdb
+      volumes:
+        - name: postgres-tracksdb
+          persistentVolumeClaim:
+            claimName: postgres-tracks-volume-claim

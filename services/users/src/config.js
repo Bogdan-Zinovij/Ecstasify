@@ -1,5 +1,6 @@
 'use strict';
 
 const PREFIX = '/api/v1';
+const SALT = 7;
 
-module.exports = { PREFIX };
+module.exports = { PREFIX, SALT };
