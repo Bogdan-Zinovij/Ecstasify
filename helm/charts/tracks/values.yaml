@@ -1,0 +1,35 @@
+replicaCount: 1
+
+selector:
+  app: tracks
+
+image:
+  name: bialyidanil-ecstasify-tracks
+  tag: 0.1
+  port: 8080
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+ingress:
+  path: /api/v1/tracks
+  port: http
+
+migrations:
+  image:
+    name: bialyidanil-ecstasify-tracks-migrations
+    tag: 0.1
+  config:
+    POSTGRESQL_URL: "postgres://demo:demo@postgres-tracks:5432/demo?sslmode=disable"
+    VERSION: "20221029185755"
+
+configs:
+  POSTGRES_DB: demo
+  POSTGRES_HOST: postgres-tracks
+
+secrets:
+  POSTGRES_USER: "ZGVtbw=="
+  POSTGRES_PASSWORD: "ZGVtbw=="
