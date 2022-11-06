@@ -1,0 +1,29 @@
+image:
+  name: subscriptions
+  tag: 0.1
+
+migrations:
+  image:
+    name: subscriptions-migrations
+    tag: 0.1
+  config:
+    POSTGRESQL_URL: 'postgres://demo:demo@postgres-subscriptions:5432/demo?sslmode=disable'
+    VERSION: '20221030231112'
+
+configs:
+  POSTGRES_DB: demo
+  POSTGRES_HOST: postgres-subscriptions
+
+secrets:
+  POSTGRES_USER: 'cG9zdGdyZXM='
+  POSTGRES_PASSWORD: 'cG9zdGdyZXM='
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+ingress:
+  path: /api/v1/subscriptions
+  port: http
