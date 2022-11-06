@@ -1,27 +1,27 @@
 image:
-  name: users
+  name: subscriptions
   tag: 0.1
 
 postgresql:
-  fullnameOverride: postgres-users
+  fullnameOverride: postgres-subscriptions
   postgresqlDatabase: 'demo'
   postgresqlUsername: 'demo'
   postgresqlPassword: 'demo'
   persistence:
     size: 1Gi
-    mountPath: /var/lib/pg/data/users
+    mountPath: /var/lib/pg/data/subscriptions
 
 migrations:
   image:
-    name: users-migrations
+    name: subscriptions-migrations
     tag: 0.1
   config:
-    POSTGRESQL_URL: 'postgres://demo:demo@postgres-users:5432/demo?sslmode=disable'
-    VERSION: '20221030101907'
+    POSTGRESQL_URL: 'postgres://demo:demo@postgres-subscriptions:5432/demo?sslmode=disable'
+    VERSION: '20221030231112'
 
 configs:
   POSTGRES_DB: demo
-  POSTGRES_HOST: postgres-users
+  POSTGRES_HOST: postgres-subscriptions
 
 secrets:
   POSTGRES_USER: 'ZGVtbw=='
@@ -34,5 +34,5 @@ service:
       containerPort: 8080
 
 ingress:
-  path: /api/v1/users
+  path: /api/v1/subscriptions/subscription-plans
   port: http

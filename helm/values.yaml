@@ -1,8 +1,0 @@
-postgresql:
-  fullnameOverride: postgres-users
-  postgresqlDatabase: 'demo'
-  postgresqlUsername: 'demo'
-  postgresqlPassword: 'demo'
-  persistence:
-    size: 1Gi
-    mountPath: /var/lib/pg/data/users
