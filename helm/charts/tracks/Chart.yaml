@@ -1,6 +1,6 @@
 apiVersion: v2
 type: application
-version: 0.0.1
+version: 0.1.0
 name: tracks-service
 appVersion: "0.1"
 description: "tracks-service"

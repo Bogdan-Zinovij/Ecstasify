@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-config
+  name: {{ include "common.fullname" . }}-config
 data:
   {{- range $key, $value := .Values.configs }}
     {{ $key }}: {{ $value }}

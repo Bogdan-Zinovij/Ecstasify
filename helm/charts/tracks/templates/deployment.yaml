@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  name: {{ include "common.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}                      # кількість екземплярів Pod, що буде створено цим Deployment
   selector:
     matchLabels:
-      {{ .Values.selector | toYaml }}                # селектор по якому Deployment зв'язаний з Pod
+      {{- include "common.selectorLabels" . | nindent 6 }}                # селектор по якому Deployment зв'язаний з Pod
   template:
     metadata:
       labels:
-        {{ .Values.selector | toYaml }}               # мітка Pod по якому вона буде зв'язана з Deployment та Service
+        {{- include "common.selectorLabels" . | nindent 8 }}               # мітка Pod по якому вона буде зв'язана з Deployment та Service
     spec:
       initContainers:
         - name: {{ .Values.migrations.image.name }}
@@ -34,6 +34,6 @@ spec:
             {{- end }}  # порт по якому можна звертатись до поди
           envFrom:
             - configMapRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}-config
+                name: {{ include "common.fullname" . }}-config
             - secretRef:
-                name: {{ .Release.Name }}-{{ .Chart.Name }}-secret
+                name: {{ include "common.fullname" . }}-secret
