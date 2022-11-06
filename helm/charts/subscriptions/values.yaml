@@ -2,6 +2,15 @@ image:
   name: subscriptions
   tag: 0.1
 
+  postgresql:
+  fullnameOverride: postgres-subscriptions
+  postgresqlDatabase: 'demo'
+  postgresqlUsername: 'demo'
+  postgresqlPassword: 'demo'
+  persistence:
+    size: 1Gi
+    mountPath: /var/lib/pg/data/subscriptions
+
 migrations:
   image:
     name: subscriptions-migrations
@@ -15,8 +24,8 @@ configs:
   POSTGRES_HOST: postgres-subscriptions
 
 secrets:
-  POSTGRES_USER: 'cG9zdGdyZXM='
-  POSTGRES_PASSWORD: 'cG9zdGdyZXM='
+  POSTGRES_USER: 'ZGVtbw=='
+  POSTGRES_PASSWORD: 'ZGVtbw=='
 
 service:
   ports:

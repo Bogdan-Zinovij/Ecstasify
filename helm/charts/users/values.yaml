@@ -2,6 +2,15 @@ image:
   name: users
   tag: 0.1
 
+postgresql:
+  fullnameOverride: postgres-users-2
+  postgresqlDatabase: 'demo'
+  postgresqlUsername: 'demo'
+  postgresqlPassword: 'demo'
+  persistence:
+    size: 1Gi
+    mountPath: /var/lib/pg/data/users
+
 migrations:
   image:
     name: users-migrations
