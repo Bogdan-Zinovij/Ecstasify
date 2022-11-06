@@ -2,17 +2,15 @@ import React from 'react';
 import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import { useRef } from 'react';
 
-const EditTrackModal = ({ open, onClose, currentUser, onSubmit }) => {
-  const userNameInputRef = useRef(null);
-  const userEmailInputRef = useRef(null);
-  const userPasswordInputRef = useRef(null);
+const EditTrackModal = ({ open, onClose, currentTrack, onSubmit }) => {
+  const trackNameInputRef = useRef(null);
+  const trackAuthorInputRef = useRef(null);
 
   const handleSubmit = () => {
     const data = {
-      ...currentUser,
-      email: userEmailInputRef.current,
-      password: userPasswordInputRef.current,
-      name: userNameInputRef.current,
+      ...currentTrack,
+      name: trackNameInputRef.current.value,
+      author: trackAuthorInputRef.current.value,
     };
 
     console.log(data);
@@ -42,18 +40,15 @@ const EditTrackModal = ({ open, onClose, currentUser, onSubmit }) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography>Edit</Typography>
           <TextField
-            defaultValue={currentUser?.todo}
+            defaultValue={currentTrack?.name}
+            inputRef={trackNameInputRef}
             placeholder="Name"
             fullWidth
           />
           <TextField
-            defaultValue={currentUser?.email}
-            placeholder="Email"
-            fullWidth
-          />
-          <TextField
-            defaultValue={currentUser?.password}
-            placeholder="Password"
+            defaultValue={currentTrack?.author}
+            inputRef={trackAuthorInputRef}
+            placeholder="Author"
             fullWidth
           />
           <Button onClick={handleSubmit}>Save</Button>

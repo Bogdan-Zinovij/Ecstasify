@@ -37,8 +37,8 @@ const CreateTrackModal = ({ open, onClose, onSubmit }) => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography>Create</Typography>
-          <TextField ref={nameInputRef} placeholder="Name" fullWidth />
-          <TextField ref={authorInputRef} placeholder="Author" fullWidth />
+          <TextField inputRef={nameInputRef} placeholder="Name" fullWidth />
+          <TextField inputRef={authorInputRef} placeholder="Author" fullWidth />
           <Button onClick={handleSubmit}>Save</Button>
         </Box>
       </Box>

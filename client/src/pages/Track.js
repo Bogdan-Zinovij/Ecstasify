@@ -7,8 +7,9 @@ const Track = () => {
   const params = useParams();
 
   const fetchData = async () => {
-    const resp = await fetch(`https://dummyjson.com/todos${params.id}`);
-    setUser(resp);
+    const resp = await fetch(`/api/v1/tracks/${params.id}`);
+    const data = resp.json();
+    setUser(data);
   };
 
   useEffect(() => {
