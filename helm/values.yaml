@@ -1,0 +1,9 @@
+postgresql:
+  fullnameOverride: postgres-tracks
+  postgresqlDatabase: "demo"
+  postgresqlUsername: "demo"
+  postgresqlPassword: "demo"
+  postgresqlPostgresPassword: "demo"
+  persistence:
+    size: 1Gi
+    mountPath: /var/lib/pg/data/tracks

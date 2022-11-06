@@ -4,3 +4,7 @@ version: 0.0.1
 name: ecstasify
 appVersion: "0.1"
 description: "ecstasify-project"
+dependencies:
+- name: postgresql
+  version: 10.16.2
+  repository: https://charts.bitnami.com/bitnami
