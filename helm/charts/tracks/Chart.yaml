@@ -4,3 +4,7 @@ version: 0.1.0
 name: tracks-service
 appVersion: "0.1"
 description: "tracks-service"
+dependencies:
+  - name: common
+    version: 0.1.0
+    repository: file://../common
