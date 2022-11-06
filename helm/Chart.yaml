@@ -1,11 +1,13 @@
 apiVersion: v2
 type: application
-version: 0.1.0
-name: ecstasify
-appVersion: "0.1"
-description: "ecstasify-project"
+version: 0.0.5
+name: users
+appVersion: '0.1'
+description: 'demo'
 dependencies:
   - name: postgresql
     version: 10.16.2
     repository: https://charts.bitnami.com/bitnami
-
+  - name: common
+    version: 0.1.0
+    repository: file://charts/common

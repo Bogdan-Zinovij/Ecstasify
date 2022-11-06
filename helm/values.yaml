@@ -1,39 +1,8 @@
 postgresql:
-  fullnameOverride: postgres-tracks
-  postgresqlDatabase: "demo"
-  postgresqlUsername: "demo"
-  postgresqlPassword: "demo"
-  postgresqlPostgresPassword: "demo"
+  fullnameOverride: postgres-users
+  postgresqlDatabase: 'demo'
+  postgresqlUsername: 'demo'
+  postgresqlPassword: 'demo'
   persistence:
     size: 1Gi
-    mountPath: /var/lib/pg/data/tracks
-
-configs:
-  POSTGRES_DB: demo
-  POSTGRES_HOST: postgres-tracks
-
-secrets:
-  POSTGRES_USER: "ZGVtbw=="
-  POSTGRES_PASSWORD: "ZGVtbw=="
-
-microservises:
-
-  service1:
-    replicaCount: 1
-    migrations:
-      image:
-        name: bialyidanil-ecstasify-tracks-migrations
-        tag: 0.1
-      POSTGRESQL_URL: "postgres://demo:demo@postgres-tracks:5432/demo?sslmode=disable"
-      VERSION: "20221029185755"
-    image:
-      name: bialyidanil-ecstasify-tracks
-      tag: 0.1
-    service:
-      ports:
-      - name: http
-        containerPort: 8080
-        port: 80
-    ingress:
-      path: /api/v1/tracks
-      port: http
+    mountPath: /var/lib/pg/data/users

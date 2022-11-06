@@ -1,0 +1,29 @@
+image:
+  name: users
+  tag: 0.1
+
+migrations:
+  image:
+    name: users-migrations
+    tag: 0.1
+  config:
+    POSTGRESQL_URL: 'postgres://demo:demo@postgres-users:5432/demo?sslmode=disable'
+    VERSION: '20221030101907'
+
+configs:
+  POSTGRES_DB: demo
+  POSTGRES_HOST: postgres-users
+
+secrets:
+  POSTGRES_USER: 'ZGVtbw=='
+  POSTGRES_PASSWORD: 'ZGVtbw=='
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+ingress:
+  path: /api/v1/users
+  port: http
