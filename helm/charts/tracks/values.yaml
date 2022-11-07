@@ -1,27 +1,27 @@
 image:
-  name: subscriptions
+  name: tracks
   tag: 0.1
 
 postgresql:
-  fullnameOverride: postgres-subscriptions
+  fullnameOverride: postgres-tracks
   postgresqlDatabase: 'demo'
   postgresqlUsername: 'demo'
   postgresqlPassword: 'demo'
   persistence:
     size: 1Gi
-    mountPath: /var/lib/pg/data/subscriptions
+    mountPath: /var/lib/pg/data/tracks
 
 migrations:
   image:
-    name: subscriptions-migrations
+    name: tracks-migrations
     tag: 0.1
   config:
-    POSTGRESQL_URL: 'postgres://demo:demo@postgres-subscriptions:5432/demo?sslmode=disable'
-    VERSION: '20221030231112'
+    POSTGRESQL_URL: 'postgres://demo:demo@postgres-tracks:5432/demo?sslmode=disable'
+    VERSION: '20221029185755'
 
 configs:
   POSTGRES_DB: demo
-  POSTGRES_HOST: postgres-subscriptions
+  POSTGRES_HOST: postgres-tracks
 
 secrets:
   POSTGRES_USER: 'ZGVtbw=='
@@ -34,5 +34,5 @@ service:
       containerPort: 8080
 
 ingress:
-  path: /api/v1/subscriptions
+  path: /api/v1/tracks
   port: http

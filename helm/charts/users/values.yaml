@@ -3,7 +3,7 @@ image:
   tag: 0.1
 
 postgresql:
-  fullnameOverride: postgres-users-2
+  fullnameOverride: postgres-users
   postgresqlDatabase: 'demo'
   postgresqlUsername: 'demo'
   postgresqlPassword: 'demo'
