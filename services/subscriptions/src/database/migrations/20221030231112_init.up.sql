@@ -1,8 +1,6 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE IF NOT EXISTS "subscription-plans"
 (
-    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    id character varying(64) NOT NULL,
     name character varying(32) NOT NULL,
     price numeric(9,2) NOT NULL,
     "createdAt" timestamp with time zone NOT NULL DEFAULT now(),
