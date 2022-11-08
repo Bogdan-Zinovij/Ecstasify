@@ -5,8 +5,8 @@ image:
 postgresql:
   fullnameOverride: postgres-subscriptions
   postgresqlDatabase: 'demo'
-  postgresqlUsername: 'demo'
-  postgresqlPassword: 'demo'
+  postgresqlUsername: 'postgres'
+  postgresqlPassword: 'postgres'
   persistence:
     size: 1Gi
     mountPath: /var/lib/pg/data/subscriptions
@@ -16,7 +16,7 @@ migrations:
     name: subscriptions-migrations
     tag: 0.1
   config:
-    POSTGRESQL_URL: 'postgres://demo:demo@postgres-subscriptions:5432/demo?sslmode=disable'
+    POSTGRESQL_URL: 'postgres://postgres:postgres@postgres-subscriptions:5432/demo?sslmode=disable'
     VERSION: '20221030231112'
 
 configs:
@@ -24,8 +24,8 @@ configs:
   POSTGRES_HOST: postgres-subscriptions
 
 secrets:
-  POSTGRES_USER: 'ZGVtbw=='
-  POSTGRES_PASSWORD: 'ZGVtbw=='
+  POSTGRES_USER: 'cG9zdGdyZXM='
+  POSTGRES_PASSWORD: 'cG9zdGdyZXM='
 
 service:
   ports:
