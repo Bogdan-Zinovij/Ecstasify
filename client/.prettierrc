@@ -6,7 +6,7 @@
   "trailingComma": "es5",
   "overrides": [
     {
-      "files": ".prettierrc",
+      "files": ["*.json", ".*rc"],
       "options": { "parser": "json" }
     }
   ]
