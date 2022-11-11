@@ -10,4 +10,7 @@ export const palette = {
   text: {
     primary: '#000',
   },
+  background: {
+    default: '#F3F4F6',
+  },
 };

@@ -1,12 +1,11 @@
-import SignInPage from '@/pages/sign-in';
-import SignUpPage from '@/pages/sign-up';
+import AuthPage from '@/pages/auth';
 import { Routes, Route } from 'react-router-dom';
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/auth/sign-in" element={<SignInPage />} />
-      <Route path="/auth/sign-up" element={<SignUpPage />} />
+      <Route path="/auth/sign-in" element={<AuthPage mode="sign-in" />} />
+      <Route path="/auth/sign-up" element={<AuthPage mode="sign-up" />} />
     </Routes>
   );
 };

@@ -1,20 +1,33 @@
+import { Routes } from '@/router/routes';
+import { AuthFormMode } from '@/types/auth';
 import { TextField, Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Logo from '../logo';
+import * as S from './styles';
 
 interface IAuthFormProps {
-  mode: 'sign-in' | 'sign-up';
+  mode: AuthFormMode;
 }
 
 const AuthForm = ({ mode }: IAuthFormProps) => {
+  const navigate = useNavigate();
+  const isSignInMode = mode === 'sign-in';
+
+  const handleSignIn = () => {
+    console.log('Sign In');
+  };
+
+  const handleSignUp = () => {
+    console.log('Sign Up');
+  };
+
+  const toggleAuthPage = () => {
+    navigate(isSignInMode ? Routes.SignUp : Routes.SignIn);
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        maxWidth: '300px',
-        gap: '20px',
-      }}
-    >
-      <p>Ecstasify {mode}</p>
+    <Box sx={S.authFormWrapper}>
+      <Logo />
       <TextField placeholder="Username" label="Username" variant="standard" />
       <TextField
         placeholder="Password"
@@ -22,11 +35,15 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
         variant="standard"
         type="password"
       />
-      <Button variant="contained" size="large">
-        Sign In
+      <Button
+        onClick={isSignInMode ? handleSignIn : handleSignUp}
+        variant="contained"
+        size="large"
+      >
+        {isSignInMode ? 'Sign In' : 'Sign Up'}
       </Button>
-      <Button variant="outlined" size="large">
-        Sign Up
+      <Button onClick={toggleAuthPage} variant="outlined" size="large">
+        {isSignInMode ? 'Sign Up' : 'Sign In'}
       </Button>
     </Box>
   );
