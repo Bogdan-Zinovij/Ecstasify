@@ -1,12 +1,19 @@
 import AuthPage from '@/pages/auth';
-import { Routes, Route } from 'react-router-dom';
+import { Routes as RouterRoutes, Route } from 'react-router-dom';
+import { Routes } from './routes';
 
 const Router = () => {
   return (
-    <Routes>
-      <Route path="/auth/sign-in" element={<AuthPage mode="sign-in" />} />
-      <Route path="/auth/sign-up" element={<AuthPage mode="sign-up" />} />
-    </Routes>
+    <RouterRoutes>
+      <Route
+        path={Routes.SignIn}
+        element={<AuthPage key={Routes.SignIn} mode="sign-in" />}
+      />
+      <Route
+        path={Routes.SignUp}
+        element={<AuthPage key={Routes.SignUp} mode="sign-up" />}
+      />
+    </RouterRoutes>
   );
 };
 
