@@ -1,6 +1,6 @@
-import { SxProps } from '@mui/material';
+import { Styles } from '@/types/styles';
 
-export const authPageWrapper: SxProps = {
+export const authPageWrapper: Styles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
