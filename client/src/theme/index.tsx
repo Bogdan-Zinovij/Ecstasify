@@ -1,8 +1,22 @@
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import { useMemo } from 'react';
-import { palette } from './palette';
+import { palette, gradients } from './palette';
 import { typography } from './typography';
 import GlobalStyles from './GlobalStyles';
+
+declare module '@mui/material/styles' {
+  interface Theme {
+    gradients: {
+      main: string;
+    };
+  }
+
+  interface ThemeOptions {
+    gradients: {
+      main: string;
+    };
+  }
+}
 
 type ThemeConfigProps = {
   children: React.ReactNode;
@@ -13,6 +27,7 @@ const ThemeConfig = ({ children }: ThemeConfigProps) => {
     () => ({
       typography,
       palette,
+      gradients,
     }),
     []
   );
