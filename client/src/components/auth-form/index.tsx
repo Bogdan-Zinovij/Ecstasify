@@ -38,6 +38,7 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
       <Button
         onClick={isSignInMode ? handleSignIn : handleSignUp}
         variant="contained"
+        sx={S.containedBtn}
         size="large"
       >
         {isSignInMode ? 'Sign In' : 'Sign Up'}

@@ -4,13 +4,15 @@ export const palette = {
     white: '#fff',
   },
   primary: {
-    main: '#27AE60',
+    main: '#764ba2',
     contrastText: '#fff',
-  },
-  text: {
-    primary: '#000',
   },
   background: {
     default: '#F3F4F6',
+    paper: '#fff',
   },
+};
+
+export const gradients = {
+  main: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 };

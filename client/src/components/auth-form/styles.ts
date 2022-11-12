@@ -6,7 +6,12 @@ export const authFormWrapper: Styles = {
   maxWidth: '350px',
   gap: '20px',
   width: '100%',
-  backgroundColor: (theme) => theme.palette.background.paper,
+  backgroundColor: ({ palette }) => palette.background.paper,
   padding: '40px',
   borderRadius: '10px',
+};
+
+export const containedBtn: Styles = {
+  background: ({ gradients }) => gradients.main,
+  boxShadow: 'none',
 };
