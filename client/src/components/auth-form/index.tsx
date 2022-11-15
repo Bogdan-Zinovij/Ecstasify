@@ -14,6 +14,7 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
   const isSignInMode = mode === 'sign-in';
 
   const handleSignIn = () => {
+    navigate(Routes.Home);
     console.log('Sign In');
   };
 
