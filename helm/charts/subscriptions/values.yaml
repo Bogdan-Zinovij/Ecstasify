@@ -3,6 +3,7 @@ image:
   tag: 0.1
 
 postgresql:
+  nameOverride: postgres-subscriptions
   fullnameOverride: postgres-subscriptions
   postgresqlDatabase: 'demo'
   postgresqlUsername: 'postgres'

@@ -3,10 +3,11 @@ image:
   tag: 0.1
 
 postgresql:
+  nameOverride: postgres-users
   fullnameOverride: postgres-users
-  postgresqlDatabase: 'demo'
-  postgresqlUsername: 'demo'
-  postgresqlPassword: 'demo'
+  postgresqlDatabase: 'users'
+  postgresqlUsername: 'users'
+  postgresqlPassword: 'users'
   persistence:
     size: 1Gi
     mountPath: /var/lib/pg/data/users
@@ -16,16 +17,16 @@ migrations:
     name: users-migrations
     tag: 0.1
   config:
-    POSTGRESQL_URL: 'postgres://demo:demo@postgres-users:5432/demo?sslmode=disable'
+    POSTGRESQL_URL: 'postgres://users:users@postgres-users:5432/users?sslmode=disable'
     VERSION: '20221030101907'
 
 configs:
-  POSTGRES_DB: demo
+  POSTGRES_DB: users
   POSTGRES_HOST: postgres-users
 
 secrets:
-  POSTGRES_USER: 'ZGVtbw=='
-  POSTGRES_PASSWORD: 'ZGVtbw=='
+  POSTGRES_USER: ''
+  POSTGRES_PASSWORD: ''
 
 service:
   ports:

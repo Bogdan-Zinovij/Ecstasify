@@ -3,10 +3,11 @@ image:
   tag: 0.1
 
 postgresql:
+  nameOverride: postgres-tracks
   fullnameOverride: postgres-tracks
-  postgresqlDatabase: 'demo'
-  postgresqlUsername: 'demo'
-  postgresqlPassword: 'demo'
+  postgresqlDatabase: 'tracks'
+  postgresqlUsername: 'tracks'
+  postgresqlPassword: 'tracks'
   persistence:
     size: 1Gi
     mountPath: /var/lib/pg/data/tracks
@@ -16,16 +17,16 @@ migrations:
     name: tracks-migrations
     tag: 0.1
   config:
-    POSTGRESQL_URL: 'postgres://demo:demo@postgres-tracks:5432/demo?sslmode=disable'
+    POSTGRESQL_URL: 'postgres://tracks:tracks@postgres-tracks:5432/tracks?sslmode=disable'
     VERSION: '20221029185755'
 
 configs:
-  POSTGRES_DB: demo
+  POSTGRES_DB: tracks
   POSTGRES_HOST: postgres-tracks
 
 secrets:
-  POSTGRES_USER: 'ZGVtbw=='
-  POSTGRES_PASSWORD: 'ZGVtbw=='
+  POSTGRES_USER: 'dHJhY2tz'
+  POSTGRES_PASSWORD: 'dHJhY2tz'
 
 service:
   ports:
