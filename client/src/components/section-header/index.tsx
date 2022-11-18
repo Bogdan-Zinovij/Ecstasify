@@ -1,13 +1,25 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, TypographyVariant } from '@mui/material';
 import React from 'react';
 
 type SectionHeaderProps = {
   title: string;
   description?: string;
   extra?: React.ReactNode;
+  titleProps?: {
+    variant?: TypographyVariant;
+  };
+  descriptionProps?: {
+    variant?: TypographyVariant;
+  };
 };
 
-const SectionHeader = ({ title, description, extra }: SectionHeaderProps) => {
+const SectionHeader = ({
+  title,
+  description,
+  extra,
+  titleProps = { variant: 'h5' },
+  descriptionProps,
+}: SectionHeaderProps) => {
   return (
     <Box
       sx={{
@@ -19,14 +31,17 @@ const SectionHeader = ({ title, description, extra }: SectionHeaderProps) => {
     >
       <Box>
         <Typography
-          variant="h5"
+          variant={titleProps.variant}
           sx={{
             fontWeight: ({ typography }) => typography.fontWeightBold,
           }}
         >
           {title}
         </Typography>
-        <Typography sx={{ color: ({ palette }) => palette.text.secondary }}>
+        <Typography
+          variant={descriptionProps?.variant}
+          sx={{ color: ({ palette }) => palette.text.secondary }}
+        >
           {description}
         </Typography>
       </Box>
