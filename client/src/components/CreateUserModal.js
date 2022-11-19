@@ -13,8 +13,6 @@ const CreateUserModal = ({ open, onClose, onSubmit }) => {
       name: userNameInputRef.current.value,
     };
 
-    console.log(data, userNameInputRef.current);
-
     onSubmit(data);
   };
 
@@ -39,10 +37,14 @@ const CreateUserModal = ({ open, onClose, onSubmit }) => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography>Create</Typography>
-          <TextField ref={userNameInputRef} placeholder="Name" fullWidth />
-          <TextField ref={userEmailInputRef} placeholder="Email" fullWidth />
+          <TextField inputRef={userNameInputRef} placeholder="Name" fullWidth />
           <TextField
-            ref={userPasswordInputRef}
+            inputRef={userEmailInputRef}
+            placeholder="Email"
+            fullWidth
+          />
+          <TextField
+            inputRef={userPasswordInputRef}
             placeholder="Password"
             fullWidth
           />

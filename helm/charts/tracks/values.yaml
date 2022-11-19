@@ -1,0 +1,39 @@
+image:
+  name: tracks
+  tag: 0.1
+
+postgresql:
+  nameOverride: postgres-tracks
+  fullnameOverride: postgres-tracks
+  postgresqlDatabase: 'tracks'
+  postgresqlUsername: 'tracks'
+  postgresqlPassword: 'tracks'
+  persistence:
+    size: 1Gi
+    mountPath: /var/lib/pg/data/tracks
+
+migrations:
+  image:
+    name: tracks-migrations
+    tag: 0.1
+  config:
+    POSTGRESQL_URL: 'postgres://tracks:tracks@postgres-tracks:5432/tracks?sslmode=disable'
+    VERSION: '20221029185755'
+
+configs:
+  POSTGRES_DB: tracks
+  POSTGRES_HOST: postgres-tracks
+
+secrets:
+  POSTGRES_USER: 'dHJhY2tz'
+  POSTGRES_PASSWORD: 'dHJhY2tz'
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+ingress:
+  path: /api/v1/tracks
+  port: http

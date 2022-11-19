@@ -13,8 +13,8 @@ spec:
         app: client
     spec:
       containers:
-        - image: bogdanzo/client:0.1
-          imagePullPolicy: Always
+        - image: client:0.1
+          imagePullPolicy: Never
           name: client
           ports:
             - containerPort: 80

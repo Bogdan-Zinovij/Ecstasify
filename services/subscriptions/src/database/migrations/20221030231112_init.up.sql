@@ -1,8 +1,8 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS "subscription-plans"
 (
-    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
     name character varying(32) NOT NULL,
     price numeric(9,2) NOT NULL,
     "createdAt" timestamp with time zone NOT NULL DEFAULT now(),
