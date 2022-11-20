@@ -7,11 +7,11 @@ const { v4: uuid } = require('uuid');
 
 class UserServices {
   async getUsers() {
-    return await Users.findAll({ order: ['id'] });
+    return await Users.scope('withoutPassword').findAll({ order: ['id'] });
   }
 
   async getUserById(id) {
-    const user = await Users.findOne({ where: { id } });
+    const user = await Users.scope('withoutPassword').findOne({ where: { id } });
 
     if (!user) throw new Error('User with the specified ID does not exist');
 
@@ -23,7 +23,8 @@ class UserServices {
     const hashPassword = await bcrypt.hash(userData.password, SALT);
     userData.password = hashPassword;
     userData.id = userID;
-    return await Users.create(userData);
+    const user = await Users.create(userData);
+    return await Users.scope('withoutPassword').findOne({ where: { id: userID } });
   }
 
   async updateUser(id, userData) {
@@ -32,11 +33,11 @@ class UserServices {
 
     await Users.update(userData, { where: { id } });
 
-    return await Users.findOne({ where: { id } });
+    return await Users.scope('withoutPassword').findOne({ where: { id } });
   }
 
   async deleteUser(id) {
-    const user = await Users.findOne({ where: { id } });
+    const user = await Users.scope('withoutPassword').findOne({ where: { id } });
 
     if (!user) throw new Error('User with the specified ID does not exist');
 
