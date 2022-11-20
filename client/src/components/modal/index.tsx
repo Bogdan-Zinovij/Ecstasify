@@ -11,6 +11,10 @@ type ModalProps = {
   okProps?: {
     text?: string;
     onClick?: () => void;
+    loading?: boolean;
+  };
+  cancelProps?: {
+    onClick?: () => void;
   };
 };
 
@@ -21,6 +25,7 @@ const Modal = ({
   description,
   title,
   okProps = { text: 'Ok' },
+  cancelProps,
 }: ModalProps) => {
   return (
     <MuiModal open={open} onClose={onClose}>
@@ -54,9 +59,9 @@ const Modal = ({
               variant="contained"
               onClick={okProps.onClick}
             >
-              {okProps.text}
+              {okProps.loading ? 'loading' : okProps.text}
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={cancelProps?.onClick || onClose}>Cancel</Button>
           </Stack>
         </Stack>
       </Box>

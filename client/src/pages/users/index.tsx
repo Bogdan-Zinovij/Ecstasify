@@ -5,9 +5,7 @@ import DataTable from '@/components/data-table';
 import { User } from '@/models/user';
 import { IColumn } from '@/components/data-table/interface';
 import UserForm from './components/user-form';
-import Modal from '@/components/modal';
 import { useModal } from '@/hooks';
-import { useForm } from 'react-hook-form';
 
 const createData = (
   name: string,
@@ -56,13 +54,6 @@ const rows: User[] = [
 
 const UsersPage = () => {
   const { isModalOpen, closeModal, openModal } = useModal();
-  const { control, handleSubmit } = useForm<User>({
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-  });
 
   const handleDelete = (row: User) => {
     console.log('delete', row);
@@ -70,10 +61,6 @@ const UsersPage = () => {
 
   const handleEdit = (row: User) => {
     console.log('edit', row);
-  };
-
-  const handleCreateUser = (data: User) => {
-    console.log('CreateUser', data);
   };
 
   return (
@@ -95,15 +82,7 @@ const UsersPage = () => {
           onRow={{ onDelete: handleDelete, onEdit: handleEdit }}
         />
       </Box>
-      <Modal
-        title="Add User"
-        description="Please fill all of the fields to create new user."
-        okProps={{ text: 'Create', onClick: handleSubmit(handleCreateUser) }}
-        open={isModalOpen}
-        onClose={closeModal}
-      >
-        <UserForm control={control} />
-      </Modal>
+      <UserForm open={isModalOpen} onClose={closeModal} />
     </>
   );
 };
