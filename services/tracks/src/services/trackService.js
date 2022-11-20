@@ -13,12 +13,18 @@ class TrackServices {
 
     if (!track) throw new Error('Track with the specified ID does not exist');
 
+    const author = await this.getTrackAuthor(track.author);
+    track.author = author;
+
     return track;
   }
 
   async createTrack(trackData) {
     const trackID = uuid();
     trackData.id = trackID;
+
+    await this.getTrackAuthor(track.author);
+
     return await Tracks.create(trackData);
   }
 
@@ -41,6 +47,22 @@ class TrackServices {
       throw new Error('Failed to delete a track with specified ID');
 
     return track;
+  }
+
+  async getTrackAuthor(trackAuthorId) {
+    const trackAuthorRes = await axiosClient
+      .get(`authors/${trackAuthorId}`)
+      .catch((err) => {
+        console.log(err);
+        throw new Error('Author not found!');
+      });
+
+    const trackAuthor = trackAuthorRes?.response?.data;
+    if (!trackAuthor) {
+      throw new Error('Author not found!');
+    }
+
+    return trackAuthor;
   }
 }
 
