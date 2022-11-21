@@ -53,6 +53,20 @@ export class UsersStore {
     this.createUserLoading = false;
   }
 
+  async deleteUser(userId: string) {
+    try {
+      this.createUserLoading = true;
+      const { deleteUser } = this.rootService.usersService;
+      const { data: deletedUser } = await deleteUser(userId);
+
+      this.users = this.users.filter((user) => user.id !== deletedUser.id);
+    } catch (err) {
+      console.log(err);
+    }
+
+    this.createUserLoading = false;
+  }
+
   updateUser(userId: string, updatedUser: User) {
     console.log('users', userId, updatedUser);
   }

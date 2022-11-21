@@ -20,7 +20,7 @@ class UsersService extends BaseService {
   };
 
   deleteUser = (userId: string) => {
-    return this.httpRequest.delete(`/users/${userId}`);
+    return this.httpRequest.delete<User>(`/users/${userId}`);
   };
 }
 

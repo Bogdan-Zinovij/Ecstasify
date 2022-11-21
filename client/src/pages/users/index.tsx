@@ -34,7 +34,7 @@ const cols: IColumn<User>[] = [
 
 const UsersPage = () => {
   const { isModalOpen, closeModal, openModal } = useModal();
-  const { getAllUsers, users, getAllUsersLoading, resetUsers } =
+  const { getAllUsers, users, getAllUsersLoading, resetUsers, deleteUser } =
     useStore('usersStore');
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const UsersPage = () => {
   }, []);
 
   const handleDelete = (row: User) => {
-    console.log('delete', row);
+    deleteUser(row.id);
   };
 
   const handleEdit = (row: User) => {
@@ -85,7 +85,9 @@ const UsersPage = () => {
             rowKey="id"
             onRow={{ onDelete: handleDelete, onEdit: handleEdit }}
           />
-        ) : null}
+        ) : (
+          'No users to show yet.'
+        )}
       </Box>
       <UserForm open={isModalOpen} onClose={closeModal} />
     </>

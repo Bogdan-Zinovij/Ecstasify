@@ -22,8 +22,8 @@ export class HttpRequest {
     return this.httpClient.request({ url, method: 'PATCH', data });
   }
 
-  delete(url: string) {
-    return this.httpClient.request({ url, method: 'DELETE' });
+  delete<T = void>(url: string) {
+    return this.httpClient.request<T>({ url, method: 'DELETE' });
   }
 }
 
