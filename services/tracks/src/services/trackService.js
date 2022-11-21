@@ -6,7 +6,21 @@ const { axiosClient } = require('../config/axios.config');
 
 class TrackServices {
   async getTracks() {
-    return await Tracks.findAll({ order: ['id'] });
+    const tracks = await Tracks.findAll({ order: ['id'] });
+    const trackAuthors = await this.getAllTracksAuthors();
+
+    for (const track of tracks) {
+      const matchedTrackAuthor = trackAuthors.filter(
+        (author) => author.id === track.author
+      );
+
+      if (matchedTrackAuthor.length === 0) {
+        throw new Error('Author not found!');
+      }
+      track.author = matchedTrackAuthor[0];
+    }
+
+    return tracks;
   }
 
   async getTrackById(id) {
@@ -40,7 +54,7 @@ class TrackServices {
 
     await Tracks.update(trackData, { where: { id } });
 
-    return await Tracks.findOne({ where: { id } });
+    return this.getTrackById(id);
   }
 
   async deleteTrack(id) {
@@ -69,6 +83,23 @@ class TrackServices {
     }
 
     return trackAuthor;
+  }
+
+  async getAllTracksAuthors() {
+    const allTracksAuthorsRes = await axiosClient
+      .get('authors')
+      .catch((err) => {
+        console.log(err);
+        throw new Error('Authors not found!');
+      });
+
+    const allTracksAuthors = allTracksAuthorsRes?.data;
+
+    if (!allTracksAuthors) {
+      throw new Error('Authors not found!');
+    }
+
+    return allTracksAuthors;
   }
 }
 
