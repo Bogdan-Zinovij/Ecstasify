@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-authors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-authors
+  template:
+    metadata:
+      labels:
+        app: postgres-authors
+    spec:
+      containers:
+        - name: postgres-authors
+          image: postgres:14.1-alpine3.15
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-authors-config
+            - secretRef:
+                name: postgres-authors-secret
+          volumeMounts:
+            - mountPath: /var/lib/pg/data/authors
+              name: postgres-authorsdb
+      volumes:
+        - name: postgres-authorsdb
+          persistentVolumeClaim:
+            claimName: postgres-authors-volume-claim

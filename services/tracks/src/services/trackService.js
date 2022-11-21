@@ -2,6 +2,7 @@
 
 const { Tracks } = require('../db/models/Tracks');
 const { v4: uuid } = require('uuid');
+const { axiosClient } = require('../config/axios.config')
 
 class TrackServices {
   async getTracks() {
@@ -23,7 +24,7 @@ class TrackServices {
     const trackID = uuid();
     trackData.id = trackID;
 
-    await this.getTrackAuthor(track.author);
+    await this.getTrackAuthor(trackData.author);
 
     return await Tracks.create(trackData);
   }
@@ -57,7 +58,7 @@ class TrackServices {
         throw new Error('Author not found!');
       });
 
-    const trackAuthor = trackAuthorRes?.response?.data;
+    const trackAuthor = trackAuthorRes?.data;
     if (!trackAuthor) {
       throw new Error('Author not found!');
     }

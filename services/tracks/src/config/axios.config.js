@@ -2,7 +2,7 @@ const axios = require('axios');
 const axiosRetry = require('axios-retry');
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost/api/v1/',
+  baseURL: 'http://192.168.59.101/api/v1/',
   timeout: 5000,
 });
 
