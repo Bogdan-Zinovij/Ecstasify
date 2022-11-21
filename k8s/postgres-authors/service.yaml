@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-authors
+  labels:
+    app: postgres-authors
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-authors
