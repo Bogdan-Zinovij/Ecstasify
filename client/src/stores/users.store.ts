@@ -12,9 +12,9 @@ export class UsersStore {
 
   // loading states
   createUserLoading = false;
+  getAllUsersLoading = false;
 
   constructor(rootServise: RootService, rootStore?: RootStore) {
-    console.log(rootServise, rootStore);
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
@@ -23,13 +23,20 @@ export class UsersStore {
 
   async getAllUsers() {
     try {
+      this.getAllUsersLoading = true;
       const { getAllUsers } = this.rootService.usersService;
       const { data } = await getAllUsers();
 
-      console.log('users', data);
+      this.users = data;
     } catch (err) {
       console.log(err);
     }
+
+    this.getAllUsersLoading = false;
+  }
+
+  resetUsers() {
+    this.users = [];
   }
 
   async createUser(user: User) {
@@ -37,17 +44,13 @@ export class UsersStore {
       this.createUserLoading = true;
       const { createUser } = this.rootService.usersService;
       const { data: newUser } = await createUser(user);
+
       this.users.unshift(newUser);
-      console.log(newUser);
     } catch (err) {
       console.log(err);
     }
 
     this.createUserLoading = false;
-  }
-
-  deleteUser(userId: string) {
-    console.log('users', userId);
   }
 
   updateUser(userId: string, updatedUser: User) {

@@ -1,20 +1,13 @@
 import SectionHeader from '@/components/section-header';
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, LinearProgress, Tooltip } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import DataTable from '@/components/data-table';
 import { User } from '@/models/user';
 import { IColumn } from '@/components/data-table/interface';
 import UserForm from './components/user-form';
-import { useModal } from '@/hooks';
-
-const createData = (
-  name: string,
-  id: number,
-  email: string,
-  password: string
-) => {
-  return { name, id, email, password };
-};
+import { useModal, useStore } from '@/hooks';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 
 const cols: IColumn<User>[] = [
   {
@@ -39,21 +32,18 @@ const cols: IColumn<User>[] = [
   },
 ];
 
-const rows: User[] = [
-  createData('Artem', 1, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 2, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 3, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 4, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 5, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 6, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 7, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 8, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 9, 'artom.matyushenko@gmail.com', '12345678'),
-  createData('Artem', 10, 'artom.matyushenko@gmail.com', '12345678'),
-];
-
 const UsersPage = () => {
   const { isModalOpen, closeModal, openModal } = useModal();
+  const { getAllUsers, users, getAllUsersLoading, resetUsers } =
+    useStore('usersStore');
+
+  useEffect(() => {
+    getAllUsers();
+
+    return () => {
+      resetUsers();
+    };
+  }, []);
 
   const handleDelete = (row: User) => {
     console.log('delete', row);
@@ -65,26 +55,41 @@ const UsersPage = () => {
 
   return (
     <>
-      <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      {getAllUsersLoading ? (
+        <LinearProgress
+          sx={{ position: 'absolute', top: 0, width: '100%', left: 0 }}
+        />
+      ) : null}
+      <Box
+        sx={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
         <SectionHeader
           title="Users"
           description="List of registered users. You can manage them from here."
           extra={
-            <IconButton onClick={openModal} color="secondary" size="large">
-              <Add fontSize="medium" />
-            </IconButton>
+            <Tooltip title="Add new user">
+              <IconButton onClick={openModal} color="secondary" size="large">
+                <Add fontSize="medium" />
+              </IconButton>
+            </Tooltip>
           }
         />
-        <DataTable<User>
-          dataSource={rows}
-          columns={cols}
-          rowKey="id"
-          onRow={{ onDelete: handleDelete, onEdit: handleEdit }}
-        />
+        {users && users.length > 0 ? (
+          <DataTable<User>
+            dataSource={users}
+            columns={cols}
+            rowKey="id"
+            onRow={{ onDelete: handleDelete, onEdit: handleEdit }}
+          />
+        ) : null}
       </Box>
       <UserForm open={isModalOpen} onClose={closeModal} />
     </>
   );
 };
 
-export default UsersPage;
+export default observer(UsersPage);
