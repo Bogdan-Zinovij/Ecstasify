@@ -53,6 +53,10 @@ class AuthorController {
       res.status(404).json({ message: err.message });
     }
   }
+
+  breakRequest (req, res){
+    res.status(500).json({ message: 'Broken request' });
+  }
 }
 
 module.exports = new AuthorController();

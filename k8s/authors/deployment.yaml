@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tracks-deployment
+  name: authors-deployment
 spec:
-  replicas: 1 # кількість екземплярів Pod, що буде створено цим Deployment
+  replicas: 1
   selector:
     matchLabels:
-      app: tracks # селектор по якому Deployment зв'язаний з Pod
+      app: authors
   template:
     metadata:
       labels:
-        app: tracks # мітка Pod по якому вона буде зв'язана з Deployment та Service
+        app: authors
     spec:
       initContainers:
         - name: run-migrations
-          image: tracks-migrations:0.1
+          image: authors-migrations:0.1
           imagePullPolicy: Never
           command: [
               'migrate',
@@ -27,17 +27,17 @@ spec:
             ] # CLI команда запуску міграцій, де $(POSTGRESQL_URL) і $(VERSION) змінні середовища
           env:
             - name: POSTGRESQL_URL
-              value: 'postgres://demo:demo@postgres-tracks:5432/demo?sslmode=disable'
+              value: 'postgres://demo:demo@postgres-authors:5432/demo?sslmode=disable'
             - name: VERSION
-              value: '20221029185755'
+              value: '20221030101907'
       containers:
-        - image: tracks:0.1 # образ Docker
-          name: tracks # ім'я контейнера
+        - image: authors:0.1
           imagePullPolicy: Never
+          name: authors
           ports:
-            - containerPort: 8080 # порт по якому можна звертатись до поди
+            - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: tracks-config
+                name: authors-config
             - secretRef:
-                name: tracks-secret
+                name: authors-secret
