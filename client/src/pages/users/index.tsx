@@ -1,13 +1,9 @@
-import SectionHeader from '@/components/section-header';
-import { Box, IconButton, LinearProgress, Tooltip } from '@mui/material';
-import { Add } from '@mui/icons-material';
-import DataTable from '@/components/data-table';
 import { User } from '@/models/user';
 import { IColumn } from '@/components/data-table/interface';
 import UserForm from './components/user-form';
-import { useModal, useStore } from '@/hooks';
-import { useEffect } from 'react';
+import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
+import EntityDashboard from '@/components/entity-dashboard';
 
 const cols: IColumn<User>[] = [
   {
@@ -25,72 +21,33 @@ const cols: IColumn<User>[] = [
     key: 'email',
     dataIndex: 'email',
   },
-  {
-    title: 'Password',
-    key: 'password',
-    dataIndex: 'password',
-  },
 ];
 
 const UsersPage = () => {
-  const { isModalOpen, closeModal, openModal } = useModal();
-  const { getAllUsers, users, getAllUsersLoading, resetUsers, deleteUser } =
-    useStore('usersStore');
-
-  useEffect(() => {
-    getAllUsers();
-
-    return () => {
-      resetUsers();
-    };
-  }, []);
-
-  const handleDelete = (row: User) => {
-    deleteUser(row.id);
-  };
-
-  const handleEdit = (row: User) => {
-    console.log('edit', row);
-  };
+  const {
+    getAllUsers,
+    users,
+    getAllUsersLoading,
+    resetUsers,
+    deleteUser,
+    setCurrentUser,
+  } = useStore('usersStore');
 
   return (
-    <>
-      {getAllUsersLoading ? (
-        <LinearProgress
-          sx={{ position: 'absolute', top: 0, width: '100%', left: 0 }}
-        />
-      ) : null}
-      <Box
-        sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <SectionHeader
-          title="Users"
-          description="List of registered users. You can manage them from here."
-          extra={
-            <Tooltip title="Add new user">
-              <IconButton onClick={openModal} color="secondary" size="large">
-                <Add fontSize="medium" />
-              </IconButton>
-            </Tooltip>
-          }
-        />
-        {users && users.length > 0 ? (
-          <DataTable<User>
-            dataSource={users}
-            columns={cols}
-            rowKey="id"
-            onRow={{ onDelete: handleDelete, onEdit: handleEdit }}
-          />
-        ) : (
-          'No users to show yet.'
-        )}
-      </Box>
-      <UserForm open={isModalOpen} onClose={closeModal} />
-    </>
+    <EntityDashboard<User>
+      columns={cols}
+      dataSource={users}
+      EntityForm={UserForm}
+      getAllRecords={getAllUsers}
+      getAllRecordsLoading={getAllUsersLoading}
+      onDeleteRecord={deleteUser}
+      onEditRecord={setCurrentUser}
+      resetRecords={resetUsers}
+      rowKey="id"
+      title="Users"
+      description="List of registered users. You can manage them from here."
+      emptyMessage="No users to show yet."
+    />
   );
 };
 

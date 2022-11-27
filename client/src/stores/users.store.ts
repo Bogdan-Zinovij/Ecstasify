@@ -9,6 +9,7 @@ export class UsersStore {
 
   // data
   users: User[] = [];
+  currentUser: User | null = null;
 
   // loading states
   createUserLoading = false;
@@ -35,10 +36,6 @@ export class UsersStore {
     this.getAllUsersLoading = false;
   }
 
-  resetUsers() {
-    this.users = [];
-  }
-
   async createUser(user: User) {
     try {
       this.createUserLoading = true;
@@ -53,10 +50,11 @@ export class UsersStore {
     this.createUserLoading = false;
   }
 
-  async deleteUser(userId: string) {
+  async deleteUser(user: User) {
     try {
       this.createUserLoading = true;
       const { deleteUser } = this.rootService.usersService;
+      const { id: userId } = user;
       const { data: deletedUser } = await deleteUser(userId);
 
       this.users = this.users.filter((user) => user.id !== deletedUser.id);
@@ -67,7 +65,19 @@ export class UsersStore {
     this.createUserLoading = false;
   }
 
-  updateUser(userId: string, updatedUser: User) {
-    console.log('users', userId, updatedUser);
+  updateUser(userId: string, updatedUserData: User) {
+    console.log('users', userId, updatedUserData);
+  }
+
+  resetUsers() {
+    this.users = [];
+  }
+
+  resetCurrentUser() {
+    this.currentUser = null;
+  }
+
+  setCurrentUser(author: User) {
+    this.currentUser = author;
   }
 }

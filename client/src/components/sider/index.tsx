@@ -1,5 +1,10 @@
 import { Routes } from '@/router/routes';
-import { LibraryMusic, Group, CardGiftcard } from '@mui/icons-material';
+import {
+  LibraryMusic,
+  Group,
+  CardGiftcard,
+  AccountCircle,
+} from '@mui/icons-material';
 import {
   Divider,
   List,
@@ -28,6 +33,11 @@ const Sider = () => {
       label: 'Subscriptions',
       path: Routes.Subscriptions,
       icon: <CardGiftcard />,
+    },
+    {
+      label: 'Authors',
+      path: Routes.Authors,
+      icon: <AccountCircle />,
     },
   ];
 

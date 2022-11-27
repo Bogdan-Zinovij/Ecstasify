@@ -5,6 +5,7 @@ import { Routes } from './routes';
 import UsersPage from '@/pages/users';
 import TracksPage from '@/pages/tracks';
 import SubscriptionsPage from '@/pages/subscriptions';
+import AuthorsPage from '@/pages/authors';
 
 const Router = () => {
   return (
@@ -14,6 +15,7 @@ const Router = () => {
         <Route path="/users" element={<UsersPage />} />
         <Route path="/tracks" element={<TracksPage />} />
         <Route path="/subscriptions" element={<SubscriptionsPage />} />
+        <Route path="/authors" element={<AuthorsPage />} />
       </Route>
       <Route
         path={Routes.SignIn}

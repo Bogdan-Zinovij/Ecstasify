@@ -28,7 +28,7 @@ const Modal = ({
   cancelProps,
 }: ModalProps) => {
   return (
-    <MuiModal open={open} onClose={onClose}>
+    <MuiModal open={open} onClose={onClose} keepMounted={false}>
       <Box
         sx={{
           position: 'absolute',

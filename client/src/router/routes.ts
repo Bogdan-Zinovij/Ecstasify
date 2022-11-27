@@ -5,4 +5,5 @@ export const Routes = {
   Users: '/users',
   Tracks: '/tracks',
   Subscriptions: '/subscriptions',
+  Authors: '/authors',
 };
