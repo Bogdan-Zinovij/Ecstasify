@@ -25,6 +25,11 @@ const Users = db.define(
     },
   },
   {
+    scopes: {
+      withoutPassword: {
+        attributes: { exclude: ['password'] },
+      }
+    },
     timestamps: true,
     createdAt: true,
     updatedAt: true,

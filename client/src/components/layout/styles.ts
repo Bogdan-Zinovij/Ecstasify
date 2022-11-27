@@ -10,6 +10,7 @@ export const layout: Styles = {
 
 export const mainWrapper: Styles = {
   flex: 1,
+  padding: '32px',
 };
 
 export const siderWrapper: Styles = {

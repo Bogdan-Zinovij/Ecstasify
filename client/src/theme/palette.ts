@@ -4,12 +4,19 @@ export const palette = {
     white: '#fff',
   },
   primary: {
-    main: '#764ba2',
+    main: '#667eea',
     contrastText: '#fff',
+  },
+  secondary: {
+    main: '#764ba2',
   },
   background: {
     default: '#F3F4F6',
     paper: '#fff',
+  },
+  text: {
+    primary: '#111827',
+    secondary: '#6B7280',
   },
 };
 
