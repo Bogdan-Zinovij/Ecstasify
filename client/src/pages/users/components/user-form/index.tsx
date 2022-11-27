@@ -40,31 +40,31 @@ const UserForm = ({ open, onClose }: IEntityFormProps) => {
     resetForm();
   }, [open]);
 
-  const handleCreateUser = async (data: User) => {
-    await createUser(data);
-    onClose();
-  };
-
-  const handleUpdateUser = async (data: User) => {
-    if (currentUser) {
-      await updateUser(currentUser?.id, data);
-      onClose();
-    }
-  };
-
-  const submitHandler =
-    formMode === FormMode.Create ? handleCreateUser : handleUpdateUser;
-
   const handleClose = () => {
     resetForm();
     resetCurrentUser();
     onClose();
   };
 
+  const handleCreateUser = async (data: User) => {
+    await createUser(data);
+    handleClose();
+  };
+
+  const handleUpdateUser = async (data: User) => {
+    if (currentUser) {
+      await updateUser(currentUser?.id, data);
+      handleClose();
+    }
+  };
+
+  const submitHandler =
+    formMode === FormMode.Create ? handleCreateUser : handleUpdateUser;
+
   return (
     <Modal
-      title="Add User"
-      description="Please fill all of the fields to create new user."
+      title={`${formMode === FormMode.Create ? 'Add' : 'Edit'} User`}
+      description="Please fill all of the fields."
       okProps={{
         text: formMode === FormMode.Create ? 'Create' : 'Save',
         onClick: handleSubmit(submitHandler),

@@ -40,9 +40,8 @@ export class UsersStore {
     try {
       this.createUserLoading = true;
       const { createUser } = this.rootService.usersService;
-      const { data: newUser } = await createUser(user);
-
-      this.users.unshift(newUser);
+      await createUser(user);
+      this.getAllUsers();
     } catch (err) {
       console.log(err);
     }
@@ -55,9 +54,8 @@ export class UsersStore {
       this.createUserLoading = true;
       const { deleteUser } = this.rootService.usersService;
       const { id: userId } = user;
-      const { data: deletedUser } = await deleteUser(userId);
-
-      this.users = this.users.filter((user) => user.id !== deletedUser.id);
+      await deleteUser(userId);
+      this.getAllUsers();
     } catch (err) {
       console.log(err);
     }
@@ -65,8 +63,17 @@ export class UsersStore {
     this.createUserLoading = false;
   }
 
-  updateUser(userId: string, updatedUserData: User) {
-    console.log('users', userId, updatedUserData);
+  async updateUser(userId: User['id'], updatedUserData: User) {
+    try {
+      this.createUserLoading = true;
+      const { updateUser } = this.rootService.usersService;
+      await updateUser(userId, updatedUserData);
+      this.getAllUsers();
+    } catch (err) {
+      console.log(err);
+    }
+
+    this.createUserLoading = false;
   }
 
   resetUsers() {

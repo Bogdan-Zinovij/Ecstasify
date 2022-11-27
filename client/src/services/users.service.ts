@@ -15,8 +15,8 @@ class UsersService extends BaseService {
     return this.httpRequest.post<User>('/users', data);
   };
 
-  updateUser = (data: User) => {
-    return this.httpRequest.patch<User>('/users', data);
+  updateUser = (userId: User['id'], data: User) => {
+    return this.httpRequest.patch<User>(`/users/${userId}`, data);
   };
 
   deleteUser = (userId: string) => {

@@ -38,26 +38,26 @@ const AuthorForm = ({ open, onClose }: IEntityFormProps) => {
     resetForm();
   }, [open]);
 
-  const handleCreateAuthor = async (data: Author) => {
-    await createAuthor(data);
-    onClose();
-  };
-
-  const handleUpdateAuthor = async (data: Author) => {
-    if (currentAuthor) {
-      await updateAuthor(currentAuthor?.id, data);
-      onClose();
-    }
-  };
-
-  const submitHandler =
-    formMode === FormMode.Create ? handleCreateAuthor : handleUpdateAuthor;
-
   const handleClose = () => {
     resetForm();
     resetCurrentAuthor();
     onClose();
   };
+
+  const handleCreateAuthor = async (data: Author) => {
+    await createAuthor(data);
+    handleClose();
+  };
+
+  const handleUpdateAuthor = async (data: Author) => {
+    if (currentAuthor) {
+      await updateAuthor(currentAuthor?.id, data);
+      handleClose();
+    }
+  };
+
+  const submitHandler =
+    formMode === FormMode.Create ? handleCreateAuthor : handleUpdateAuthor;
 
   return (
     <Modal
