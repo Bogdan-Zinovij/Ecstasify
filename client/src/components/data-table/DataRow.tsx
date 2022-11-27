@@ -40,10 +40,12 @@ const DataRow = <T,>({
       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       {...MuiRowProps}
     >
-      {columns.map(({ key, dataIndex }) => {
-        return (
-          <TableCell key={key}>{row[dataIndex] as React.ReactNode}</TableCell>
-        );
+      {columns.map(({ key, dataIndex, render }) => {
+        const renderValue = render
+          ? render(row[dataIndex])
+          : (row[dataIndex] as React.ReactNode);
+
+        return <TableCell key={key}>{renderValue}</TableCell>;
       })}
       <TableCell align="right">
         <IconButton onClick={handleClick}>

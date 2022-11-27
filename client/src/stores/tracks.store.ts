@@ -40,7 +40,7 @@ export class TracksStore {
     try {
       this.createTrackLoading = true;
       const { createTrack } = this.rootService.tracksService;
-      await createTrack(track);
+      await createTrack({ ...track, author: track.author.id });
       this.getAllTracks();
     } catch (err) {
       console.log(err);
@@ -63,11 +63,14 @@ export class TracksStore {
     this.createTrackLoading = false;
   }
 
-  async updateUser(trackId: Track['id'], updatedTrackData: Track) {
+  async updateTrack(trackId: Track['id'], updatedTrackData: Track) {
     try {
       this.createTrackLoading = true;
       const { updateTrack } = this.rootService.tracksService;
-      await updateTrack(trackId, updatedTrackData);
+      await updateTrack(trackId, {
+        ...updatedTrackData,
+        author: updatedTrackData.author.id,
+      });
       this.getAllTracks();
     } catch (err) {
       console.log(err);
@@ -76,15 +79,15 @@ export class TracksStore {
     this.createTrackLoading = false;
   }
 
-  resetUsers() {
+  resetTracks() {
     this.tracks = [];
   }
 
-  resetCurrentUser() {
+  resetCurrentTrack() {
     this.currentTrack = null;
   }
 
-  setCurrentUser(track: Track) {
+  setCurrentTrack(track: Track) {
     this.currentTrack = track;
   }
 }

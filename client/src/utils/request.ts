@@ -14,12 +14,12 @@ export class HttpRequest {
     });
   }
 
-  post<T>(url: string, data: T) {
+  post<T, K = void>(url: string, data: K) {
     return this.httpClient.request<T>({ url, method: 'POST', data });
   }
 
-  patch<T>(url: string, data: T) {
-    return this.httpClient.request({ url, method: 'PATCH', data });
+  patch<T, K = void>(url: string, data: K) {
+    return this.httpClient.request<T>({ url, method: 'PATCH', data });
   }
 
   delete<T = void>(url: string) {

@@ -1,6 +1,9 @@
+import { Author } from '@/models/author';
 import { Track } from '@/models/track';
 import { HttpRequest } from '@/utils/request';
 import BaseService from './base.service';
+
+type TrackPayload = Omit<Track, 'author'> & { author: Author['id'] };
 
 class TracksService extends BaseService {
   constructor(httpRequest: HttpRequest) {
@@ -11,12 +14,15 @@ class TracksService extends BaseService {
     return this.httpRequest.get<Track[]>('/tracks');
   };
 
-  createTrack = (data: Track) => {
-    return this.httpRequest.post<Track>('/tracks', data);
+  createTrack = (data: TrackPayload) => {
+    return this.httpRequest.post<Track, TrackPayload>('/tracks', data);
   };
 
-  updateTrack = (trackId: Track['id'], data: Track) => {
-    return this.httpRequest.patch<Track>(`/tracks/${trackId}`, data);
+  updateTrack = (trackId: Track['id'], data: TrackPayload) => {
+    return this.httpRequest.patch<Track, TrackPayload>(
+      `/tracks/${trackId}`,
+      data
+    );
   };
 
   deleteTrack = (trackId: string) => {
