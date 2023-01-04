@@ -5,7 +5,6 @@ export const playerWrapper: Styles = {
   height: '90px',
   display: 'flex',
   padding: '10px 15px',
-  gap: '25%',
   justifyContent: 'space-between',
   boxShadow: '0px 2px 10px rgba(0,0,0,0.05)',
 };
