@@ -7,9 +7,8 @@ export class AudioPlayerStore {
   private rootStore?: RootStore;
   private rootService: RootService;
 
-  audio = new Audio(
-    'https://cdn.hiphopkit.com/uploads/music/2022/04/Harry-Styles-As-It-Was-(HipHopKit.com).mp3'
-  );
+  // pass audio src into constructor
+  audio = new Audio('');
 
   currentTime = 0;
 
