@@ -1,9 +1,7 @@
-'use strict';
-
-const { Users } = require('../db/models/Users');
-const bcrypt = require('bcryptjs');
-const { SALT } = require('../config');
-const { v4: uuid } = require('uuid');
+import bcrypt from 'bcryptjs';
+import { v4 as uuid } from 'uuid';
+import { Users } from '../db/models/Users.js';
+import { SALT } from '../config.js';
 
 class UserServices {
   async getUsers() {
@@ -11,7 +9,9 @@ class UserServices {
   }
 
   async getUserById(id) {
-    const user = await Users.scope('withoutPassword').findOne({ where: { id } });
+    const user = await Users.scope('withoutPassword').findOne({
+      where: { id },
+    });
 
     if (!user) throw new Error('User with the specified ID does not exist');
 
@@ -23,8 +23,10 @@ class UserServices {
     const hashPassword = await bcrypt.hash(userData.password, SALT);
     userData.password = hashPassword;
     userData.id = userID;
-    const user = await Users.create(userData);
-    return await Users.scope('withoutPassword').findOne({ where: { id: userID } });
+    await Users.create(userData);
+    return await Users.scope('withoutPassword').findOne({
+      where: { id: userID },
+    });
   }
 
   async updateUser(id, userData) {
@@ -37,7 +39,9 @@ class UserServices {
   }
 
   async deleteUser(id) {
-    const user = await Users.scope('withoutPassword').findOne({ where: { id } });
+    const user = await Users.scope('withoutPassword').findOne({
+      where: { id },
+    });
 
     if (!user) throw new Error('User with the specified ID does not exist');
 
@@ -49,4 +53,4 @@ class UserServices {
   }
 }
 
-module.exports = new UserServices();
+export default new UserServices();

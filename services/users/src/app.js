@@ -1,9 +1,8 @@
-'use strict';
+import express from 'express';
+import bodyParser from 'body-parser';
+import userController from './controllers/userController.js';
+import { PREFIX } from './config.js';
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const userController = require('./controllers/userController');
-const { PREFIX } = require('./config');
 const app = express();
 
 app.use(bodyParser.json());
@@ -14,4 +13,4 @@ app
   .patch(PREFIX + '/users/:id', userController.updateUser)
   .delete(PREFIX + '/users/:id', userController.deleteUser);
 
-module.exports = app;
+export default app;

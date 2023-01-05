@@ -1,6 +1,4 @@
-'use strict';
-
-const userServices = require('../services/userServices');
+import userServices from '../services/userServices.js';
 
 class UserController {
   async getUsers(req, res) {
@@ -55,4 +53,4 @@ class UserController {
   }
 }
 
-module.exports = new UserController();
+export default new UserController();

@@ -1,9 +1,7 @@
-'use strict';
+import DataTypes from 'sequelize';
+import db from '../db.js';
 
-const DataTypes = require('sequelize');
-const { db } = require('../db');
-
-const Users = db.define(
+export const Users = db.define(
   'users',
   {
     id: {
@@ -28,12 +26,10 @@ const Users = db.define(
     scopes: {
       withoutPassword: {
         attributes: { exclude: ['password'] },
-      }
+      },
     },
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   },
 );
-
-module.exports = { Users };
