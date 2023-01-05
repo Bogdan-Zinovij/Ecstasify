@@ -3,8 +3,26 @@
 const { Tracks } = require('../db/models/Tracks');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
+const { Kafka } = require('kafkajs');
+
+const kafka = new Kafka({
+  clientId: 'my-app',
+  brokers: ['kafka:9092'],
+})
 
 class TrackServices {
+  notificationProducer = kafka.producer();
+
+  constructor() {
+    setTimeout(async () => {
+      try {
+        await this.notificationProducer.connect();
+      } catch (e) {
+        console.error("Error while connecting to kafka: " + e);
+      }
+    }, 60000)
+  }
+
   async getTracks() {
     const tracks = await Tracks.findAll({ order: ['id'] });
     const trackAuthors = await this.getAllTracksAuthors();
@@ -42,6 +60,11 @@ class TrackServices {
 
     const createdTrack = await Tracks.create(trackData);
     createdTrack.author = author;
+
+    await this.notificationProducer.send({
+      topic: 'new-track-created',
+      messages: [{ value: JSON.stringify(createdTrack) }]
+    });
 
     return createdTrack;
   }

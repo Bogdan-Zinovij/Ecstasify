@@ -2,7 +2,7 @@ const axios = require('axios');
 const axiosRetry = require('axios-retry');
 
 const axiosClient = axios.create({
-  baseURL: 'http://host.docker.internal:80/api/v1/',
+  baseURL: 'http://ecstasify-authors-service/api/v1/',
   timeout: 5000,
 });
 
