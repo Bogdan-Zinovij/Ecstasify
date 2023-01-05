@@ -1,10 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Slider,
-  Tooltip,
-} from '@mui/material';
+import { Box, CircularProgress, Slider } from '@mui/material';
 import * as s from './styles';
 
 import {
@@ -16,6 +10,9 @@ import {
 import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useState } from 'react';
+import CustomIconButton from '../icon-button';
+
+const { TimeText } = s;
 
 const minTwoDigits = (n: number) => {
   return (n < 10 ? '0' : '') + n;
@@ -72,40 +69,47 @@ const Controls = () => {
   return (
     <Box sx={s.controlsWrapper}>
       <Box>
-        <Tooltip title="Previous" placement="top">
-          <IconButton sx={s.skipButton} color="primary">
-            <SkipPrevious fontSize="inherit" />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title={isPlaying ? 'Pause' : 'Play'} placement="top">
-          <IconButton
-            color="primary"
-            sx={{
+        <CustomIconButton
+          IconButtonProps={{ sx: s.skipButton, color: 'primary' }}
+          tooltipText="Previous"
+          icon={<SkipPrevious fontSize="inherit" />}
+        />
+        <CustomIconButton
+          tooltipText={isPlaying ? 'Pause' : 'Play'}
+          IconButtonProps={{
+            onClick: handleToggleAudio,
+            color: 'primary',
+            sx: {
               padding: '6px',
               position: 'relative',
-            }}
-            onClick={handleToggleAudio}
-          >
-            {!hasLoaded && (
-              <CircularProgress size="50px" sx={{ position: 'absolute' }} />
-            )}
-            {isPlaying && hasLoaded ? (
-              <PauseCircle sx={{ fontSize: '40px' }} />
-            ) : (
-              <PlayCircleFilledWhite sx={{ fontSize: '40px' }} />
-            )}
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Next" placement="top">
-          <IconButton sx={s.skipButton}>
-            <SkipNext />
-          </IconButton>
-        </Tooltip>
+            },
+          }}
+          icon={
+            <>
+              {!hasLoaded && (
+                <CircularProgress size="50px" sx={{ position: 'absolute' }} />
+              )}
+              {isPlaying && hasLoaded ? (
+                <PauseCircle sx={{ fontSize: '40px' }} />
+              ) : (
+                <PlayCircleFilledWhite sx={{ fontSize: '40px' }} />
+              )}
+            </>
+          }
+        />
+        <CustomIconButton
+          IconButtonProps={{ sx: s.skipButton }}
+          tooltipText="Next"
+          icon={<SkipNext />}
+        />
       </Box>
       <Box sx={s.progressWrapper}>
-        <Box sx={s.timelineTime}>{formattedAudioCurrentTime}</Box>
+        <TimeText>{formattedAudioCurrentTime}</TimeText>
         <Slider
           size="small"
+          sx={s.slider}
+          value={displayCurrentTime}
+          max={hasLoaded ? getAudioDuration() : 0}
           onChangeCommitted={(_, value) => {
             setSeeking(false);
             skipTime(value as number);
@@ -114,20 +118,8 @@ const Controls = () => {
             setSeeking(true);
             setDisplayCurrentTime(value as number);
           }}
-          sx={{
-            '& .MuiSlider-track': {
-              background: (theme) => theme.gradients.main,
-              borderColor: 'transparent',
-            },
-            '.MuiSlider-thumb.Mui-active': {
-              boxShadow: '0px 0px 0px 10px rgb(102 126 234 / 16%)',
-            },
-            padding: '8px 0',
-          }}
-          max={hasLoaded ? getAudioDuration() : 0}
-          value={displayCurrentTime}
         />
-        <Box sx={s.timelineTime}>{formattedAudioDuration}</Box>
+        <TimeText>{formattedAudioDuration}</TimeText>
       </Box>
     </Box>
   );

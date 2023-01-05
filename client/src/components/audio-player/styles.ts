@@ -1,4 +1,5 @@
 import { Styles } from '@/types/styles';
+import { styled } from '@mui/material';
 
 export const playerWrapper: Styles = {
   backgroundColor: '#fff',
@@ -41,10 +42,10 @@ export const progressWrapper: Styles = {
   gap: '10px',
 };
 
-export const timelineTime: Styles = {
+export const TimeText = styled('div')(() => ({
   fontSize: '12px',
   minWidth: '40px',
-};
+}));
 
 export const timelineProgress: Styles = {
   flex: 1,
@@ -52,4 +53,15 @@ export const timelineProgress: Styles = {
 
 export const expandButton: Styles = {
   alignSelf: 'center',
+};
+
+export const slider: Styles = {
+  '& .MuiSlider-track': {
+    background: (theme) => theme.gradients.main,
+    borderColor: 'transparent',
+  },
+  '.MuiSlider-thumb.Mui-active': {
+    boxShadow: '0px 0px 0px 10px rgb(102 126 234 / 16%)',
+  },
+  padding: '8px 0',
 };
