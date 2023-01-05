@@ -20,7 +20,7 @@ const minTwoDigits = (n: number) => {
 
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
-  const seconds = Math.ceil(((time / 60) % 1) * 60);
+  const seconds = Math.floor(time - minutes * 60);
 
   return `${minTwoDigits(minutes)}:${minTwoDigits(seconds)}`;
 };
