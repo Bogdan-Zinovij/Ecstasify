@@ -37,10 +37,20 @@ const Controls = () => {
     hasLoaded,
     skipTime,
     getAudioDuration,
+    attachAudioListeners,
+    removeAudioListeners,
   } = useStore('audioPlayerStore');
 
   const [displayCurrentTime, setDisplayCurrentTime] = useState(0);
   const [seeking, setSeeking] = useState(false);
+
+  useEffect(() => {
+    attachAudioListeners();
+
+    return () => {
+      removeAudioListeners();
+    };
+  }, []);
 
   useEffect(() => {
     if (!seeking && currentTime !== displayCurrentTime) {
