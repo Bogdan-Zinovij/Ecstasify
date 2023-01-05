@@ -2,7 +2,7 @@ import { Styles } from '@/types/styles';
 
 export const playerWrapper: Styles = {
   backgroundColor: '#fff',
-  height: '90px',
+  height: '92px',
   display: 'flex',
   padding: '10px 15px',
   justifyContent: 'space-between',
@@ -43,6 +43,7 @@ export const progressWrapper: Styles = {
 
 export const timelineTime: Styles = {
   fontSize: '12px',
+  minWidth: '40px',
 };
 
 export const timelineProgress: Styles = {

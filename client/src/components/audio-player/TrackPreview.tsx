@@ -6,10 +6,10 @@ import {
   Typography,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { FavoriteBorder } from '@mui/icons-material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import * as s from './styles';
 
-const TrackPreview = () => {
+const TrackPreview = ({ isFavorite = true }) => {
   return (
     <Card elevation={0} sx={s.trackCard}>
       <CardMedia
@@ -32,7 +32,11 @@ const TrackPreview = () => {
       </Box>
       <Tooltip title="Add To Favorites">
         <IconButton>
-          <FavoriteBorder fontSize="small" />
+          {isFavorite ? (
+            <Favorite sx={{ color: '#e74c3c' }} fontSize="small" />
+          ) : (
+            <FavoriteBorder fontSize="small" />
+          )}
         </IconButton>
       </Tooltip>
     </Card>

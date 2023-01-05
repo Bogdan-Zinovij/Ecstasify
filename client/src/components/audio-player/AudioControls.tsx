@@ -1,4 +1,10 @@
-import { Box, IconButton, LinearProgress, Tooltip } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Slider,
+  Tooltip,
+} from '@mui/material';
 import * as s from './styles';
 
 import {
@@ -9,12 +15,13 @@ import {
 } from '@mui/icons-material';
 import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
+import { useCallback, useEffect, useState } from 'react';
 
 const minTwoDigits = (n: number) => {
   return (n < 10 ? '0' : '') + n;
 };
 
-const formatAudioTime = (time: number) => {
+const formatTime = (time: number) => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.ceil(((time / 60) % 1) * 60);
 
@@ -22,19 +29,35 @@ const formatAudioTime = (time: number) => {
 };
 
 const Controls = () => {
-  const { audio, playAudio, pauseAudio, isPlaying, currentTime } =
-    useStore('audioPlayerStore');
+  const {
+    playAudio,
+    pauseAudio,
+    isPlaying,
+    currentTime,
+    hasLoaded,
+    skipTime,
+    getAudioDuration,
+  } = useStore('audioPlayerStore');
 
-  const handlePlayAudioClick = () => {
+  const [displayCurrentTime, setDisplayCurrentTime] = useState(0);
+  const [seeking, setSeeking] = useState(false);
+
+  useEffect(() => {
+    if (!seeking && currentTime !== displayCurrentTime) {
+      setDisplayCurrentTime(currentTime);
+    }
+  }, [currentTime]);
+
+  const handleToggleAudio = useCallback(() => {
     if (isPlaying) {
       pauseAudio();
     } else {
       playAudio();
     }
-  };
+  }, [isPlaying]);
 
-  const trackDuration = formatAudioTime(audio.duration || 0);
-  const trackCurrentTime = formatAudioTime(audio.currentTime);
+  const formattedAudioDuration = formatTime(getAudioDuration());
+  const formattedAudioCurrentTime = formatTime(displayCurrentTime);
 
   return (
     <Box sx={s.controlsWrapper}>
@@ -47,10 +70,16 @@ const Controls = () => {
         <Tooltip title={isPlaying ? 'Pause' : 'Play'} placement="top">
           <IconButton
             color="primary"
-            sx={{ padding: '6px' }}
-            onClick={handlePlayAudioClick}
+            sx={{
+              padding: '6px',
+              position: 'relative',
+            }}
+            onClick={handleToggleAudio}
           >
-            {isPlaying ? (
+            {!hasLoaded && (
+              <CircularProgress size="50px" sx={{ position: 'absolute' }} />
+            )}
+            {isPlaying && hasLoaded ? (
               <PauseCircle sx={{ fontSize: '40px' }} />
             ) : (
               <PlayCircleFilledWhite sx={{ fontSize: '40px' }} />
@@ -64,13 +93,31 @@ const Controls = () => {
         </Tooltip>
       </Box>
       <Box sx={s.progressWrapper}>
-        <Box sx={s.timelineTime}>{trackCurrentTime}</Box>
-        <LinearProgress
-          variant="determinate"
-          value={(currentTime * 100) / audio.duration || 0}
-          sx={s.timelineProgress}
+        <Box sx={s.timelineTime}>{formattedAudioCurrentTime}</Box>
+        <Slider
+          size="small"
+          onChangeCommitted={(_, value) => {
+            setSeeking(false);
+            skipTime(value as number);
+          }}
+          onChange={(_, value) => {
+            setSeeking(true);
+            setDisplayCurrentTime(value as number);
+          }}
+          sx={{
+            '& .MuiSlider-track': {
+              background: (theme) => theme.gradients.main,
+              borderColor: 'transparent',
+            },
+            '.MuiSlider-thumb.Mui-active': {
+              boxShadow: '0px 0px 0px 10px rgb(102 126 234 / 16%)',
+            },
+            padding: '8px 0',
+          }}
+          max={hasLoaded ? getAudioDuration() : 0}
+          value={displayCurrentTime}
         />
-        <Box sx={s.timelineTime}>{trackDuration}</Box>
+        <Box sx={s.timelineTime}>{formattedAudioDuration}</Box>
       </Box>
     </Box>
   );
