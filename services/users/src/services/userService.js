@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
-import { Users } from '../db/models/Users.js';
+import { Users } from '../db/models/User.js';
 import { SALT } from '../config.js';
 
-class UserServices {
+class UserService {
   async getUsers() {
     return await Users.scope('withoutPassword').findAll({ order: ['id'] });
   }
@@ -14,6 +14,14 @@ class UserServices {
     });
 
     if (!user) throw new Error('User with the specified ID does not exist');
+
+    return user;
+  }
+
+  async getUserByEmail(email) {
+    const user = await Users.scope('withoutPassword').findOne({
+      where: { email },
+    });
 
     return user;
   }
@@ -53,4 +61,4 @@ class UserServices {
   }
 }
 
-export default new UserServices();
+export default new UserService();

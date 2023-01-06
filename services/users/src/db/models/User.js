@@ -5,7 +5,7 @@ export const Users = db.define(
   'users',
   {
     id: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },

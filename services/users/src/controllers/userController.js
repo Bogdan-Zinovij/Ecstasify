@@ -1,9 +1,9 @@
-import userServices from '../services/userServices.js';
+import userService from '../services/userService.js';
 
 class UserController {
   async getUsers(req, res) {
     try {
-      const users = await userServices.getUsers();
+      const users = await userService.getUsers();
       res.status(200).json(users);
     } catch (err) {
       res.status(404).json({ message: err.message });
@@ -13,10 +13,9 @@ class UserController {
   async getUserById(req, res) {
     try {
       const { id } = req.params;
-      const user = await userServices.getUserById(id);
+      const user = await userService.getUserById(id);
       res.status(200).json(user);
     } catch (err) {
-      console.log(err);
       res.status(404).json({ message: err.message });
     }
   }
@@ -24,7 +23,7 @@ class UserController {
   async createUser(req, res) {
     try {
       const userData = req.body;
-      const createdUser = await userServices.createUser(userData);
+      const createdUser = await userService.createUser(userData);
       res.status(201).json(createdUser);
     } catch (err) {
       res.status(400).json({ message: err.message });
@@ -35,7 +34,7 @@ class UserController {
     try {
       const { id } = req.params;
       const userData = req.body;
-      const updatedUser = await userServices.updateUser(id, userData);
+      const updatedUser = await userService.updateUser(id, userData);
       res.status(200).json(updatedUser);
     } catch (err) {
       res.status(404).json({ message: err.message });
@@ -45,7 +44,7 @@ class UserController {
   async deleteUser(req, res) {
     try {
       const { id } = req.params;
-      const deletedUser = await userServices.deleteUser(id);
+      const deletedUser = await userService.deleteUser(id);
       res.status(200).json(deletedUser);
     } catch (err) {
       res.status(404).json({ message: err.message });
