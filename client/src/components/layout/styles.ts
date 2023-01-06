@@ -13,6 +13,7 @@ export const layout: Styles = {
 export const mainWrapper: Styles = {
   padding: '32px',
   height: '100%',
+  borderRadius: 0,
 };
 
 export const siderWrapper: Styles = {
