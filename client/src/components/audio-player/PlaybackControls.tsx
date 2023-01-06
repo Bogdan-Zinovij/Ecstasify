@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Slider } from '@mui/material';
 import * as s from './styles';
-
 import {
   PauseCircle,
   PlayCircleFilledWhite,
@@ -11,19 +10,9 @@ import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useState } from 'react';
 import CustomIconButton from '../icon-button';
+import { formatPlaybackTime } from '@/helpers';
 
 const { PlaybackTime } = s;
-
-const minTwoDigits = (n: number) => {
-  return (n < 10 ? '0' : '') + n;
-};
-
-const formatTime = (time: number) => {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time - minutes * 60);
-
-  return `${minTwoDigits(minutes)}:${minTwoDigits(seconds)}`;
-};
 
 const PlaybackControls = () => {
   const {
@@ -67,8 +56,8 @@ const PlaybackControls = () => {
     }
   }, [isPlaying]);
 
-  const formattedAudioDuration = formatTime(getAudioDuration());
-  const formattedAudioCurrentTime = formatTime(displayCurrentTime);
+  const formattedAudioDuration = formatPlaybackTime(getAudioDuration());
+  const formattedAudioCurrentTime = formatPlaybackTime(displayCurrentTime);
 
   return (
     <Box sx={s.controlsWrapper}>
