@@ -1,6 +1,6 @@
 'use strict';
 
-const { trackService } = require('../services/index');
+const { trackService } = require('../services');
 
 class TrackController {
   async getTracks(req, res) {
