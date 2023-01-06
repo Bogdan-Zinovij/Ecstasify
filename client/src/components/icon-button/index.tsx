@@ -14,7 +14,9 @@ const CustomIconButton = ({
 }: IIconButtonProps) => {
   return (
     <Tooltip title={tooltipText} placement="top">
-      <IconButton {...IconButtonProps}>{icon}</IconButton>
+      <span>
+        <IconButton {...IconButtonProps}>{icon}</IconButton>
+      </span>
     </Tooltip>
   );
 };

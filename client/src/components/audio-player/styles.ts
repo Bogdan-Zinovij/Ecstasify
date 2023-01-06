@@ -42,10 +42,14 @@ export const progressWrapper: Styles = {
   gap: '10px',
 };
 
-export const TimeText = styled('div')(() => ({
-  fontSize: '12px',
-  minWidth: '40px',
-}));
+export const PlaybackTime = styled('div')<{ align: 'left' | 'right' }>(
+  ({ theme, align = 'left' }) => ({
+    fontSize: '12px',
+    minWidth: '40px',
+    textAlign: align,
+    color: theme.palette.text.secondary,
+  })
+);
 
 export const timelineProgress: Styles = {
   flex: 1,
@@ -56,9 +60,20 @@ export const expandButton: Styles = {
 };
 
 export const slider: Styles = {
-  '& .MuiSlider-track': {
+  '.MuiSlider-track': {
     background: (theme) => theme.gradients.main,
     borderColor: 'transparent',
+  },
+  '.MuiSlider-rail, .MuiSlider-track': {
+    height: '4px',
+  },
+  '.MuiSlider-thumb': {
+    opacity: 0,
+  },
+  '&:hover, &:active': {
+    '.MuiSlider-thumb': {
+      opacity: 1,
+    },
   },
   '.MuiSlider-thumb.Mui-active': {
     boxShadow: '0px 0px 0px 10px rgb(102 126 234 / 16%)',

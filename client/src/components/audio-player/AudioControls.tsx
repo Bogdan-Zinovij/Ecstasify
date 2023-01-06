@@ -12,7 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useState } from 'react';
 import CustomIconButton from '../icon-button';
 
-const { TimeText } = s;
+const { PlaybackTime } = s;
 
 const minTwoDigits = (n: number) => {
   return (n < 10 ? '0' : '') + n;
@@ -70,13 +70,18 @@ const Controls = () => {
     <Box sx={s.controlsWrapper}>
       <Box>
         <CustomIconButton
-          IconButtonProps={{ sx: s.skipButton, color: 'primary' }}
+          IconButtonProps={{
+            sx: s.skipButton,
+            color: 'primary',
+            disabled: !hasLoaded,
+          }}
           tooltipText="Previous"
           icon={<SkipPrevious fontSize="inherit" />}
         />
         <CustomIconButton
           tooltipText={isPlaying ? 'Pause' : 'Play'}
           IconButtonProps={{
+            disabled: !hasLoaded,
             onClick: handleToggleAudio,
             color: 'primary',
             sx: {
@@ -98,14 +103,15 @@ const Controls = () => {
           }
         />
         <CustomIconButton
-          IconButtonProps={{ sx: s.skipButton }}
+          IconButtonProps={{ sx: s.skipButton, disabled: !hasLoaded }}
           tooltipText="Next"
           icon={<SkipNext />}
         />
       </Box>
       <Box sx={s.progressWrapper}>
-        <TimeText>{formattedAudioCurrentTime}</TimeText>
+        <PlaybackTime align="right">{formattedAudioCurrentTime}</PlaybackTime>
         <Slider
+          disabled={!hasLoaded}
           size="small"
           sx={s.slider}
           value={displayCurrentTime}
@@ -119,7 +125,7 @@ const Controls = () => {
             setDisplayCurrentTime(value as number);
           }}
         />
-        <TimeText>{formattedAudioDuration}</TimeText>
+        <PlaybackTime align="left">{formattedAudioDuration}</PlaybackTime>
       </Box>
     </Box>
   );
