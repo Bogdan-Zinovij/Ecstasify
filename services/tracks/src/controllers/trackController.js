@@ -54,9 +54,9 @@ class TrackController {
     }
   }
 
-  async postBrockenRequest(req, res) {
+  async postBrokenRequest(req, res) {
     try {
-      const data = await trackService.postBrockenRequest();
+      const data = await trackService.postBrokenRequest();
       res.status(200).json({ result: 'success', data });
     } catch (err) {
       res.status(500).json({ message: err.message });

@@ -13,8 +13,8 @@ class TrackService {
     (async () => {
       try {
         await this.notificationProducer.connect();
-      } catch (e) {
-        console.error("Error while connecting to kafka: " + e);
+      } catch (err) {
+        console.error("Error while connecting to kafka: " + err);
       }
     })();
   }
@@ -121,7 +121,7 @@ class TrackService {
     return allTracksAuthors;
   }
 
-  async postBrockenRequest() {
+  async postBrokenRequest() {
     await axiosClient.post('authors/broken').catch((err) => {
       console.log(err);
       throw new Error('Failed to fetch');
