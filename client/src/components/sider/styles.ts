@@ -21,12 +21,9 @@ export const NavLink = styled(RouterNavLink)<NavLinkProps & { theme?: Theme }>(
         backgroundColor: alpha(theme.palette.primary.main, 0.1),
       },
       '&.active': {
-        boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.2)',
-        background: theme.gradients.main,
-        color: theme.palette.primary.contrastText,
-        '.MuiListItemIcon-root': {
-          color: theme.palette.primary.contrastText,
-        },
+        backgroundColor: alpha(theme.palette.primary.main, 0.1),
+        color: theme.palette.primary.main,
+        fontWeight: 700,
       },
       '& .MuiListItemIcon-root': {
         color: 'inherit',
@@ -40,6 +37,7 @@ export const list: Styles = {
 };
 
 export const logoWrapper: Styles = {
+  background: (theme) => theme.gradients.main,
   padding: '20px',
   h4: {
     margin: 0,

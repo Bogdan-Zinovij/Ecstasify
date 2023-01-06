@@ -3,16 +3,23 @@ import { Styles } from '@/types/styles';
 export const sideBarWrapper: Styles = {};
 
 export const layout: Styles = {
-  display: 'flex',
   height: '100%',
   width: '100%',
+  display: 'grid',
+  gridTemplateColumns: '240px 1fr',
+  gridTemplateRows: '1fr',
 };
 
 export const mainWrapper: Styles = {
-  flex: 1,
   padding: '32px',
+  height: '100%',
+  borderRadius: 0,
 };
 
 export const siderWrapper: Styles = {
-  width: '240px',
+  height: '100%',
+};
+
+export const audioPlayerWrapper: Styles = {
+  gridColumn: '1 / -1',
 };
