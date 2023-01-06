@@ -10,13 +10,15 @@ class TrackService {
 
   constructor(notificationProducer) {
     this.notificationProducer = notificationProducer;
-    (async () => {
-      try {
-        await this.notificationProducer.connect();
-      } catch (err) {
-        console.error("Error while connecting to kafka: " + err);
-      }
-    })();
+    this.setup();
+  }
+
+  async setup() {
+    try {
+      await this.notificationProducer.connect();
+    } catch (err) {
+      console.error("Error while connecting to kafka: " + err);
+    }
   }
 
   async getTracks() {
