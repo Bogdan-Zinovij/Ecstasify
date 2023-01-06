@@ -7,7 +7,7 @@ export class AudioPlayerStore {
   private rootStore?: RootStore;
   private rootService: RootService;
 
-  private audio: HTMLAudioElement;
+  private audio: HTMLAudioElement = new Audio();
 
   private AUDIO_END_OFFSET = 1;
 
@@ -27,10 +27,6 @@ export class AudioPlayerStore {
   constructor(rootServise: RootService, rootStore?: RootStore) {
     this.rootStore = rootStore;
     this.rootService = rootServise;
-
-    this.audio = new Audio(
-      'https://cf-media.sndcdn.com/gRixS64VSQ05.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vZ1JpeFM2NFZTUTA1LjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjcyOTQzNjAwfX19XX0_&Signature=GoV~QlsljJvPohY55GQiARVs~Du7V4rbMJ7ZmVph~PQ7nBUeuH93NotHj3yuTQrzeU6Z-tQn8Z9CiG4L7TU-b-GJs9Rbulfykc3PFF57PdtRjVMLyCl2OwiHBv-UMU3TCBtzBqRlWqvnUhryPBgXIG~nbtIsEO98V3vEN25MAaVyCmar1TmIDbJbIE0aj6qGXEIyGjPD6MspZU3O8Vj0jkFPxyv986bKOnnsqoD9GbrpRTX8dSJQIbsiH4RuT9M-vhTy~2dOpqGNVs4I49tQAPYMgiwdNF6NDxEB0WVQqavKL7Z4G7FJ27udxwfiWsJTP87JgIwXNQVFi1SJmOCZeA__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ'
-    );
 
     makeAutoObservable(this, undefined, { autoBind: true });
   }

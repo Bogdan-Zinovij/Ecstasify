@@ -2,10 +2,10 @@ import { Box, CircularProgress, Slider } from '@mui/material';
 import * as s from './styles';
 
 import {
-  PlayCircleFilledWhite,
-  SkipPrevious,
-  SkipNext,
   PauseCircle,
+  PlayCircleFilledWhite,
+  SkipNext,
+  SkipPrevious,
 } from '@mui/icons-material';
 import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
@@ -25,7 +25,7 @@ const formatTime = (time: number) => {
   return `${minTwoDigits(minutes)}:${minTwoDigits(seconds)}`;
 };
 
-const Controls = () => {
+const PlaybackControls = () => {
   const {
     playAudio,
     pauseAudio,
@@ -36,12 +36,16 @@ const Controls = () => {
     getAudioDuration,
     attachAudioListeners,
     removeAudioListeners,
+    setAudioSource,
   } = useStore('audioPlayerStore');
 
   const [displayCurrentTime, setDisplayCurrentTime] = useState(0);
   const [seeking, setSeeking] = useState(false);
 
   useEffect(() => {
+    setAudioSource(
+      'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/92/0f/81/920f81ab-a065-c9a4-92ce-15b94c6f4dd2/mzaf_1909654853463033823.plus.aac.ep.m4a'
+    );
     attachAudioListeners();
 
     return () => {
@@ -55,7 +59,7 @@ const Controls = () => {
     }
   }, [currentTime]);
 
-  const handleToggleAudio = useCallback(() => {
+  const handleTogglePlayback = useCallback(() => {
     if (isPlaying) {
       pauseAudio();
     } else {
@@ -82,7 +86,7 @@ const Controls = () => {
           tooltipText={isPlaying ? 'Pause' : 'Play'}
           IconButtonProps={{
             disabled: !hasLoaded,
-            onClick: handleToggleAudio,
+            onClick: handleTogglePlayback,
             color: 'primary',
             sx: {
               padding: '6px',
@@ -131,4 +135,4 @@ const Controls = () => {
   );
 };
 
-export default observer(Controls);
+export default observer(PlaybackControls);

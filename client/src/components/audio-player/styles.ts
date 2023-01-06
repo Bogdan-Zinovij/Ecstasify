@@ -6,16 +6,15 @@ export const playerWrapper: Styles = {
   height: '92px',
   display: 'flex',
   padding: '10px 15px',
-  justifyContent: 'space-between',
   boxShadow: '0px 2px 10px rgba(0,0,0,0.05)',
 };
 
 export const trackCard: Styles = {
   display: 'flex',
   alignItems: 'center',
-  alignSelf: 'center',
   gap: '15px',
   borderRadius: 0,
+  flex: 1,
 };
 
 export const trackImg: Styles = {
@@ -26,7 +25,6 @@ export const trackImg: Styles = {
 export const controlsWrapper: Styles = {
   display: 'flex',
   flexDirection: 'column',
-  maxWidth: '500px',
   flex: 1,
   alignItems: 'center',
 };
@@ -53,6 +51,13 @@ export const PlaybackTime = styled('div')<{ align: 'left' | 'right' }>(
 
 export const timelineProgress: Styles = {
   flex: 1,
+};
+
+export const expandButtonWrapper: Styles = {
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
 };
 
 export const expandButton: Styles = {
