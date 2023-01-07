@@ -16,6 +16,7 @@ app
   .post(PREFIX + '/users', userController.createUser)
   .patch(PREFIX + '/users/:id', userController.updateUser)
   .delete(PREFIX + '/users/:id', userController.deleteUser)
-  .post(PREFIX + '/auth/registration', authController.registration);
+  .post(PREFIX + '/auth/signUp', authController.signUp)
+  .post(PREFIX + '/auth/signIn', authController.signIn);
 
 export default app;

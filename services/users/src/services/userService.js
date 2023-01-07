@@ -3,13 +3,13 @@ import { v4 as uuid } from 'uuid';
 import { User } from '../db/models/User.js';
 import { SALT } from '../config.js';
 
-class Userervice {
+class UserService {
   async getUsers() {
     return await User.scope('withoutPassword').findAll({ order: ['id'] });
   }
 
   async getUserById(id) {
-    const user = await User.scope('withoutPassword').findOne({
+    const user = await User.findOne({
       where: { id },
     });
 
@@ -19,7 +19,7 @@ class Userervice {
   }
 
   async getUserByEmail(email) {
-    const user = await User.scope('withoutPassword').findOne({
+    const user = await User.findOne({
       where: { email },
     });
 
@@ -32,7 +32,7 @@ class Userervice {
     userData.password = hashPassword;
     userData.id = userID;
     await User.create(userData);
-    return await User.scope('withoutPassword').findOne({
+    return await User.findOne({
       where: { id: userID },
     });
   }
@@ -43,11 +43,11 @@ class Userervice {
 
     await User.update(userData, { where: { id } });
 
-    return await User.scope('withoutPassword').findOne({ where: { id } });
+    return await User.findOne({ where: { id } });
   }
 
   async deleteUser(id) {
-    const user = await User.scope('withoutPassword').findOne({
+    const user = await User.findOne({
       where: { id },
     });
 
@@ -61,4 +61,4 @@ class Userervice {
   }
 }
 
-export default new Userervice();
+export default new UserService();
