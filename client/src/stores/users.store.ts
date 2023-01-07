@@ -1,7 +1,7 @@
 import { sortByCreatedDate } from '@/helpers';
 import { User } from '@/models/user';
 import { RootService } from '@/services';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from './root.store';
 
 export class UsersStore {
@@ -20,26 +20,36 @@ export class UsersStore {
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
-    makeAutoObservable(this, undefined, { autoBind: true });
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   async getAllUsers() {
-    try {
+    runInAction(() => {
       this.getAllUsersLoading = true;
+    });
+
+    try {
       const { getAllUsers } = this.rootService.usersService;
       const { data } = await getAllUsers();
 
-      this.users = sortByCreatedDate(data);
+      runInAction(() => {
+        this.users = sortByCreatedDate(data);
+      });
     } catch (err) {
       console.log(err);
     }
 
-    this.getAllUsersLoading = false;
+    runInAction(() => {
+      this.getAllUsersLoading = false;
+    });
   }
 
   async createUser(user: User) {
-    try {
+    runInAction(() => {
       this.createUserLoading = true;
+    });
+
+    try {
       const { createUser } = this.rootService.usersService;
       await createUser(user);
       this.getAllUsers();
@@ -47,12 +57,17 @@ export class UsersStore {
       console.log(err);
     }
 
-    this.createUserLoading = false;
+    runInAction(() => {
+      this.createUserLoading = false;
+    });
   }
 
   async deleteUser(user: User) {
-    try {
+    runInAction(() => {
       this.createUserLoading = true;
+    });
+
+    try {
       const { deleteUser } = this.rootService.usersService;
       const { id: userId } = user;
       await deleteUser(userId);
@@ -61,12 +76,17 @@ export class UsersStore {
       console.log(err);
     }
 
-    this.createUserLoading = false;
+    runInAction(() => {
+      this.createUserLoading = false;
+    });
   }
 
   async updateUser(userId: User['id'], updatedUserData: User) {
-    try {
+    runInAction(() => {
       this.createUserLoading = true;
+    });
+
+    try {
       const { updateUser } = this.rootService.usersService;
       await updateUser(userId, updatedUserData);
       this.getAllUsers();
@@ -74,7 +94,9 @@ export class UsersStore {
       console.log(err);
     }
 
-    this.createUserLoading = false;
+    runInAction(() => {
+      this.createUserLoading = false;
+    });
   }
 
   resetUsers() {

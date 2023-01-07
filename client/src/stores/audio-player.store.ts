@@ -28,7 +28,7 @@ export class AudioPlayerStore {
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
-    makeAutoObservable(this, undefined, { autoBind: true });
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   attachAudioListeners() {
