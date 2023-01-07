@@ -1,12 +1,7 @@
 import { Author } from '@/models/author';
-import { HttpRequest } from '@/utils/request';
 import BaseService from './base.service';
 
 class AuthorsService extends BaseService {
-  constructor(httpRequest: HttpRequest) {
-    super(httpRequest);
-  }
-
   getAllAuthors = () => {
     return this.httpRequest.get<Author[]>('/authors');
   };

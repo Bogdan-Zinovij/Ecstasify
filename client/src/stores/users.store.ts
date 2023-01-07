@@ -30,11 +30,13 @@ export class UsersStore {
 
     try {
       const { getAllUsers } = this.rootService.usersService;
-      const { data } = await getAllUsers();
+      const data = await getAllUsers();
 
-      runInAction(() => {
-        this.users = sortByCreatedDate(data);
-      });
+      if (data) {
+        runInAction(() => {
+          this.users = sortByCreatedDate(data);
+        });
+      }
     } catch (err) {
       console.log(err);
     }

@@ -30,11 +30,13 @@ export class AuthorsStore {
 
     try {
       const { getAllAuthors } = this.rootService.authorsService;
-      const { data } = await getAllAuthors();
+      const data = await getAllAuthors();
 
-      runInAction(() => {
-        this.authors = sortByCreatedDate(data);
-      });
+      if (data) {
+        runInAction(() => {
+          this.authors = sortByCreatedDate(data);
+        });
+      }
     } catch (err) {
       console.log(err);
     }

@@ -30,11 +30,13 @@ export class TracksStore {
 
     try {
       const { getAllTracks } = this.rootService.tracksService;
-      const { data } = await getAllTracks();
+      const data = await getAllTracks();
 
-      runInAction(() => {
-        this.tracks = sortByCreatedDate(data);
-      });
+      if (data) {
+        runInAction(() => {
+          this.tracks = sortByCreatedDate(data);
+        });
+      }
     } catch (err) {
       console.log(err);
     }

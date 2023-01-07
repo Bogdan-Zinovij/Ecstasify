@@ -88,8 +88,9 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
         <Controller
           name="author"
           control={control}
-          render={({ field: { onChange } }) => (
+          render={({ field }) => (
             <Autocomplete
+              {...field}
               options={authors}
               getOptionLabel={(option) => option?.name}
               isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -102,7 +103,7 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
                 />
               )}
               onChange={(_, data) => {
-                onChange(data);
+                field.onChange(data);
                 return data;
               }}
             />
