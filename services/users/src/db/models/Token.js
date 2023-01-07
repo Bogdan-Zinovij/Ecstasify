@@ -1,7 +1,7 @@
 import DataTypes from 'sequelize';
 import db from '../db.js';
 
-export const Tokens = db.define(
+export const Token = db.define(
   'tokens',
   {
     userId: {
@@ -10,7 +10,7 @@ export const Tokens = db.define(
       allowNull: false,
     },
     refreshToken: {
-      type: DataTypes.STRING(256),
+      type: DataTypes.STRING(512),
       allowNull: false,
     },
   },

@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import userController from './controllers/userController.js';
 import authController from './controllers/authController.js';
 import { PREFIX } from './config.js';
@@ -7,6 +8,7 @@ import { PREFIX } from './config.js';
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app
   .get(PREFIX + '/users', userController.getUsers)

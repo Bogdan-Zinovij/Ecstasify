@@ -1,7 +1,7 @@
 import DataTypes from 'sequelize';
 import db from '../db.js';
 
-export const Users = db.define(
+export const User = db.define(
   'users',
   {
     id: {
@@ -10,15 +10,15 @@ export const Users = db.define(
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

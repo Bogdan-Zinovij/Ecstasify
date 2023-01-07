@@ -1,9 +1,9 @@
-import { Tokens } from './models/Token.js';
-import { Users } from './models/User.js';
+import { Token } from './models/Token.js';
+import { User } from './models/User.js';
 
 export const associate = () => {
-  Users.hasOne(Tokens);
-  Tokens.belongsTo(Users, {
+  User.hasOne(Token);
+  Token.belongsTo(User, {
     foreignKey: 'userId',
   });
 };
