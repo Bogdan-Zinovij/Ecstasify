@@ -4,7 +4,7 @@ import { RootStore } from './root.store';
 
 export class AudioPlayerStore {
   // create parent class with this fields?
-  private rootStore?: RootStore;
+  private rootStore: RootStore;
   private rootService: RootService;
 
   private audio: HTMLAudioElement = new Audio();
@@ -18,13 +18,15 @@ export class AudioPlayerStore {
     { event: 'timeupdate', handler: this.syncAudioCurrentTime.bind(this) },
     { event: 'ended', handler: this.handleAudioEnded.bind(this) },
     { event: 'canplay', handler: this.handleAudioCanPlay.bind(this) },
+    { event: 'error', handler: this.handleAudioError.bind(this) },
   ];
 
   currentTime = 0;
   isPlaying = false;
   hasLoaded = false;
+  hasError = false;
 
-  constructor(rootServise: RootService, rootStore?: RootStore) {
+  constructor(rootServise: RootService, rootStore: RootStore) {
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
@@ -52,6 +54,15 @@ export class AudioPlayerStore {
   handleAudioEnded() {
     this.audio.currentTime = 0;
     this.setIsPlaying(false);
+  }
+
+  handleAudioError() {
+    this.hasError = true;
+    this.hasLoaded = true;
+    this.rootStore.errorHandler.handle(
+      'Something went wrong while loading audio!',
+      'warning'
+    );
   }
 
   syncAudioCurrentTime() {

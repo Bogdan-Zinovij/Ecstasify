@@ -33,9 +33,12 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
   };
 
   useEffect(() => {
-    getAllAuthors();
     resetForm();
   }, [open]);
+
+  useEffect(() => {
+    getAllAuthors();
+  }, []);
 
   const handleClose = () => {
     resetForm();

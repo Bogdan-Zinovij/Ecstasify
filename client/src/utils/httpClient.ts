@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosStatic } from 'axios';
+import errorHandler from './errorHandler';
 
 export type HttpClientRequestConfig = {
   url: string;
@@ -49,7 +50,12 @@ class CustomHttpClient implements IHttpClient {
 
       return res.data;
     } catch (err) {
-      console.log(err);
+      if (err instanceof AxiosError) {
+        const msg =
+          (err as AxiosError).response?.data?.message ??
+          err.response?.statusText;
+        errorHandler.handle(msg, 'error');
+      }
     }
 
     return null;

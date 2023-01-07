@@ -53,7 +53,7 @@ export class TracksStore {
 
     try {
       const { createTrack } = this.rootService.tracksService;
-      await createTrack({ ...track, author: track.author.id });
+      await createTrack({ ...track, author: track.author?.id });
       this.getAllTracks();
     } catch (err) {
       console.log(err);
