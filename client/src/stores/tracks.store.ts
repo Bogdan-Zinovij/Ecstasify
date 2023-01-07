@@ -2,6 +2,7 @@ import { RootService } from '@/services';
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from './root.store';
 import { Track } from '@/models/track';
+import { sortByCreatedDate } from '@/helpers';
 
 export class TracksStore {
   private rootStore?: RootStore;
@@ -28,7 +29,7 @@ export class TracksStore {
       const { getAllTracks } = this.rootService.tracksService;
       const { data } = await getAllTracks();
 
-      this.tracks = data;
+      this.tracks = sortByCreatedDate(data);
     } catch (err) {
       console.log(err);
     }

@@ -1,3 +1,4 @@
+import { sortByCreatedDate } from '@/helpers';
 import { User } from '@/models/user';
 import { RootService } from '@/services';
 import { makeAutoObservable } from 'mobx';
@@ -28,7 +29,7 @@ export class UsersStore {
       const { getAllUsers } = this.rootService.usersService;
       const { data } = await getAllUsers();
 
-      this.users = data;
+      this.users = sortByCreatedDate(data);
     } catch (err) {
       console.log(err);
     }

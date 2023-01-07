@@ -1,3 +1,4 @@
+import { sortByCreatedDate } from '@/helpers';
 import { Author } from '@/models/author';
 import { RootService } from '@/services';
 import { makeAutoObservable } from 'mobx';
@@ -28,7 +29,7 @@ export class AuthorsStore {
       const { getAllAuthors } = this.rootService.authorsService;
       const { data } = await getAllAuthors();
 
-      this.authors = data;
+      this.authors = sortByCreatedDate(data);
     } catch (err) {
       console.log(err);
     }

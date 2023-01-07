@@ -9,3 +9,14 @@ export const formatPlaybackTime = (time: number) => {
 
   return `${padZero(minutes)}:${padZero(seconds)}`;
 };
+
+export const sortByCreatedDate = <T extends { createdAt: string }>(
+  arr: T[],
+  order: 'asc' | 'desc' = 'desc'
+) => {
+  return [...arr].sort((a, b) => {
+    return order === 'desc'
+      ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
+};
