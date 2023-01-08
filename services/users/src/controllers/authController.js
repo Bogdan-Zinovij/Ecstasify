@@ -14,6 +14,7 @@ class AuthController {
       });
       res.status(201).json(authData);
     } catch (err) {
+      console.log(err);
       res.status(400).json({ message: err.message });
     }
   }

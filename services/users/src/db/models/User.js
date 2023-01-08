@@ -21,6 +21,11 @@ export const User = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
+      allowNull: false,
+    },
   },
   {
     scopes: {

@@ -5,7 +5,11 @@ dotenv.config();
 
 class TokenService {
   generateTokens(userData) {
-    const payload = { id: userData.id, email: userData.email };
+    const payload = {
+      id: userData.id,
+      email: userData.email,
+      role: userData.role,
+    };
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
       expiresIn: process.env.JWT_ACCESS_EXPIRES,
     });
