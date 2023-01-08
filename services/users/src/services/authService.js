@@ -2,8 +2,23 @@ import bcrypt from 'bcryptjs';
 import tokenService from './tokenService.js';
 import userService from './userService.js';
 import UserDto from '../dtos/user-dto.js';
+import { kafkaTopics } from '../config.js';
+import KafkaNotificationProducerService from './kafkaNotificationProducerService.js';
 
 class AuthService {
+  constructor(notificationProducer) {
+    this.notificationProducer = notificationProducer;
+    this.setup();
+  }
+
+  async setup() {
+    try {
+      await this.notificationProducer.connect();
+    } catch (err) {
+      console.error('Error while connecting to kafka: ' + err);
+    }
+  }
+
   async signUp(userData) {
     const user = await userService.getUserByEmail(userData.email);
     if (user) throw new Error('User with this email has already exists!');
@@ -13,6 +28,11 @@ class AuthService {
     const userDto = new UserDto(newUser);
     const tokens = tokenService.generateTokens(userDto);
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    await this.notificationProducer.send({
+      topic: kafkaTopics.SUCCESSFUL_REGISTRATION,
+      messages: [{ value: JSON.stringify(userDto) }],
+    });
 
     return { ...tokens, user: userDto };
   }
@@ -53,4 +73,4 @@ class AuthService {
   }
 }
 
-export default new AuthService();
+export default new AuthService(new KafkaNotificationProducerService());
