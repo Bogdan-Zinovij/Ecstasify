@@ -7,43 +7,35 @@ class TokenService {
   generateTokens(userData) {
     const payload = { id: userData.id, email: userData.email };
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
-      expiresIn: '3m',
+      expiresIn: process.env.JWT_ACCESS_EXPIRES,
     });
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
-      expiresIn: '7d',
+      expiresIn: process.env.JWT_REFRESH_EXPIRES,
     });
 
     return { accessToken, refreshToken };
   }
 
   async saveToken(userId, refreshToken) {
-    const tokenData = await Token.findOne({
-      where: { userId },
-    });
+    const tokenData = await Token.findOne({ where: { userId } });
     if (tokenData) {
-      Token.update({ refreshToken }, { where: { userId } });
-      console.log('saved ', tokenData);
-      return tokenData.save();
+      return await Token.update({ refreshToken }, { where: { userId } });
     }
-    const token = await Token.create({ userId, refreshToken });
 
-    return token;
-  }
-
-  async removeToken(refreshToken) {
-    const tokenData = await Token.destroy({ where: { refreshToken } });
-    return tokenData;
+    return await Token.create({ userId, refreshToken });
   }
 
   async findToken(refreshToken) {
-    const tokenData = await Token.findOne({ where: { refreshToken } });
-    return tokenData;
+    return await Token.findOne({ where: { refreshToken } });
+  }
+
+  async removeToken(refreshToken) {
+    return await Token.destroy({ where: { refreshToken } });
   }
 
   validateAccessToken(token) {
     try {
-      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-      return userData;
+      return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     } catch (err) {
       return null;
     }
@@ -51,8 +43,7 @@ class TokenService {
 
   validateRefreshToken(token) {
     try {
-      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-      return userData;
+      return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
     } catch (err) {
       return null;
     }

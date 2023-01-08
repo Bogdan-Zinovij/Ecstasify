@@ -9,9 +9,7 @@ class UserService {
   }
 
   async getUserById(id) {
-    const user = await User.findOne({
-      where: { id },
-    });
+    const user = await User.findOne({ where: { id } });
 
     if (!user) throw new Error('User with the specified ID does not exist');
 
@@ -19,22 +17,18 @@ class UserService {
   }
 
   async getUserByEmail(email) {
-    const user = await User.findOne({
-      where: { email },
-    });
+    const user = await User.findOne({ where: { email } });
 
     return user;
   }
 
   async createUser(userData) {
-    const userID = uuid();
-    const hashPassword = await bcrypt.hash(userData.password, SALT);
-    userData.password = hashPassword;
-    userData.id = userID;
+    userData.id = uuid();
+    userData.password = await bcrypt.hash(userData.password, SALT);
+
     await User.create(userData);
-    return await User.findOne({
-      where: { id: userID },
-    });
+
+    return await User.findOne({ where: { id: userData.id } });
   }
 
   async updateUser(id, userData) {
@@ -47,10 +41,7 @@ class UserService {
   }
 
   async deleteUser(id) {
-    const user = await User.findOne({
-      where: { id },
-    });
-
+    const user = await User.findOne({ where: { id } });
     if (!user) throw new Error('User with the specified ID does not exist');
 
     const deleteResult = await User.destroy({ where: { id } });
