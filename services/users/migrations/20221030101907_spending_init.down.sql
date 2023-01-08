@@ -1,1 +1,2 @@
-DROP TABLE IF EXISTS public.users;
+DROP TABLE IF EXISTS tokens;
+DROP TABLE IF EXISTS users;

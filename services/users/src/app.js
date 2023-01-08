@@ -19,6 +19,7 @@ app
   .post(PREFIX + '/auth/sign-up', authController.signUp)
   .post(PREFIX + '/auth/sign-in', authController.signIn)
   .post(PREFIX + '/auth/sign-out', authController.signOut)
-  .post(PREFIX + '/auth/refresh', authController.refresh);
+  .post(PREFIX + '/auth/refresh', authController.refresh)
+  .post(PREFIX + '/auth/verify/:token', authController.verifyToken);
 
 export default app;

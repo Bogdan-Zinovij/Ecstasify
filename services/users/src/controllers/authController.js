@@ -1,4 +1,5 @@
 import authService from '../services/authService.js';
+import tokenService from '../services/tokenService.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -56,6 +57,20 @@ class AuthController {
 
       res.clearCookie('refreshToken');
       res.status(200).json(refreshToken);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  }
+
+  async verifyToken(req, res) {
+    try {
+      const { token } = req.params;
+      const payload = tokenService.validateAccessToken(token);
+      if (!payload) {
+        res.status(401).json({ message: 'User is not authorized' });
+      }
+
+      res.status(200).json({ payload });
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
