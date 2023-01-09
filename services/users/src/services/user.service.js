@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
-import { User } from '../db/models/User.js';
-import { SALT } from '../config.js';
+import { User } from '../db/models/user.model.js';
+import { errorMessages, SALT } from '../config.js';
 
 class UserService {
   async getUsers() {
@@ -11,7 +11,7 @@ class UserService {
   async getUserById(id) {
     const user = await User.findOne({ where: { id } });
 
-    if (!user) throw new Error('User with the specified ID does not exist');
+    if (!user) throw new Error(errorMessages.USER_NOT_EXISTS_ID);
 
     return user;
   }
@@ -31,7 +31,7 @@ class UserService {
 
   async updateUser(id, userData) {
     const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error('User with the specified ID does not exist');
+    if (!user) throw new Error(errorMessages.USER_NOT_EXISTS_ID);
 
     await User.update(userData, { where: { id } });
 
@@ -40,11 +40,9 @@ class UserService {
 
   async deleteUser(id) {
     const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error('User with the specified ID does not exist');
+    if (!user) throw new Error(errorMessages.USER_NOT_EXISTS_ID);
 
-    const deleteResult = await User.destroy({ where: { id } });
-    if (!deleteResult)
-      throw new Error('Failed to delete a user with specified ID');
+    await User.destroy({ where: { id } });
 
     return user;
   }

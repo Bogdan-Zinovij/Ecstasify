@@ -1,5 +1,5 @@
-import { Token } from './models/Token.js';
-import { User } from './models/User.js';
+import { Token } from './models/token.model.js';
+import { User } from './models/user.model.js';
 
 export const associate = () => {
   User.hasOne(Token);

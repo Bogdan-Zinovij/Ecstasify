@@ -1,6 +1,7 @@
-import authService from '../services/authService.js';
-import tokenService from '../services/tokenService.js';
+import authService from '../services/auth.service.js';
+import tokenService from '../services/token.service.js';
 import * as dotenv from 'dotenv';
+import { errorMessages } from '../config.js';
 dotenv.config();
 
 class AuthController {
@@ -15,7 +16,6 @@ class AuthController {
       });
       res.status(201).json(authData);
     } catch (err) {
-      console.log(err);
       res.status(400).json({ message: err.message });
     }
   }
@@ -67,7 +67,7 @@ class AuthController {
       const { token } = req.params;
       const payload = tokenService.validateAccessToken(token);
       if (!payload) {
-        res.status(401).json({ message: 'User is not authorized' });
+        res.status(401).json({ message: errorMessages.ACCESS_TOKEN_EXPIRED });
       }
 
       res.status(200).json({ payload });
