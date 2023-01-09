@@ -3,21 +3,24 @@ import { Styles } from '@/types/styles';
 export const sideBarWrapper: Styles = {};
 
 export const layout: Styles = {
+  maxHeight: '100vh',
   height: '100%',
   width: '100%',
-  display: 'grid',
-  gridTemplateColumns: '240px 1fr',
-  gridTemplateRows: '1fr',
+  display: 'flex',
+  flexDirection: 'column',
 };
 
 export const mainWrapper: Styles = {
   padding: '32px',
   height: '100%',
   borderRadius: 0,
+  width: 0,
+  flex: 1,
 };
 
 export const siderWrapper: Styles = {
   height: '100%',
+  flex: '0 0 240px',
 };
 
 export const audioPlayerWrapper: Styles = {

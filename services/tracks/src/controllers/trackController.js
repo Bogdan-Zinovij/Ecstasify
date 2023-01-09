@@ -1,11 +1,11 @@
 'use strict';
 
-const trackServices = require('../services/trackService');
+const { trackService } = require('../services');
 
 class TrackController {
   async getTracks(req, res) {
     try {
-      const tracks = await trackServices.getTracks();
+      const tracks = await trackService.getTracks();
       res.status(200).json(tracks);
     } catch (err) {
       res.status(404).json({ message: err.message });
@@ -15,7 +15,7 @@ class TrackController {
   async getTrackById(req, res) {
     try {
       const { id } = req.params;
-      const track = await trackServices.getTrackById(id);
+      const track = await trackService.getTrackById(id);
       res.status(200).json(track);
     } catch (err) {
       console.log(err);
@@ -26,7 +26,7 @@ class TrackController {
   async createTrack(req, res) {
     try {
       const trackData = req.body;
-      const createdTrack = await trackServices.createTrack(trackData);
+      const createdTrack = await trackService.createTrack(trackData);
       res.status(201).json(createdTrack);
     } catch (err) {
       res.status(400).json({ message: err.message });
@@ -37,7 +37,7 @@ class TrackController {
     try {
       const { id } = req.params;
       const trackData = req.body;
-      const updatedTrack = await trackServices.updateTrack(id, trackData);
+      const updatedTrack = await trackService.updateTrack(id, trackData);
       res.status(200).json(updatedTrack);
     } catch (err) {
       res.status(404).json({ message: err.message });
@@ -47,16 +47,16 @@ class TrackController {
   async deleteTrack(req, res) {
     try {
       const { id } = req.params;
-      const deletedTrack = await trackServices.deleteTrack(id);
+      const deletedTrack = await trackService.deleteTrack(id);
       res.status(200).json(deletedTrack);
     } catch (err) {
       res.status(404).json({ message: err.message });
     }
   }
 
-  async postBrockenRequest(req, res) {
+  async postBrokenRequest(req, res) {
     try {
-      const data = await trackServices.postBrockenRequest();
+      const data = await trackService.postBrokenRequest();
       res.status(200).json({ result: 'success', data });
     } catch (err) {
       res.status(500).json({ message: err.message });

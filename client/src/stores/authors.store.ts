@@ -1,6 +1,7 @@
+import { sortByCreatedDate } from '@/helpers';
 import { Author } from '@/models/author';
 import { RootService } from '@/services';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from './root.store';
 
 export class AuthorsStore {
@@ -19,26 +20,38 @@ export class AuthorsStore {
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
-    makeAutoObservable(this, undefined, { autoBind: true });
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   async getAllAuthors() {
-    try {
+    runInAction(() => {
       this.getAllAuthorsLoading = true;
-      const { getAllAuthors } = this.rootService.authorsService;
-      const { data } = await getAllAuthors();
+    });
 
-      this.authors = data;
+    try {
+      const { getAllAuthors } = this.rootService.authorsService;
+      const data = await getAllAuthors();
+
+      if (data) {
+        runInAction(() => {
+          this.authors = sortByCreatedDate(data);
+        });
+      }
     } catch (err) {
       console.log(err);
     }
 
-    this.getAllAuthorsLoading = false;
+    runInAction(() => {
+      this.getAllAuthorsLoading = false;
+    });
   }
 
   async createAuthor(author: Author) {
-    try {
+    runInAction(() => {
       this.createAuthorLoading = true;
+    });
+
+    try {
       const { createAuthor } = this.rootService.authorsService;
       await createAuthor(author);
       this.getAllAuthors();
@@ -46,7 +59,9 @@ export class AuthorsStore {
       console.log(err);
     }
 
-    this.createAuthorLoading = false;
+    runInAction(() => {
+      this.createAuthorLoading = false;
+    });
   }
 
   async deleteAuthor(author: Author) {
@@ -61,8 +76,11 @@ export class AuthorsStore {
   }
 
   async updateAuthor(authorId: Author['id'], updatedAuthorData: Author) {
-    try {
+    runInAction(() => {
       this.createAuthorLoading = true;
+    });
+
+    try {
       const { updateAuthor } = this.rootService.authorsService;
       await updateAuthor(authorId, updatedAuthorData);
       this.getAllAuthors();
@@ -70,7 +88,9 @@ export class AuthorsStore {
       console.log(err);
     }
 
-    this.createAuthorLoading = false;
+    runInAction(() => {
+      this.createAuthorLoading = false;
+    });
   }
 
   resetAuthors() {

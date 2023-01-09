@@ -4,3 +4,7 @@ version: 0.0.5
 name: ecstasify
 appVersion: '0.1'
 description: 'demo'
+dependencies:
+  - name: kafka
+    version: 18.3.1
+    repository: https://charts.bitnami.com/bitnami

@@ -16,6 +16,6 @@ app
   .post(PREFIX + '/tracks', trackController.createTrack)
   .patch(PREFIX + '/tracks/:id', trackController.updateTrack)
   .delete(PREFIX + '/tracks/:id', trackController.deleteTrack)
-  .post(PREFIX + '/tracks/broken', trackController.postBrockenRequest);
+  .post(PREFIX + '/tracks/broken', trackController.postBrokenRequest);
 
 module.exports = app;

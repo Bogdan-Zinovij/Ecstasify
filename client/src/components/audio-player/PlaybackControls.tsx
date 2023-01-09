@@ -20,6 +20,7 @@ const PlaybackControls = () => {
     pauseAudio,
     isPlaying,
     currentTime,
+    hasError,
     hasLoaded,
     skipTime,
     getAudioDuration,
@@ -59,6 +60,8 @@ const PlaybackControls = () => {
   const formattedAudioDuration = formatPlaybackTime(getAudioDuration());
   const formattedAudioCurrentTime = formatPlaybackTime(displayCurrentTime);
 
+  const disabledControls = !hasLoaded || hasError;
+
   return (
     <Box sx={s.controlsWrapper}>
       <Box>
@@ -66,7 +69,7 @@ const PlaybackControls = () => {
           IconButtonProps={{
             sx: s.skipButton,
             color: 'primary',
-            disabled: !hasLoaded,
+            disabled: disabledControls,
           }}
           tooltipText="Previous"
           icon={<SkipPrevious fontSize="inherit" />}
@@ -74,7 +77,7 @@ const PlaybackControls = () => {
         <CustomIconButton
           tooltipText={isPlaying ? 'Pause' : 'Play'}
           IconButtonProps={{
-            disabled: !hasLoaded,
+            disabled: disabledControls,
             onClick: handleTogglePlayback,
             color: 'primary',
             sx: {
@@ -96,7 +99,7 @@ const PlaybackControls = () => {
           }
         />
         <CustomIconButton
-          IconButtonProps={{ sx: s.skipButton, disabled: !hasLoaded }}
+          IconButtonProps={{ sx: s.skipButton, disabled: disabledControls }}
           tooltipText="Next"
           icon={<SkipNext />}
         />
@@ -104,7 +107,7 @@ const PlaybackControls = () => {
       <Box sx={s.progressWrapper}>
         <PlaybackTime align="right">{formattedAudioCurrentTime}</PlaybackTime>
         <Slider
-          disabled={!hasLoaded}
+          disabled={disabledControls}
           size="small"
           sx={s.slider}
           value={displayCurrentTime}

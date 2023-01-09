@@ -3,8 +3,24 @@
 const { Tracks } = require('../db/models/Tracks');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
+const { kafkaTopics } = require('../constants');
 
-class TrackServices {
+class TrackService {
+  notificationProducer;
+
+  constructor(notificationProducer) {
+    this.notificationProducer = notificationProducer;
+    this.setup();
+  }
+
+  async setup() {
+    try {
+      await this.notificationProducer.connect();
+    } catch (err) {
+      console.error("Error while connecting to kafka: " + err);
+    }
+  }
+
   async getTracks() {
     const tracks = await Tracks.findAll({ order: ['id'] });
     const trackAuthors = await this.getAllTracksAuthors();
@@ -42,6 +58,11 @@ class TrackServices {
 
     const createdTrack = await Tracks.create(trackData);
     createdTrack.author = author;
+
+    await this.notificationProducer.send({
+      topic: kafkaTopics.NEW_TRACK,
+      messages: [{ value: JSON.stringify(createdTrack) }]
+    });
 
     return createdTrack;
   }
@@ -102,7 +123,7 @@ class TrackServices {
     return allTracksAuthors;
   }
 
-  async postBrockenRequest() {
+  async postBrokenRequest() {
     await axiosClient.post('authors/broken').catch((err) => {
       console.log(err);
       throw new Error('Failed to fetch');
@@ -111,4 +132,4 @@ class TrackServices {
   }
 }
 
-module.exports = new TrackServices();
+module.exports = { TrackService };
