@@ -2,20 +2,24 @@ import { Box, Paper, Stack } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import AudioPlayer from '../audio-player';
 import Sider from '../sider';
-import * as S from './styles';
+import Header from '../header';
+import * as s from './styles';
 
 const Layout = () => {
   return (
-    <Box sx={S.layout}>
+    <Box sx={s.layout}>
       <Stack flexDirection="row" flex="1" height={0}>
-        <Box sx={S.siderWrapper}>
+        <Box sx={s.siderWrapper}>
           <Sider />
         </Box>
-        <Paper sx={S.mainWrapper}>
-          <Outlet />
+        <Paper sx={s.mainWrapper}>
+          <Header />
+          <Box sx={s.content}>
+            <Outlet />
+          </Box>
         </Paper>
       </Stack>
-      <Box sx={S.audioPlayerWrapper}>
+      <Box sx={s.audioPlayerWrapper}>
         <AudioPlayer />
       </Box>
     </Box>

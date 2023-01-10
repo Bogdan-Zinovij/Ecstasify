@@ -17,7 +17,7 @@ export class HttpRequest {
 
   post<T>(
     url: string,
-    data: HttpClientRequestConfig['data'],
+    data?: HttpClientRequestConfig['data'],
     isAuth?: boolean
   ) {
     return this.httpClient.request<T>({ url, method: 'POST', data, isAuth });

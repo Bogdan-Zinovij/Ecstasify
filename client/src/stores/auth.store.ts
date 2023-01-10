@@ -3,6 +3,7 @@ import { SignInRequest, SignUpRequest } from '@/services/users.service';
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from './root.store';
 import { makePersistable } from 'mobx-persist-store';
+import { User } from '@/models/user';
 
 type Auth = {
   refreshToken: string;
@@ -17,6 +18,7 @@ export class AuthStore {
 
   signUpLoading = false;
   signInLoading = false;
+  signOutLoading = false;
 
   constructor(rootService: RootService, rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -71,6 +73,23 @@ export class AuthStore {
     }
 
     this.signInLoading = false;
+  }
+
+  async signOut() {
+    this.signOutLoading = true;
+
+    const { signOut } = this.rootService.usersService;
+    const res = await signOut();
+
+    if (res) {
+      console.log({ res });
+      this.setAuth({} as Auth);
+
+      const { setUser } = this.rootStore.usersStore;
+      setUser({} as User);
+    }
+
+    this.signOutLoading = false;
   }
 
   setAuth(auth: Auth) {

@@ -54,8 +54,8 @@ class UsersService extends BaseService {
     );
   };
 
-  signOut = (data: SignUpRequest) => {
-    return this.httpRequest.post<SignUpResponse>('/users/auth/sign-in', data);
+  signOut = () => {
+    return this.httpRequest.post('/users/auth/sign-out');
   };
 }
 
