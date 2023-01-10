@@ -1,10 +1,13 @@
 import { RootService } from '@/services';
-import { SignUpRequest, SignUpResponse } from '@/services/users.service';
-import { makeAutoObservable, runInAction } from 'mobx';
+import { SignInRequest, SignUpRequest } from '@/services/users.service';
+import { makeAutoObservable } from 'mobx';
 import { RootStore } from './root.store';
 import { makePersistable } from 'mobx-persist-store';
 
-type Auth = Omit<SignUpResponse, 'user'>;
+type Auth = {
+  refreshToken: string;
+  accessToken: string;
+};
 
 export class AuthStore {
   private rootStore: RootStore;
@@ -34,15 +37,32 @@ export class AuthStore {
     const res = await signUp(data);
 
     if (res) {
-      runInAction(() => {
-        this.auth = {
-          accessToken: res.accessToken,
-          refreshToken: res.refreshToken,
-        };
+      this.setAuth({
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
       });
 
       const { setUser } = this.rootStore.usersStore;
       setUser(res.user);
     }
+  }
+
+  async signIn(data: SignInRequest) {
+    const { signIn } = this.rootService.usersService;
+    const res = await signIn(data);
+
+    if (res) {
+      this.setAuth({
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+      });
+
+      const { setUser } = this.rootStore.usersStore;
+      setUser(res.user);
+    }
+  }
+
+  setAuth(auth: Auth) {
+    this.auth = auth;
   }
 }

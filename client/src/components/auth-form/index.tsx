@@ -1,6 +1,6 @@
 import { useStore } from '@/hooks';
 import { Routes } from '@/router/routes';
-import { SignUpRequest } from '@/services/users.service';
+import { SignInRequest, SignUpRequest } from '@/services/users.service';
 import { AuthFormMode } from '@/types/auth';
 import { TextField, Button, Box } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,12 +12,15 @@ interface IAuthFormProps {
   mode: AuthFormMode;
 }
 
+type AuthRequest = Partial<SignUpRequest> &
+  Pick<SignInRequest, 'email' | 'password'>;
+
 const AuthForm = ({ mode }: IAuthFormProps) => {
   const navigate = useNavigate();
   const isSignInMode = mode === 'sign-in';
-  const { signUp } = useStore('authStore');
+  const { signUp, signIn } = useStore('authStore');
 
-  const { handleSubmit, control } = useForm<SignUpRequest>({
+  const { handleSubmit, control } = useForm<AuthRequest>({
     defaultValues: {
       name: '',
       password: '',
@@ -25,13 +28,12 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
     },
   });
 
-  const handleSignIn = () => {
-    navigate(Routes.Home);
-    console.log('Sign In');
+  const handleSignIn = (data: AuthRequest) => {
+    signIn(data);
   };
 
-  const handleSignUp = (data: SignUpRequest) => {
-    signUp(data);
+  const handleSignUp = (data: AuthRequest) => {
+    signUp({ ...data, name: data.name ?? '' });
   };
 
   const toggleAuthPage = () => {

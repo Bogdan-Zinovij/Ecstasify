@@ -7,11 +7,15 @@ export type SignUpRequest = {
   email: string;
 };
 
+export type SignInRequest = Omit<SignUpRequest, 'name'>;
+
 export type SignUpResponse = {
   accessToken: string;
   refreshToken: string;
   user: User;
 };
+
+export type SignInResponse = SignUpResponse;
 
 class UsersService extends BaseService {
   getUser = (id: User['id']) => {
@@ -42,8 +46,8 @@ class UsersService extends BaseService {
     );
   };
 
-  signIn = (data: SignUpRequest) => {
-    return this.httpRequest.post<SignUpResponse>(
+  signIn = (data: SignInRequest) => {
+    return this.httpRequest.post<SignInResponse>(
       '/users/auth/sign-in',
       data,
       false
