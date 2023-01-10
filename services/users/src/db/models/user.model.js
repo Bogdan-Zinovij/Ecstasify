@@ -1,26 +1,28 @@
-'use strict';
+import DataTypes from 'sequelize';
+import db from '../db.js';
 
-const DataTypes = require('sequelize');
-const { db } = require('../db');
-
-const Users = db.define(
+export const User = db.define(
   'users',
   {
     id: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     password: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -28,12 +30,10 @@ const Users = db.define(
     scopes: {
       withoutPassword: {
         attributes: { exclude: ['password'] },
-      }
+      },
     },
     timestamps: true,
     createdAt: true,
     updatedAt: true,
   },
 );
-
-module.exports = { Users };

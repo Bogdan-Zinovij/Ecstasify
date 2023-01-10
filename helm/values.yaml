@@ -1,8 +1,9 @@
 kafka:
-  fullnameOverride: kafka       # ім'я сервісу (хост по якому можна звертатись до брокера)
-  numPartitions: 3              # кількість розділів визначає скільки консьюмерів може бути в топіка одночасно  
+  fullnameOverride: kafka # ім'я сервісу (хост по якому можна звертатись до брокера)
+  numPartitions: 3 # кількість розділів визначає скільки консьюмерів може бути в топіка одночасно
   autoCreateTopicsEnable: false # заборонити автоматичне створення топіків, вони мають визначатись явно, в списку нижче
   provisioning:
-    enabled: true               # при запуску будуть створені перелічені топіки
+    enabled: true # при запуску будуть створені перелічені топіки
     topics:
-     - name: test-topic
+      - name: new-user-registered
+      - name: test-topic
