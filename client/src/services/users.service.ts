@@ -1,7 +1,23 @@
 import { User } from '@/models/user';
 import BaseService from './base.service';
 
+export type SignUpRequest = {
+  name: string;
+  password: string;
+  email: string;
+};
+
+export type SignUpResponse = {
+  accessToken: string;
+  refreshToken: string;
+  user: User;
+};
+
 class UsersService extends BaseService {
+  getUser = (id: User['id']) => {
+    return this.httpRequest.get<User>(`/users/${id}`);
+  };
+
   getAllUsers = () => {
     return this.httpRequest.get<User[]>('/users');
   };
@@ -16,6 +32,26 @@ class UsersService extends BaseService {
 
   deleteUser = (userId: string) => {
     return this.httpRequest.delete<User>(`/users/${userId}`);
+  };
+
+  signUp = (data: SignUpRequest) => {
+    return this.httpRequest.post<SignUpResponse>(
+      '/users/auth/sign-up',
+      data,
+      false
+    );
+  };
+
+  signIn = (data: SignUpRequest) => {
+    return this.httpRequest.post<SignUpResponse>(
+      '/users/auth/sign-in',
+      data,
+      false
+    );
+  };
+
+  signOut = (data: SignUpRequest) => {
+    return this.httpRequest.post<SignUpResponse>('/users/auth/sign-in', data);
   };
 }
 

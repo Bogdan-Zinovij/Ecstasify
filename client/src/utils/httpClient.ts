@@ -1,3 +1,4 @@
+import { RootStore } from '@/stores/root.store';
 import axios, { AxiosError, AxiosRequestConfig, AxiosStatic } from 'axios';
 import errorHandler from './errorHandler';
 
@@ -16,12 +17,19 @@ export interface IHttpClient {
 
 class CustomHttpClient implements IHttpClient {
   private axios: AxiosStatic;
-  private accessToken: string | null = null;
+  private rootStore: RootStore;
   baseUrl: string;
 
-  constructor(baseUrl: string) {
+  constructor({
+    baseUrl,
+    rootStore,
+  }: {
+    baseUrl: string;
+    rootStore: RootStore;
+  }) {
     this.axios = axios;
     this.baseUrl = baseUrl;
+    this.rootStore = rootStore;
 
     axios.defaults.baseURL = this.baseUrl;
   }
@@ -39,9 +47,11 @@ class CustomHttpClient implements IHttpClient {
     }
 
     if (isAuth) {
+      const { auth } = this.rootStore.authStore;
+
       requestConfig = {
         ...requestConfig,
-        headers: { Authorization: this.accessToken },
+        headers: { Authorization: auth.accessToken },
       };
     }
 

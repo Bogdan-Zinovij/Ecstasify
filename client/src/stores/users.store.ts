@@ -11,16 +11,30 @@ export class UsersStore {
   // data
   users: User[] = [];
   currentUser: User | null = null;
+  user: User = {} as User;
 
   // loading states
   createUserLoading = false;
   getAllUsersLoading = false;
+  getUserLoading = false;
 
   constructor(rootServise: RootService, rootStore?: RootStore) {
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
     makeAutoObservable(this, {}, { autoBind: true });
+  }
+
+  async getUser(id: string) {
+    this.getUserLoading = true;
+    const { getUser } = this.rootService.usersService;
+    const user = await getUser(id);
+    console.log({ user });
+    this.getUserLoading = false;
+  }
+
+  setUser(user: User) {
+    this.user = user;
   }
 
   async getAllUsers() {

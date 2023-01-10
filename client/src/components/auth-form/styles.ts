@@ -1,17 +1,21 @@
 import { Styles } from '@/types/styles';
 
 export const authFormWrapper: Styles = {
-  display: 'flex',
-  flexDirection: 'column',
   maxWidth: '350px',
-  gap: '20px',
   width: '100%',
   backgroundColor: ({ palette }) => palette.background.paper,
-  padding: '40px',
   borderRadius: '10px',
+  overflow: 'hidden',
 };
 
 export const containedBtn: Styles = {
   background: ({ gradients }) => gradients.main,
   boxShadow: 'none',
+};
+
+export const controlsWrapper: Styles = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '20px',
+  padding: '20px 40px 40px 40px',
 };
