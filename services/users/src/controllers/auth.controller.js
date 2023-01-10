@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import authService from '../services/auth.service.js';
 import tokenService from '../services/token.service.js';
 import * as dotenv from 'dotenv';
@@ -7,6 +8,11 @@ dotenv.config();
 class AuthController {
   async signUp(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const userData = req.body;
       const authData = await authService.signUp(userData);
 
@@ -22,6 +28,11 @@ class AuthController {
 
   async signIn(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const userData = req.body;
       const authData = await authService.signIn(userData);
 
