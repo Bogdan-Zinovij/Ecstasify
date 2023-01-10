@@ -1,9 +1,9 @@
+import { User } from '@/models/user';
 import { RootService } from '@/services';
 import { SignInRequest, SignUpRequest } from '@/services/users.service';
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from './root.store';
 import { makePersistable } from 'mobx-persist-store';
-import { User } from '@/models/user';
 
 type Auth = {
   refreshToken: string;
@@ -37,6 +37,10 @@ export class AuthStore {
     return !!this.auth.accessToken;
   }
 
+  setAuth(auth: Auth) {
+    this.auth = auth;
+  }
+
   async signUp(data: SignUpRequest) {
     this.signUpLoading = true;
 
@@ -49,8 +53,8 @@ export class AuthStore {
         refreshToken: res.refreshToken,
       });
 
-      const { setUser } = this.rootStore.usersStore;
-      setUser(res.user);
+      const { setCurrentUser } = this.rootStore.profileStore;
+      setCurrentUser(res.user);
     }
 
     this.signUpLoading = false;
@@ -68,8 +72,8 @@ export class AuthStore {
         refreshToken: res.refreshToken,
       });
 
-      const { setUser } = this.rootStore.usersStore;
-      setUser(res.user);
+      const { setCurrentUser } = this.rootStore.profileStore;
+      setCurrentUser(res.user);
     }
 
     this.signInLoading = false;
@@ -82,17 +86,12 @@ export class AuthStore {
     const res = await signOut();
 
     if (res) {
-      console.log({ res });
       this.setAuth({} as Auth);
 
-      const { setUser } = this.rootStore.usersStore;
-      setUser({} as User);
+      const { setCurrentUser } = this.rootStore.profileStore;
+      setCurrentUser({} as User);
     }
 
     this.signOutLoading = false;
-  }
-
-  setAuth(auth: Auth) {
-    this.auth = auth;
   }
 }

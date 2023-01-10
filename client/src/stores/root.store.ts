@@ -3,6 +3,7 @@ import errorHandler from '@/utils/errorHandler';
 import { AudioPlayerStore } from './audio-player.store';
 import { AuthStore } from './auth.store';
 import { AuthorsStore } from './authors.store';
+import { ProfileStore } from './profile.store';
 import { TracksStore } from './tracks.store';
 import { UsersStore } from './users.store';
 
@@ -15,6 +16,7 @@ export class RootStore {
   tracksStore = new TracksStore(this.rootService, this);
   audioPlayerStore = new AudioPlayerStore(this.rootService, this);
   authStore = new AuthStore(this.rootService, this);
+  profileStore = new ProfileStore(this.rootService, this);
 }
 
 export const store = new RootStore();

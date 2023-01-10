@@ -1,6 +1,7 @@
 import Router from '../router';
 import * as S from './styles';
 import { Box } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 
 const App = () => {
   return (
@@ -10,4 +11,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default observer(App);
