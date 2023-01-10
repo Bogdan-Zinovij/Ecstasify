@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ID } from 'src/common';
-import { CreateSubscriptionPlanDto, UpdateSubscriptionPlanDto } from '../dto';
+import { CreateFeatureDto, UpdateFeatureDto } from '../dto';
 import { FeatureEntity } from '../entities';
 import { FeaturesService } from '../services/features.service';
 
@@ -27,16 +27,14 @@ export class FeaturesController {
   }
 
   @Post()
-  createOne(
-    @Body() createEntityDto: CreateSubscriptionPlanDto,
-  ): Promise<FeatureEntity> {
+  createOne(@Body() createEntityDto: CreateFeatureDto): Promise<FeatureEntity> {
     return this.featuresService.createOne(createEntityDto);
   }
 
   @Patch(':id')
   updateOne(
     @Param() conditions: ID,
-    @Body() updateEntityDto: UpdateSubscriptionPlanDto,
+    @Body() updateEntityDto: UpdateFeatureDto,
   ) {
     return this.featuresService.updateOne(conditions, updateEntityDto);
   }
