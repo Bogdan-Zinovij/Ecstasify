@@ -2,7 +2,8 @@ import { useStore } from '@/hooks';
 import { Routes } from '@/router/routes';
 import { SignInRequest, SignUpRequest } from '@/services/users.service';
 import { AuthFormMode } from '@/types/auth';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, CircularProgress, Stack } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../logo';
@@ -18,7 +19,8 @@ type AuthRequest = Partial<SignUpRequest> &
 const AuthForm = ({ mode }: IAuthFormProps) => {
   const navigate = useNavigate();
   const isSignInMode = mode === 'sign-in';
-  const { signUp, signIn } = useStore('authStore');
+  const { signUp, signIn, signInLoading, signUpLoading } =
+    useStore('authStore');
 
   const { handleSubmit, control } = useForm<AuthRequest>({
     defaultValues: {
@@ -39,6 +41,8 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
   const toggleAuthPage = () => {
     navigate(isSignInMode ? Routes.SignUp : Routes.SignIn);
   };
+
+  console.log({ signInLoading, signUpLoading });
 
   return (
     <Box sx={S.authFormWrapper}>
@@ -97,17 +101,25 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
             );
           }}
         />
+        {/* create basic button component with loading prop */}
         <Button
           onClick={
             isSignInMode
               ? handleSubmit(handleSignIn)
               : handleSubmit(handleSignUp)
           }
+          disableElevation
           variant="contained"
           sx={S.containedBtn}
           size="large"
+          disabled={signInLoading || signUpLoading}
         >
-          {isSignInMode ? 'Sign In' : 'Sign Up'}
+          <Stack direction="row" alignItems="center" gap="10px">
+            {signInLoading || signUpLoading ? (
+              <CircularProgress size="15px" sx={{ color: 'currentColor' }} />
+            ) : null}
+            {isSignInMode ? 'Sign In' : 'Sign Up'}
+          </Stack>
         </Button>
         <Button onClick={toggleAuthPage} variant="outlined" size="large">
           {isSignInMode ? 'Sign Up' : 'Sign In'}
@@ -117,4 +129,4 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
   );
 };
 
-export default AuthForm;
+export default observer(AuthForm);

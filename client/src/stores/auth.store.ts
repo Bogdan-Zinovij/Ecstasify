@@ -15,6 +15,9 @@ export class AuthStore {
 
   auth: Auth = {} as Auth;
 
+  signUpLoading = false;
+  signInLoading = false;
+
   constructor(rootService: RootService, rootStore: RootStore) {
     this.rootStore = rootStore;
     this.rootService = rootService;
@@ -33,6 +36,8 @@ export class AuthStore {
   }
 
   async signUp(data: SignUpRequest) {
+    this.signUpLoading = true;
+
     const { signUp } = this.rootService.usersService;
     const res = await signUp(data);
 
@@ -45,9 +50,13 @@ export class AuthStore {
       const { setUser } = this.rootStore.usersStore;
       setUser(res.user);
     }
+
+    this.signUpLoading = false;
   }
 
   async signIn(data: SignInRequest) {
+    this.signInLoading = true;
+
     const { signIn } = this.rootService.usersService;
     const res = await signIn(data);
 
@@ -60,6 +69,8 @@ export class AuthStore {
       const { setUser } = this.rootStore.usersStore;
       setUser(res.user);
     }
+
+    this.signInLoading = false;
   }
 
   setAuth(auth: Auth) {
