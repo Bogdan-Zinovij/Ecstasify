@@ -16,30 +16,47 @@ import {
 import Logo from '../logo';
 import { NavLink } from './styles';
 import * as s from './styles';
+import { useStore } from '@/hooks';
+
+type MenuItem = {
+  label: string;
+  path: string;
+  icon: React.ReactNode;
+};
 
 const Sider = () => {
-  const items = [
-    {
-      label: 'Users',
-      path: Routes.Users,
-      icon: <Group />,
-    },
-    {
-      label: 'Tracks',
-      path: Routes.Tracks,
-      icon: <LibraryMusic />,
-    },
-    {
-      label: 'Subscriptions',
-      path: Routes.Subscriptions,
-      icon: <CardGiftcard />,
-    },
-    {
-      label: 'Authors',
-      path: Routes.Authors,
-      icon: <AccountCircle />,
-    },
-  ];
+  const { isAdmin } = useStore('profileStore');
+
+  const getMenuItems = () => {
+    let menuItems: MenuItem[] = [];
+
+    if (isAdmin) {
+      menuItems = [
+        {
+          label: 'Users',
+          path: Routes.Users,
+          icon: <Group />,
+        },
+        {
+          label: 'Tracks',
+          path: Routes.Tracks,
+          icon: <LibraryMusic />,
+        },
+        {
+          label: 'Subscriptions',
+          path: Routes.Subscriptions,
+          icon: <CardGiftcard />,
+        },
+        {
+          label: 'Authors',
+          path: Routes.Authors,
+          icon: <AccountCircle />,
+        },
+      ];
+    }
+
+    return menuItems;
+  };
 
   return (
     <Box>
@@ -48,7 +65,7 @@ const Sider = () => {
       </Box>
       <Divider />
       <List sx={s.list}>
-        {items.map(({ label, path, icon }) => (
+        {getMenuItems().map(({ label, path, icon }) => (
           <ListItem key={path} disablePadding>
             <NavLink to={path}>
               <ListItemIcon>{icon}</ListItemIcon>

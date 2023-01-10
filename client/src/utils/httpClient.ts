@@ -12,7 +12,6 @@ export type HttpClientRequestConfig = {
 export interface IHttpClient {
   baseUrl: string;
   request<T>(config: HttpClientRequestConfig): Promise<T | null>;
-  setAccessToken: (accessToken: string) => void;
 }
 
 class CustomHttpClient implements IHttpClient {
@@ -48,10 +47,11 @@ class CustomHttpClient implements IHttpClient {
 
     if (isAuth) {
       const { auth } = this.rootStore.authStore;
+      const tokenType = 'Bearer';
 
       requestConfig = {
         ...requestConfig,
-        headers: { Authorization: auth.accessToken },
+        headers: { Authorization: `${tokenType} ${auth.accessToken}` },
       };
     }
 
@@ -60,19 +60,29 @@ class CustomHttpClient implements IHttpClient {
 
       return res.data;
     } catch (err) {
-      if (err instanceof AxiosError) {
-        const msg =
-          (err as AxiosError).response?.data?.message ??
-          err.response?.statusText;
-        errorHandler.handle(msg, 'error');
+      const { response } = err as AxiosError<{
+        message?: string;
+        errors?: { msg: string }[];
+      }>;
+
+      const messages = [];
+
+      if (response?.data?.message) {
+        messages.push(response?.data?.message);
+      } else if (response?.data?.errors) {
+        for (const error of response?.data?.errors ?? []) {
+          messages.push(error.msg);
+        }
+      } else {
+        messages.push('An unknown error occured!');
+      }
+
+      for (const message of messages) {
+        errorHandler.handle(message, 'error');
       }
     }
 
     return null;
-  }
-
-  setAccessToken(accessToken: string) {
-    this.accessToken = accessToken;
   }
 }
 

@@ -9,7 +9,7 @@ import * as s from './styles';
 const ProfileChip = () => {
   const {
     authStore: { signOut },
-    profileStore: { currentUser },
+    profileStore: { currentUser, isAdmin },
   } = useStores();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -27,7 +27,7 @@ const ProfileChip = () => {
       <Chip
         sx={s.chip}
         avatar={<Avatar sx={{ width: '25px', height: '25px' }} />}
-        label={currentUser?.name}
+        label={`${currentUser?.name} ${isAdmin ? '(Admin)' : ''}`}
         onClick={handleChipClick}
       />
       <Menu
