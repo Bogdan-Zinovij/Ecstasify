@@ -3,7 +3,7 @@
 const { Tracks } = require('../db/models/Tracks');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
-const { kafkaTopics } = require('../constants');
+const { kafkaTopics, errorMessages } = require('../config');
 
 class TrackService {
   notificationProducer;
@@ -17,7 +17,7 @@ class TrackService {
     try {
       await this.notificationProducer.connect();
     } catch (err) {
-      console.error("Error while connecting to kafka: " + err);
+      console.error(errorMessages.KAFKA_FAILED_CONNECT + err);
     }
   }
 
@@ -31,7 +31,7 @@ class TrackService {
       );
 
       if (matchedTrackAuthor.length === 0) {
-        throw new Error('Author not found!');
+        throw new Error(errorMessages.AUTHOR_NOT_FOUND);
       }
       track.author = matchedTrackAuthor[0];
     }
@@ -42,7 +42,7 @@ class TrackService {
   async getTrackById(id) {
     const track = await Tracks.findOne({ where: { id } });
 
-    if (!track) throw new Error('Track with the specified ID does not exist');
+    if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     const author = await this.getTrackAuthor(track.author);
     track.author = author;
@@ -69,7 +69,7 @@ class TrackService {
 
   async updateTrack(id, trackData) {
     const track = await Tracks.findOne({ where: { id } });
-    if (!track) throw new Error('Track with the specified ID does not exist');
+    if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     if (trackData.author) await this.getTrackAuthor(trackData.author);
 
@@ -81,11 +81,11 @@ class TrackService {
   async deleteTrack(id) {
     const track = await Tracks.findOne({ where: { id } });
 
-    if (!track) throw new Error('Track with the specified ID does not exist');
+    if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     const deleteResult = await Tracks.destroy({ where: { id } });
     if (!deleteResult)
-      throw new Error('Failed to delete a track with specified ID');
+      throw new Error(errorMessages.TRACK_DELETION_FAILED);
 
     return track;
   }
@@ -95,12 +95,12 @@ class TrackService {
       .get(`authors/${trackAuthorId}`)
       .catch((err) => {
         console.log(err);
-        throw new Error('Author not found!');
+        throw new Error(errorMessages.AUTHOR_NOT_FOUND);
       });
 
     const trackAuthor = trackAuthorRes?.data;
     if (!trackAuthor) {
-      throw new Error('Author not found!');
+      throw new Error(errorMessages.AUTHOR_NOT_FOUND);
     }
 
     return trackAuthor;
@@ -111,13 +111,13 @@ class TrackService {
       .get('authors')
       .catch((err) => {
         console.log(err);
-        throw new Error('Authors not found!');
+        throw new Error(errorMessages.AUTHORS_NOT_FOUND);
       });
 
     const allTracksAuthors = allTracksAuthorsRes?.data;
 
     if (!allTracksAuthors) {
-      throw new Error('Authors not found!');
+      throw new Error(errorMessages.AUTHORS_NOT_FOUND);
     }
 
     return allTracksAuthors;
