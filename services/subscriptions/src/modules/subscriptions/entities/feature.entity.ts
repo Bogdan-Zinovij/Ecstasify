@@ -6,6 +6,7 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { SubscriptionFeatureEntity } from './subscription-feature.entity';
 
@@ -17,7 +18,7 @@ export class FeatureEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 256, nullable: false })
   public readonly name: string;
 
-  @ManyToOne(() => SubscriptionFeatureEntity, ({ feature }) => feature, {
+  @OneToMany(() => SubscriptionFeatureEntity, ({ feature }) => feature, {
     onDelete: 'SET NULL',
     nullable: true,
     eager: false,
