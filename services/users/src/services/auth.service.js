@@ -30,7 +30,7 @@ class AuthService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
     await this.notificationProducer.send({
-      topic: kafkaTopics.SUCCESSFUL_REGISTRATION,
+      topic: kafkaTopics.NEW_USER_REGISTERED,
       messages: [{ value: JSON.stringify(userDto) }],
     });
 
