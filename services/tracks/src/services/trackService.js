@@ -122,14 +122,6 @@ class TrackService {
 
     return allTracksAuthors;
   }
-
-  async postBrokenRequest() {
-    await axiosClient.post('authors/broken').catch((err) => {
-      console.log(err);
-      throw new Error('Failed to fetch');
-    });
-    return 'No error occurred';
-  }
 }
 
 module.exports = { TrackService };
