@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users
     name character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
     email character varying(255) NOT NULL,
-    role character varying(255) NOT NULL DEFAULT 'user'::character varying,
+    role character varying(255) NOT NULL,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL,
     CONSTRAINT users_pkey PRIMARY KEY (id)

@@ -23,7 +23,6 @@ export const User = db.define(
     },
     role: {
       type: DataTypes.STRING,
-      defaultValue: 'user',
       allowNull: false,
     },
   },

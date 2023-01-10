@@ -52,12 +52,11 @@ class AuthService {
   }
 
   async refresh(refreshToken) {
-    if (!refreshToken) throw new Error(errorMessages.NOT_AUTHORIZED);
+    if (!refreshToken) throw new Error(errorMessages.UNAUTHORIZED);
 
     const userData = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
-    if (!userData || !tokenFromDb)
-      throw new Error(errorMessages.NOT_AUTHORIZED);
+    if (!userData || !tokenFromDb) throw new Error(errorMessages.UNAUTHORIZED);
 
     const user = await userService.getUserById(userData.id);
     const userDto = new UserDto(user);
@@ -68,9 +67,9 @@ class AuthService {
   }
 
   async signOut(refreshToken) {
-    if (!refreshToken) throw new Error(errorMessages.NOT_AUTHORIZED);
+    if (!refreshToken) throw new Error(errorMessages.UNAUTHORIZED);
 
-    return await tokenService.removeToken(refreshToken);
+    return tokenService.removeToken(refreshToken);
   }
 }
 
