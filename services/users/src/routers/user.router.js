@@ -11,6 +11,13 @@ const userRouter = new Router();
 
 userRouter
   .get('/', authMiddleware, permissionMiddleware, userController.getUsers)
+  .post(
+    '/',
+    authMiddleware,
+    permissionMiddleware,
+    userValidScheme,
+    userController.createUser,
+  )
   .get(
     '/:id',
     authMiddleware,

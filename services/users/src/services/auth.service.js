@@ -20,9 +20,6 @@ class AuthService {
   }
 
   async signUp(userData) {
-    const user = await userService.getUserByEmail(userData.email);
-    if (user) throw new Error(errorMessages.USER_ALREADY_EXISTS);
-
     const newUser = await userService.createUser(userData);
 
     const userDto = new UserDto(newUser);
