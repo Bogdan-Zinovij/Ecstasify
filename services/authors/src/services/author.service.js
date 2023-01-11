@@ -1,9 +1,9 @@
 'use strict';
 
-import { Authors } from '../db/models/Authors.js';
+import { Authors } from '../db/models/author.model.js';
 import { v4 as uuid } from 'uuid';
 
-class AuthorServices {
+class AuthorService {
   async getAuthors() {
     return await Authors.findAll({ order: ['id'] });
   }
@@ -44,4 +44,4 @@ class AuthorServices {
   }
 }
 
-export default new AuthorServices();
+export default new AuthorService();
