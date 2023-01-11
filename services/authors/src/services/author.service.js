@@ -1,5 +1,3 @@
-'use strict';
-
 import { Authors } from '../db/models/author.model.js';
 import { v4 as uuid } from 'uuid';
 import { errorMessages } from '../config.js';
