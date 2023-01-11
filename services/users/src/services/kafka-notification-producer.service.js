@@ -1,29 +1,38 @@
 import { Kafka } from 'kafkajs';
-
 import * as dotenv from 'dotenv';
+import { kafkaTopics, errorMessages } from '../config.js';
 dotenv.config();
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const KAFKA_URL = process.env.KAFKA_URL;
-
-export default class KafkaNotificationProducerService {
+export default class KafkaNotifProducerService {
   constructor() {
     const kafka = new Kafka({
-      clientId: CLIENT_ID,
-      brokers: [KAFKA_URL],
+      clientId: process.env.CLIENT_ID,
+      brokers: [process.env.KAFKA_URL],
     });
     this.producer = kafka.producer();
-    this.connect = this.connect.bind(this);
-    this.send = this.send.bind(this);
+    this.sendAllUsers = this.makeTopicSender(kafkaTopics.GET_ALL_USERS_REPLY);
+    this.sendNewRegisteredUser = this.makeTopicSender(
+      kafkaTopics.NEW_USER_REGISTERED,
+    );
   }
 
   async connect() {
-    await this.producer.connect();
+    try {
+      await this.producer.connect();
+    } catch (err) {
+      console.error(errorMessages.KAFKA_FAILED_CONNECT + err);
+    }
   }
 
-  async send(notification) {
-    await this.producer.send(notification).catch((err) => {
-      console.log(err);
-    });
+  makeTopicSender(topic) {
+    return async (data) => {
+      const notification = {
+        topic,
+        messages: [{ value: data }],
+      };
+      await this.producer.send(notification).catch((err) => {
+        console.error(errorMessages.KAFKA_FAILED_SEND + err);
+      });
+    };
   }
 }
