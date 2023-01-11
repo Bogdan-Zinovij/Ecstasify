@@ -1,18 +1,11 @@
-'use strict';
+import express from 'express';
+import bodyParser from 'body-parser';
+import authorRouter from './routers/author.router.js';
+import { PREFIX } from './config.js';
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const authorController = require('./controllers/authorController');
-const { PREFIX } = require('./config');
 const app = express();
 
 app.use(bodyParser.json());
-app
-  .get(PREFIX + '/authors', authorController.getAuthors)
-  .get(PREFIX + '/authors/:id', authorController.getAuthorById)
-  .post(PREFIX + '/authors', authorController.createAuthor)
-  .post(PREFIX + '/authors/broken', authorController.breakRequest)
-  .patch(PREFIX + '/authors/:id', authorController.updateAuthor)
-  .delete(PREFIX + '/authors/:id', authorController.deleteAuthor);
+app.use(PREFIX + '/authors', authorRouter);
 
-module.exports = app;
+export default app;
