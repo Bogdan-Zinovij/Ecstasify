@@ -5,7 +5,7 @@ export const Authors = db.define(
   'authors',
   {
     id: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },

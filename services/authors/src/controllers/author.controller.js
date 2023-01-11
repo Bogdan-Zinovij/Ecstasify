@@ -1,3 +1,4 @@
+import { validationResult } from 'express-validator';
 import authorService from '../services/author.service.js';
 
 class AuthorController {
@@ -12,6 +13,11 @@ class AuthorController {
 
   async getAuthorById(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const { id } = req.params;
       const author = await authorService.getAuthorById(id);
       res.status(200).json(author);
@@ -23,6 +29,11 @@ class AuthorController {
 
   async createAuthor(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const authorData = req.body;
       const createdAuthor = await authorService.createAuthor(authorData);
       res.status(201).json(createdAuthor);
@@ -33,6 +44,11 @@ class AuthorController {
 
   async updateAuthor(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const { id } = req.params;
       const authorData = req.body;
       const updatedAuthor = await authorService.updateAuthor(id, authorData);
@@ -44,6 +60,11 @@ class AuthorController {
 
   async deleteAuthor(req, res) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
       const { id } = req.params;
       const deletedAuthor = await authorService.deleteAuthor(id);
       res.status(200).json(deletedAuthor);
