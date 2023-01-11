@@ -9,6 +9,8 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeaturesController } from './controllers/features.controller';
 import { FeaturesService } from './services/features.service';
+import { SubscriptionFeaturesController } from './controllers/subscription-features.controller';
+import { SubscriptionFeaturesService } from './services/subscription-features.service';
 
 @Module({
   imports: [
@@ -18,8 +20,20 @@ import { FeaturesService } from './services/features.service';
       SubscriptionFeatureEntity,
     ]),
   ],
-  controllers: [SubscriptionPlansController, FeaturesController],
-  providers: [SubscriptionPlansService, FeaturesService],
-  exports: [SubscriptionPlansService, FeaturesService],
+  controllers: [
+    SubscriptionPlansController,
+    FeaturesController,
+    SubscriptionFeaturesController,
+  ],
+  providers: [
+    SubscriptionPlansService,
+    FeaturesService,
+    SubscriptionFeaturesService,
+  ],
+  exports: [
+    SubscriptionPlansService,
+    FeaturesService,
+    SubscriptionFeaturesService,
+  ],
 })
 export class SubscriptionsModule {}
