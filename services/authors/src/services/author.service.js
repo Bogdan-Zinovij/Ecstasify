@@ -19,7 +19,6 @@ class AuthorService {
     if (author) throw new Error(errorMessages.AUTHOR_ALREADY_EXISTS);
 
     const newAuthor = { ...authorData, id: uuid() };
-    newAuthor.id = uuid();
 
     return Authors.create(newAuthor);
   }
