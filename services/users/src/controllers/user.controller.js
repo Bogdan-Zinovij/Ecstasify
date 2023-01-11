@@ -28,6 +28,22 @@ class UserController {
     }
   }
 
+  async createUser(req, res) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const userData = req.body;
+      const createdUser = await userService.createUser(userData);
+
+      res.status(201).json(createdUser);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  }
+
   async updateUser(req, res) {
     try {
       const errors = validationResult(req);

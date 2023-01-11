@@ -21,14 +21,17 @@ class UserService {
   }
 
   async createUser(userData) {
-    const user = { ...userData };
-    user.id = uuid();
-    user.password = await bcrypt.hash(userData.password, SALT);
-    user.role = roles.USER;
+    const user = await this.getUserByEmail(userData.email);
+    if (user) throw new Error(errorMessages.USER_ALREADY_EXISTS);
 
-    await User.create(user);
+    const newUser = { ...userData };
+    newUser.id = uuid();
+    newUser.password = await bcrypt.hash(userData.password, SALT);
+    newUser.role = roles.USER;
 
-    return User.findOne({ where: { id: user.id } });
+    await User.create(newUser);
+
+    return User.findOne({ where: { id: newUser.id } });
   }
 
   async updateUser(id, userData) {
