@@ -1,7 +1,7 @@
 'use strict';
 
-const { Authors } = require('../db/models/Authors');
-const { v4: uuid } = require('uuid');
+import { Authors } from '../db/models/Authors.js';
+import { v4 as uuid } from 'uuid';
 
 class AuthorServices {
   async getAuthors() {
@@ -44,4 +44,4 @@ class AuthorServices {
   }
 }
 
-module.exports = new AuthorServices();
+export default new AuthorServices();

@@ -1,6 +1,8 @@
-require('dotenv').config();
-const app = require('./app');
-const { db } = require('./db/db');
+import app from './app.js';
+import db from './db/db.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 const EXPRESS_PORT = process.env.EXPRESS_PORT || 8080;
 
 (async () => {

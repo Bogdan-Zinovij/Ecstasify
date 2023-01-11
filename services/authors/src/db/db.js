@@ -1,8 +1,6 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
-const db = new Sequelize('authors', 'authors', 'authors', {
+export default new Sequelize('authors', 'authors', 'authors', {
   host: 'postgres-authors',
   dialect: 'postgres',
 });
-
-module.exports = { db };

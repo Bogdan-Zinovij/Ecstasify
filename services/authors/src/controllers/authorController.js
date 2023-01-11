@@ -1,6 +1,4 @@
-'use strict';
-
-const authorServices = require('../services/authorServices');
+import authorServices from '../services/authorServices.js';
 
 class AuthorController {
   async getAuthors(req, res) {
@@ -55,4 +53,4 @@ class AuthorController {
   }
 }
 
-module.exports = new AuthorController();
+export default new AuthorController();
