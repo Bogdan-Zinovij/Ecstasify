@@ -15,7 +15,7 @@ export class KafkaController implements OnModuleInit {
 
   @EventPattern(TopicEnum.NEW_TRACK_CREATED)
   handleNewTrackCreated(message: KafkaMessageInterface) {
-    this.kafkaService.handleNewTrackCreated(message.value);
+    this.kafkaService.handleNewTrackCreated(message?.value);
   }
 
   onModuleInit() {
