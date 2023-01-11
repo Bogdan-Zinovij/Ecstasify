@@ -1,9 +1,15 @@
 CREATE TABLE IF NOT EXISTS tracks
 (
-    id character varying(65) NOT NULL,
+    id uuid NOT NULL,
     name character varying(64) NOT NULL,
     author character varying(64) NOT NULL,
+    genreId uuid,
     "createdAt" timestamp with time zone NOT NULL,
-    "updatedAt" timestamp with time zone NOT NULL,
-    CONSTRAINT users_pkey PRIMARY KEY (id)
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS genres
+(
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL
 );
