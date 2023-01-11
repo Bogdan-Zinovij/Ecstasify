@@ -7,12 +7,18 @@ import SubscriptionsPage from '@/pages/subscriptions';
 import AuthorsPage from '@/pages/authors';
 import PrivateLayout from './PrivateLayout';
 import PublicLayout from './PublicLayout';
+import { UserRole } from '@/enums/user-role';
 
 const Router = () => {
   return (
     <RouterRoutes>
       <Route path="/" element={<PrivateLayout />}>
         <Route index element={<div>🏠 Home page</div>} />
+      </Route>
+      <Route
+        path="/"
+        element={<PrivateLayout allowedRoles={[UserRole.Admin]} />}
+      >
         <Route path="users" element={<UsersPage />} />
         <Route path="tracks" element={<TracksPage />} />
         <Route path="subscriptions" element={<SubscriptionsPage />} />

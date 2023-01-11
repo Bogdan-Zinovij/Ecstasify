@@ -27,9 +27,13 @@ export class UsersStore {
 
   async getUser(id: string) {
     this.getUserLoading = true;
+
     const { getUser } = this.rootService.usersService;
     const user = await getUser(id);
-    console.log({ user });
+    if (user) {
+      this.user = user;
+    }
+
     this.getUserLoading = false;
   }
 

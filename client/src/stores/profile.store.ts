@@ -3,7 +3,7 @@ import { User } from '@/models/user';
 import { RootService } from '@/services';
 import { RootStore } from './root.store';
 import { makeAutoObservable } from 'mobx';
-import { UserRoles } from '@/enums/user-role';
+import { UserRole } from '@/enums/user-role';
 
 export class ProfileStore {
   private rootStore: RootStore;
@@ -25,7 +25,7 @@ export class ProfileStore {
   }
 
   get isAdmin() {
-    return this.currentUser.role === UserRoles.Admin;
+    return this.currentUser.role === UserRole.Admin;
   }
 
   setCurrentUser(user: User) {

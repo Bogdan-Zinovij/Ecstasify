@@ -42,8 +42,6 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
     navigate(isSignInMode ? Routes.SignUp : Routes.SignIn);
   };
 
-  console.log({ signInLoading, signUpLoading });
-
   return (
     <Box sx={S.authFormWrapper}>
       <Box
