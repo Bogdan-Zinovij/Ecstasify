@@ -18,7 +18,7 @@ class AuthorService {
     const author = await Authors.findOne({ where: { name: authorData.name } });
     if (author) throw new Error(errorMessages.AUTHOR_ALREADY_EXISTS);
 
-    const newAuthor = { ...authorData };
+    const newAuthor = { ...authorData, id: uuid() };
     newAuthor.id = uuid();
 
     return Authors.create(newAuthor);
