@@ -11,18 +11,8 @@ class AuthService {
   constructor(notificationProducer, notificationConsumer) {
     this.notificationProducer = notificationProducer;
     this.notificationConsumer = notificationConsumer;
-    setTimeout(() => {
-      this.notificationProducer.connect();
-      this.notificationConsumer.setup(this.notificationProducer);
-    }, 30000);
-  }
-
-  async setup() {
-    try {
-      await this.notificationProducer.connect();
-    } catch (err) {
-      console.error(errorMessages.KAFKA_FAILED_CONNECT + err);
-    }
+    this.notificationProducer.connect();
+    this.notificationConsumer.setup(this.notificationProducer);
   }
 
   async signUp(userData) {
