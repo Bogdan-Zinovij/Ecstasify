@@ -1,6 +1,7 @@
 'use strict';
 
 const { Tracks } = require('../db/models/Tracks');
+const { Genres } = require('../db/models/Genres');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
 const { kafkaTopics } = require('../constants');
@@ -22,7 +23,7 @@ class TrackService {
   }
 
   async getTracks() {
-    const tracks = await Tracks.findAll({ order: ['id'] });
+    const tracks = await Tracks.findAll({ include: Genres });
     const trackAuthors = await this.getAllTracksAuthors();
 
     for (const track of tracks) {
