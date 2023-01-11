@@ -94,4 +94,23 @@ export class AuthStore {
 
     this.signOutLoading = false;
   }
+
+  async refreshAuth() {
+    const { refreshAuth } = this.rootService.usersService;
+    const res = await refreshAuth();
+
+    if (res) {
+      this.setAuth({
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+      });
+
+      const { setCurrentUser } = this.rootStore.profileStore;
+      setCurrentUser(res.user);
+
+      return res.accessToken;
+    } else {
+      this.setAuth({} as Auth);
+    }
+  }
 }

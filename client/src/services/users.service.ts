@@ -17,6 +17,8 @@ export type SignUpResponse = {
 
 export type SignInResponse = SignUpResponse;
 
+export type RefreshAuthResponse = SignUpResponse;
+
 class UsersService extends BaseService {
   getUser = (id: User['id']) => {
     return this.httpRequest.get<User>(`/users/${id}`);
@@ -56,6 +58,10 @@ class UsersService extends BaseService {
 
   signOut = () => {
     return this.httpRequest.post('/users/auth/sign-out');
+  };
+
+  refreshAuth = () => {
+    return this.httpRequest.post<RefreshAuthResponse>('/users/auth/refresh');
   };
 }
 

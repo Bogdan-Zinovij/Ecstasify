@@ -1,5 +1,5 @@
 import { RootStore } from '@/stores/root.store';
-import axios, { AxiosError, AxiosRequestConfig, AxiosStatic } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import errorHandler from './errorHandler';
 
 export type HttpClientRequestConfig = {
@@ -15,7 +15,7 @@ export interface IHttpClient {
 }
 
 class CustomHttpClient implements IHttpClient {
-  private axios: AxiosStatic;
+  private axios: AxiosInstance;
   private rootStore: RootStore;
   baseUrl: string;
 
@@ -26,11 +26,49 @@ class CustomHttpClient implements IHttpClient {
     baseUrl: string;
     rootStore: RootStore;
   }) {
-    this.axios = axios;
+    this.axios = axios.create();
     this.baseUrl = baseUrl;
     this.rootStore = rootStore;
 
-    axios.defaults.baseURL = this.baseUrl;
+    this.registerInterceptors();
+  }
+
+  private registerInterceptors() {
+    this.axios.interceptors.response.use(
+      (response) => response,
+      async (err) => {
+        const axiosError = err as AxiosError;
+        const originalRequest = axiosError.config as AxiosRequestConfig & {
+          sent: boolean;
+        };
+
+        if (!axiosError?.response || !originalRequest)
+          return Promise.reject(err);
+
+        if (axiosError?.response?.status === 401 && !originalRequest.sent) {
+          originalRequest.sent = true;
+
+          try {
+            const accessToken = await this.rootStore.authStore.refreshAuth();
+            const tokenType = 'Bearer';
+
+            if (accessToken) {
+              return this.axios.request({
+                ...originalRequest,
+                headers: {
+                  ...originalRequest.headers,
+                  Authorization: `${tokenType} ${accessToken}`,
+                },
+              });
+            }
+          } catch (err) {
+            return null;
+          }
+        } else {
+          return Promise.reject(err);
+        }
+      }
+    );
   }
 
   async request<T>({
@@ -39,7 +77,7 @@ class CustomHttpClient implements IHttpClient {
     data,
     isAuth = true,
   }: HttpClientRequestConfig) {
-    let requestConfig: AxiosRequestConfig = { url, method };
+    let requestConfig: AxiosRequestConfig = { url: this.baseUrl + url, method };
 
     if (data) {
       requestConfig = { ...requestConfig, data };
@@ -58,7 +96,7 @@ class CustomHttpClient implements IHttpClient {
     try {
       const res = await this.axios.request<T>(requestConfig);
 
-      return res.data;
+      return res?.data;
     } catch (err) {
       const { response } = err as AxiosError<{
         message?: string;
