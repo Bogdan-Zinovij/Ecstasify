@@ -11,8 +11,10 @@ class AuthService {
   constructor(notificationProducer, notificationConsumer) {
     this.notificationProducer = notificationProducer;
     this.notificationConsumer = notificationConsumer;
-    this.notificationProducer.connect();
-    this.notificationConsumer.setup(this.notificationProducer);
+    setTimeout(() => {
+      this.notificationProducer.connect();
+      this.notificationConsumer.setup(this.notificationProducer);
+    }, 20000 );
   }
 
   async signUp(userData) {
