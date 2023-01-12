@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import { convertErrToHttpForm } from '../errors-handling/convert-err-to-http-form.js';
 import userService from '../services/user.service.js';
 
 class UserController {
@@ -8,7 +9,8 @@ class UserController {
 
       res.status(200).json(users);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -24,7 +26,8 @@ class UserController {
 
       res.status(200).json(user);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -40,7 +43,8 @@ class UserController {
 
       res.status(201).json(createdUser);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -57,7 +61,8 @@ class UserController {
 
       res.status(200).json(updatedUser);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -73,7 +78,8 @@ class UserController {
 
       res.status(200).json(deletedUser);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 }

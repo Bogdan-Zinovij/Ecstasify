@@ -11,6 +11,7 @@ export const KAFKA_GROUP_ID = 'test-group';
 
 export const errorMessages = {
   UNAUTHORIZED: 'The user is not authorized',
+  INTERNAL_SERVER_ERROR: 'Internal server error',
   PERMISSION_DENIED: 'Permission denied. Only Admin can access this endpoint',
   USER_ALREADY_EXISTS: 'The user with this email is already exists',
   USER_NOT_EXISTS_EMAIL: 'The user with specified email does not exists',

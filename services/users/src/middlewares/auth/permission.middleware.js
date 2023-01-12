@@ -9,6 +9,8 @@ export default function (req, res, next) {
 
     next();
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    return res
+      .status(500)
+      .json({ message: errorMessages.INTERNAL_SERVER_ERROR });
   }
 }
