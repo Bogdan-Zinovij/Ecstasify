@@ -2,6 +2,7 @@
 
 const { v4: uuid } = require('uuid');
 const { Genres } = require('../db/models/Genres');
+const { errorMessages } = require('../config');
 
 class GenreService {
   async getGenres() {
@@ -12,7 +13,7 @@ class GenreService {
   async getGenreById(id) {
     const genre = await Genres.findOne({ where: { id } });
 
-    if (!genre) throw new Error('Genre with the specified ID does not exist');
+    if (!genre) throw new Error(errorMessages.GENRE_NOT_EXISTS_ID);
 
     return genre;
   }
@@ -28,7 +29,7 @@ class GenreService {
 
   async updateGenre(id, genreData) {
     const genre = await Genres.findOne({ where: { id } });
-    if (!genre) throw new Error('Genre with the specified ID does not exist');
+    if (!genre) throw new Error(errorMessages.GENRE_NOT_EXISTS_ID);
 
     await Genres.update(genreData, { where: { id } });
 
@@ -38,11 +39,11 @@ class GenreService {
   async deleteGenre(id) {
     const genre = await Genres.findOne({ where: { id } });
 
-    if (!genre) throw new Error('Genre with the specified ID does not exist');
+    if (!genre) throw new Error(errorMessages.GENRE_NOT_EXISTS_ID);
 
     const deleteResult = await Genres.destroy({ where: { id } });
     if (!deleteResult)
-      throw new Error('Failed to delete a genre with specified ID');
+      throw new Error(errorMessages.GENRE_DELETION_FAILED);
 
     return genre;
   }
