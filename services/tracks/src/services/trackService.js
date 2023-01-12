@@ -61,7 +61,7 @@ class TrackService {
 
     await this.notificationProducer.send({
       topic: kafkaTopics.NEW_TRACK,
-      messages: [{ value: JSON.stringify(createdTrack) }]
+      messages: [{ value: JSON.stringify(createdTrack) }],
     });
 
     return createdTrack;
