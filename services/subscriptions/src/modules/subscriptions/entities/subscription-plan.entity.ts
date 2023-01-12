@@ -30,7 +30,7 @@ export class SubscriptionPlanEntity extends BaseEntity {
       eager: false,
     },
   )
-  public readonly subscriptionFeature?: Partial<SubscriptionFeatureEntity>;
+  public readonly subscriptionFeatures?: Partial<SubscriptionFeatureEntity>[];
 
   @CreateDateColumn({
     readonly: true,
