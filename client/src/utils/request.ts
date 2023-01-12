@@ -7,27 +7,32 @@ export class HttpRequest {
     this.httpClient = httpClient;
   }
 
-  setHttpClientAccessToken(accessToken: string) {
-    this.httpClient.setAccessToken(accessToken);
-  }
-
-  get<T>(url: string) {
+  get<T>(url: string, isAuth?: boolean) {
     return this.httpClient.request<T>({
       url,
       method: 'GET',
+      isAuth,
     });
   }
 
-  post<T>(url: string, data: HttpClientRequestConfig['data']) {
-    return this.httpClient.request<T>({ url, method: 'POST', data });
+  post<T>(
+    url: string,
+    data?: HttpClientRequestConfig['data'],
+    isAuth?: boolean
+  ) {
+    return this.httpClient.request<T>({ url, method: 'POST', data, isAuth });
   }
 
-  patch<T>(url: string, data: HttpClientRequestConfig['data']) {
-    return this.httpClient.request<T>({ url, method: 'PATCH', data });
+  patch<T>(
+    url: string,
+    data: HttpClientRequestConfig['data'],
+    isAuth?: boolean
+  ) {
+    return this.httpClient.request<T>({ url, method: 'PATCH', data, isAuth });
   }
 
-  delete<T>(url: string) {
-    return this.httpClient.request<T>({ url, method: 'DELETE' });
+  delete<T>(url: string, isAuth?: boolean) {
+    return this.httpClient.request<T>({ url, method: 'DELETE', isAuth });
   }
 }
 

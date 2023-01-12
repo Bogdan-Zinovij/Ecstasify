@@ -11,14 +11,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <RootStoreProvider store={store}>
-        <ThemeConfig>
-          <App />
-          <ToastContainer position="top-right" />
-        </ThemeConfig>
-      </RootStoreProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <RootStoreProvider store={store}>
+      <ThemeConfig>
+        <App />
+        <ToastContainer position="top-right" />
+      </ThemeConfig>
+    </RootStoreProvider>
+  </BrowserRouter>
 );

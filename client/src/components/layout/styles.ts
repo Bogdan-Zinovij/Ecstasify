@@ -11,11 +11,14 @@ export const layout: Styles = {
 };
 
 export const mainWrapper: Styles = {
-  padding: '32px',
   height: '100%',
   borderRadius: 0,
   width: 0,
   flex: 1,
+};
+
+export const content: Styles = {
+  padding: '32px',
 };
 
 export const siderWrapper: Styles = {

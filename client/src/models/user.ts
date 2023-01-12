@@ -1,3 +1,5 @@
+import { UserRole } from '@/enums/user-role';
+
 export interface User {
   createdAt: string;
   updatedAt: string;
@@ -5,4 +7,5 @@ export interface User {
   id: string;
   email: string;
   password: string;
+  role: UserRole;
 }
