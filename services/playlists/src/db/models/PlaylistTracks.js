@@ -3,24 +3,26 @@
 const DataTypes = require('sequelize');
 const { db } = require('../db');
 
-const Playlists = db.define(
-  'playlists',
+const PlaylistTracks = db.define(
+  'playlistTracks',
   {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },
-    name: {
-      type: DataTypes.STRING(64),
+    playlistId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    trackId: {
+      type: DataTypes.UUID,
       allowNull: false,
     },
   },
   {
-    timestamps: true,
-    createdAt: true,
-    updatedAt: true,
+    timestamps: false,
   },
 );
 
-module.exports = { Playlists };
+module.exports = { PlaylistTracks };

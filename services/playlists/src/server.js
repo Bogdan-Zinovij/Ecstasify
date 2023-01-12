@@ -1,11 +1,13 @@
 require('dotenv').config();
 const app = require('./app');
+const { associate } = require('./db/associate');
 const { db } = require('./db/db');
 const EXPRESS_PORT = process.env.EXPRESS_PORT || 8080;
 
 (async () => {
   try {
-    await db.authenticate();
+    associate();
+    await db.sync({ force: true });
   } catch (err) {
     console.log(err);
   }
