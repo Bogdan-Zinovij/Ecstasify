@@ -7,15 +7,11 @@ import { HandleUserRegisteredDto } from './dto';
 export class KafkaService {
   constructor(private readonly mailService: MailService) {}
 
-  handleNewUserRegistered(value: string) {
-    const user: HandleUserRegisteredDto = JSON.parse(value);
-    console.log('\n\n User recieved: ', user, '\n\n');
+  handleNewUserRegistered(user: HandleUserRegisteredDto) {
     const { name, email } = user;
-
     const context: MailContextInterface = {
       name,
     };
-
     this.mailService.sendTemplatedMail('user-registered', [email], context);
   }
 }
