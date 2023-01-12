@@ -6,8 +6,7 @@ const { errorMessages } = require('../config');
 
 class GenreService {
   async getGenres() {
-    const genres = await Genres.findAll({ order: ['id'] });
-    return genres;
+    return Genres.findAll({ order: ['id'] });
   }
 
   async getGenreById(id) {
@@ -22,9 +21,7 @@ class GenreService {
     const genreID = uuid();
     genreData.id = genreID;
 
-    const createdGenre = await Genres.create(genreData);
-
-    return createdGenre;
+    return Genres.create(genreData);
   }
 
   async updateGenre(id, genreData) {
