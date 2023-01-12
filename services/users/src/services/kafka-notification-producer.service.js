@@ -28,7 +28,7 @@ export default class KafkaNotifProducerService {
     return async (data) => {
       const notification = {
         topic,
-        messages: [{ value: data }],
+        messages: [{ value: JSON.stringify(data) }],
       };
       await this.producer.send(notification).catch((err) => {
         console.error(errorMessages.KAFKA_FAILED_SEND + err);
