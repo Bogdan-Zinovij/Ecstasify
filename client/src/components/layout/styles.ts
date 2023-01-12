@@ -11,14 +11,18 @@ export const layout: Styles = {
 };
 
 export const mainWrapper: Styles = {
-  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
   borderRadius: 0,
   width: 0,
   flex: 1,
 };
 
 export const content: Styles = {
-  padding: '32px',
+  padding: '18px 32px 32px 32px',
+  flex: 1,
+  height: 0,
+  overflow: 'auto',
 };
 
 export const siderWrapper: Styles = {

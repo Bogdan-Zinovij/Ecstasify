@@ -112,7 +112,7 @@ class CustomHttpClient implements IHttpClient {
           messages.push(error.msg);
         }
       } else {
-        messages.push('An unknown error occured!');
+        messages.push('Something went wrong! 😢');
       }
 
       for (const message of messages) {
