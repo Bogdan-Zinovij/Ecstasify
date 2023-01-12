@@ -41,7 +41,7 @@ class TrackService {
   }
 
   async getTrackById(id) {
-    const track = await Tracks.findOne({ where: { id } });
+    const track = await Tracks.findOne({ where: { id }, include: Genres });
 
     if (!track) throw new Error('Track with the specified ID does not exist');
 
@@ -65,7 +65,7 @@ class TrackService {
       messages: [{ value: JSON.stringify(createdTrack) }]
     });
 
-    return createdTrack;
+    return this.getTrackById(trackID);
   }
 
   async updateTrack(id, trackData) {

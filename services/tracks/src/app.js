@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(PREFIX + '/tracks', trackRouter);
 app.use(PREFIX + '/tracks/genres', genreRouter);
+app.use(PREFIX + '/tracks', trackRouter);
 
 module.exports = app;
