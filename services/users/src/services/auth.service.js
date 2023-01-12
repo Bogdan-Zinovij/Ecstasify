@@ -22,7 +22,7 @@ class AuthService {
     const tokens = tokenService.generateTokens(userDto);
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-    const userNotificationDto = new UserNotificationDto(user);
+    const userNotificationDto = new UserNotificationDto(newUser);
     await this.notificationProducer.sendNewRegisteredUser(userNotificationDto);
 
     return { ...tokens, user: userDto };
