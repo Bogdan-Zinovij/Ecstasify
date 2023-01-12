@@ -21,8 +21,6 @@ export default function (req, res, next) {
     req.user = userData;
     next();
   } catch (err) {
-    return res
-      .status(500)
-      .json({ message: errorMessages.INTERNAL_SERVER_ERROR });
+    return res.status(401).json({ message: errorMessages.UNAUTHORIZED });
   }
 }

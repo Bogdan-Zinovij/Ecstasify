@@ -9,8 +9,6 @@ export default function (req, res, next) {
 
     next();
   } catch (err) {
-    return res
-      .status(500)
-      .json({ message: errorMessages.INTERNAL_SERVER_ERROR });
+    return res.status(403).json({ message: errorMessages.PERMISSION_DENIED });
   }
 }
