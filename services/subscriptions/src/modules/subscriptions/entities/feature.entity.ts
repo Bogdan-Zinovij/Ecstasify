@@ -5,7 +5,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToOne,
   OneToMany,
 } from 'typeorm';
 import { SubscriptionFeatureEntity } from './subscription-feature.entity';
