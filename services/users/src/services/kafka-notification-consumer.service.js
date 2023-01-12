@@ -24,7 +24,7 @@ export default class KafkaNotifConsumerService {
 
   async subscribe() {
     try {
-      const topic = kafkaTopics.SUCCESSFUL_REGISTRATION;
+      const topic = kafkaTopics.GET_ALL_USERS;
       await this.consumer.subscribe({
         topic,
         fromBeginning: true,
