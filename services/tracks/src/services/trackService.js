@@ -1,6 +1,7 @@
 'use strict';
 
 const { Tracks } = require('../db/models/Tracks');
+const { Genres } = require('../db/models/Genres');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
 const { kafkaTopics, errorMessages } = require('../config');
@@ -22,7 +23,7 @@ class TrackService {
   }
 
   async getTracks() {
-    const tracks = await Tracks.findAll({ order: ['id'] });
+    const tracks = await Tracks.findAll({ include: Genres });
     const trackAuthors = await this.getAllTracksAuthors();
 
     for (const track of tracks) {
@@ -40,7 +41,7 @@ class TrackService {
   }
 
   async getTrackById(id) {
-    const track = await Tracks.findOne({ where: { id } });
+    const track = await Tracks.findOne({ where: { id }, include: Genres });
 
     if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
@@ -64,7 +65,7 @@ class TrackService {
       messages: [{ value: JSON.stringify(createdTrack) }]
     });
 
-    return createdTrack;
+    return this.getTrackById(trackID);
   }
 
   async updateTrack(id, trackData) {
