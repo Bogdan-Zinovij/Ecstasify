@@ -18,10 +18,9 @@ class PlaylistService {
   }
 
   async createPlaylist(playlistData) {
-    const playlistID = uuid();
-    playlistData.id = playlistID;
-
-    return Playlists.create(playlistData);
+    const newPlaylist = { ...playlistData, id: uuid() };
+    
+    return Playlists.create(newPlaylist);
   }
 
   async updatePlaylist(id, playlistData) {
