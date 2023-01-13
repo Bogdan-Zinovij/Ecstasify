@@ -11,7 +11,9 @@ class TrackService {
 
   constructor(notificationProducer) {
     this.notificationProducer = notificationProducer;
-    this.setup();
+    setTimeout(() => {
+      this.setup();
+    }, 20000);
   }
 
   async setup() {
@@ -62,7 +64,7 @@ class TrackService {
 
     await this.notificationProducer.send({
       topic: kafkaTopics.NEW_TRACK,
-      messages: [{ value: JSON.stringify(createdTrack) }]
+      messages: [{ value: JSON.stringify(createdTrack) }],
     });
 
     return this.getTrackById(trackID);
@@ -85,8 +87,7 @@ class TrackService {
     if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     const deleteResult = await Tracks.destroy({ where: { id } });
-    if (!deleteResult)
-      throw new Error(errorMessages.TRACK_DELETION_FAILED);
+    if (!deleteResult) throw new Error(errorMessages.TRACK_DELETION_FAILED);
 
     return track;
   }

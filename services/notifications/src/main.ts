@@ -14,6 +14,8 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>(
     kafkaConfig.getConfig(host, port),
   );
+
+  await app.init();
   app.startAllMicroservices();
 }
 bootstrap();

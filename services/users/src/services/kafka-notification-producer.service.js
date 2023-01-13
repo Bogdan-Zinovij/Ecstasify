@@ -1,6 +1,6 @@
 import { Kafka } from 'kafkajs';
 import * as dotenv from 'dotenv';
-import { kafkaTopics, errorMessages } from '../config.js';
+import { errorMessages } from '../config.js';
 dotenv.config();
 
 export default class KafkaNotifProducerService {
@@ -10,10 +10,6 @@ export default class KafkaNotifProducerService {
       brokers: [process.env.KAFKA_URL],
     });
     this.producer = kafka.producer();
-    this.sendAllUsers = this.makeTopicSender(kafkaTopics.GET_ALL_USERS_REPLY);
-    this.sendNewRegisteredUser = this.makeTopicSender(
-      kafkaTopics.NEW_USER_REGISTERED,
-    );
   }
 
   async connect() {
@@ -24,15 +20,13 @@ export default class KafkaNotifProducerService {
     }
   }
 
-  makeTopicSender(topic) {
-    return async (data) => {
-      const notification = {
-        topic,
-        messages: [{ value: data }],
-      };
-      await this.producer.send(notification).catch((err) => {
-        console.error(errorMessages.KAFKA_FAILED_SEND + err);
-      });
+  async send(topic, data) {
+    const notification = {
+      topic,
+      messages: [{ value: JSON.stringify(data) }],
     };
+    await this.producer.send(notification).catch((err) => {
+      console.error(errorMessages.KAFKA_FAILED_SEND + err);
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { errorMessages } from '../../config.js';
 import tokenService from '../../services/token.service.js';
 
-export default function (req, res, next) {
+export default (req, res, next) => {
   try {
     const authorizationHeader = req.headers.authorization;
     if (!authorizationHeader) {
@@ -23,4 +23,4 @@ export default function (req, res, next) {
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
-}
+};

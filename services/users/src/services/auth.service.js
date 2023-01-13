@@ -4,15 +4,12 @@ import userService from './user.service.js';
 import UserDto from '../dtos/user.dto.js';
 import { kafkaTopics, errorMessages } from '../config.js';
 import KafkaNotifProducer from './kafka-notification-producer.service.js';
-import KafkaNotifConsumer from './kafka-notification-consumer.service.js';
 import UserNotificationDto from '../dtos/user-notification.dto.js';
 
 class AuthService {
-  constructor(notificationProducer, notificationConsumer) {
+  constructor(notificationProducer) {
     this.notificationProducer = notificationProducer;
-    this.notificationConsumer = notificationConsumer;
     this.notificationProducer.connect();
-    this.notificationConsumer.setup(this.notificationProducer);
   }
 
   async signUp(userData) {
@@ -22,8 +19,11 @@ class AuthService {
     const tokens = tokenService.generateTokens(userDto);
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-    const userNotificationDto = new UserNotificationDto(user);
-    await this.notificationProducer.sendNewRegisteredUser(userNotificationDto);
+    const userNotificationDto = new UserNotificationDto(newUser);
+    await this.notificationProducer.send(
+      kafkaTopics.NEW_USER_REGISTERED,
+      userNotificationDto,
+    );
 
     return { ...tokens, user: userDto };
   }
@@ -64,7 +64,4 @@ class AuthService {
   }
 }
 
-export default new AuthService(
-  new KafkaNotifProducer(),
-  new KafkaNotifConsumer(),
-);
+export default new AuthService(new KafkaNotifProducer());
