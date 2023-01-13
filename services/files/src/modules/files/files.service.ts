@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { FileTypeEnum } from './enums/file-type.enum';
 import { STATIC_FOLDER_PATH } from './files.constants';
 import * as path from 'path';
 import * as uuid from 'uuid';
