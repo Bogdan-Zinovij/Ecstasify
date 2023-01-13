@@ -21,6 +21,6 @@ export default (req, res, next) => {
     req.user = userData;
     next();
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    return res.status(401).json({ message: errorMessages.UNAUTHORIZED });
   }
 };

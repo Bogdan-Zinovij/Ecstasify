@@ -3,6 +3,7 @@ import authService from '../services/auth.service.js';
 import tokenService from '../services/token.service.js';
 import * as dotenv from 'dotenv';
 import { errorMessages } from '../config.js';
+import { convertErrToHttpForm } from '../errors-handling/convert-err-to-http-form.js';
 dotenv.config();
 
 class AuthController {
@@ -22,7 +23,9 @@ class AuthController {
       });
       res.status(201).json(authData);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      console.log(err);
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -42,7 +45,8 @@ class AuthController {
       });
       res.status(200).json(authData);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -57,7 +61,8 @@ class AuthController {
       });
       res.status(200).json(authData);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -69,7 +74,8 @@ class AuthController {
       res.clearCookie('refreshToken');
       res.status(200).json(refreshToken);
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 
@@ -83,7 +89,8 @@ class AuthController {
 
       res.status(200).json({ payload });
     } catch (err) {
-      res.status(400).json({ message: err.message });
+      const { responseStatus, message } = convertErrToHttpForm(err);
+      res.status(responseStatus).json({ message });
     }
   }
 }

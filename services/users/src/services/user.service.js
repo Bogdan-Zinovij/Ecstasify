@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
 import { User } from '../db/models/user.model.js';
 import { errorMessages, roles, SALT } from '../config.js';
+import { HttpException } from '../errors-handling/custom-errors.js';
 
 class UserService {
   async getUsers() {
@@ -11,7 +12,7 @@ class UserService {
   async getUserById(id) {
     const user = await User.findOne({ where: { id } });
 
-    if (!user) throw new Error(errorMessages.USER_NOT_EXISTS_ID);
+    if (!user) throw new HttpException(400, errorMessages.USER_NOT_EXISTS_ID);
 
     return user;
   }
@@ -22,7 +23,7 @@ class UserService {
 
   async createUser(userData) {
     const user = await this.getUserByEmail(userData.email);
-    if (user) throw new Error(errorMessages.USER_ALREADY_EXISTS);
+    if (user) throw new HttpException(400, errorMessages.USER_ALREADY_EXISTS);
 
     const newUser = { ...userData };
     newUser.id = uuid();
@@ -36,7 +37,7 @@ class UserService {
 
   async updateUser(id, userData) {
     const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error(errorMessages.USER_NOT_EXISTS_ID);
+    if (!user) throw new HttpException(400, errorMessages.USER_NOT_EXISTS_ID);
 
     await User.update(userData, { where: { id } });
 
@@ -45,7 +46,7 @@ class UserService {
 
   async deleteUser(id) {
     const user = await User.findOne({ where: { id } });
-    if (!user) throw new Error(errorMessages.USER_NOT_EXISTS_ID);
+    if (!user) throw new HttpException(400, errorMessages.USER_NOT_EXISTS_ID);
 
     await User.destroy({ where: { id } });
 

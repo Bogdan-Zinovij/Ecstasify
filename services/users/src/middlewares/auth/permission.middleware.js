@@ -9,6 +9,6 @@ export default (req, res, next) => {
 
     next();
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    return res.status(403).json({ message: errorMessages.PERMISSION_DENIED });
   }
 };
