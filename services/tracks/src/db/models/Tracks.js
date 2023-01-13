@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const DataTypes = require('sequelize');
-const { db } = require('../db');
+const DataTypes = require('sequelize')
+const { db } = require('../db')
 
 const Tracks = db.define(
   'tracks',
@@ -28,7 +28,7 @@ const Tracks = db.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-  },
-);
+  }
+)
 
-module.exports = { Tracks };
+module.exports = { Tracks }

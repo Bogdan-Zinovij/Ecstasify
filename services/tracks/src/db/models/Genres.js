@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-const DataTypes = require('sequelize');
-const { db } = require('../db');
+const DataTypes = require('sequelize')
+const { db } = require('../db')
 
 const Genres = db.define(
   'genres',
@@ -18,7 +18,7 @@ const Genres = db.define(
   },
   {
     timestamps: false,
-  },
-);
+  }
+)
 
-module.exports = { Genres };
+module.exports = { Genres }
