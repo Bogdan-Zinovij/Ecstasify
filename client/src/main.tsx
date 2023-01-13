@@ -7,15 +7,16 @@ import ThemeConfig from './theme';
 import 'typeface-jost';
 import RootStoreProvider from './stores';
 import { store } from './stores/root.store';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <RootStoreProvider store={store}>
-        <ThemeConfig>
-          <App />
-        </ThemeConfig>
-      </RootStoreProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <RootStoreProvider store={store}>
+      <ThemeConfig>
+        <App />
+        <ToastContainer position="top-right" />
+      </ThemeConfig>
+    </RootStoreProvider>
+  </BrowserRouter>
 );

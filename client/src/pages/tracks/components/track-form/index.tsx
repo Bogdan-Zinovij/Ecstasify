@@ -22,7 +22,8 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
 
   const formMode = currentTrack ? FormMode.Edit : FormMode.Create;
 
-  const defaultValues = formMode === FormMode.Edit ? { ...currentTrack } : {};
+  const defaultValues =
+    formMode === FormMode.Edit ? { ...currentTrack } : { name: '' };
   const { control, handleSubmit, reset } = useForm<Track>({
     defaultValues,
   });
@@ -32,9 +33,12 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
   };
 
   useEffect(() => {
-    getAllAuthors();
     resetForm();
   }, [open]);
+
+  useEffect(() => {
+    getAllAuthors();
+  }, []);
 
   const handleClose = () => {
     resetForm();
@@ -85,6 +89,8 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
           )}
         />
         <Controller
+          name="author"
+          control={control}
           render={({ field }) => (
             <Autocomplete
               {...field}
@@ -99,11 +105,12 @@ const TrackForm = ({ open, onClose }: IEntityFormProps) => {
                   variant="outlined"
                 />
               )}
-              onChange={(_, data) => field.onChange(data)}
+              onChange={(_, data) => {
+                field.onChange(data);
+                return data;
+              }}
             />
           )}
-          name="author"
-          control={control}
         />
       </Stack>
     </Modal>

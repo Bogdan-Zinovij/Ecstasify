@@ -1,4 +1,4 @@
-# Ecastasify🎵
+![Ecstasify banner](./client/public/banner.png)
 
 # k8s lab-2
 

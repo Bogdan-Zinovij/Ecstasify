@@ -45,7 +45,11 @@ const DataRow = <T,>({
           ? render(row[dataIndex])
           : (row[dataIndex] as React.ReactNode);
 
-        return <TableCell key={key}>{renderValue}</TableCell>;
+        return (
+          <TableCell sx={{ whiteSpace: 'nowrap' }} key={key}>
+            {renderValue}
+          </TableCell>
+        );
       })}
       <TableCell align="right">
         <IconButton onClick={handleClick}>

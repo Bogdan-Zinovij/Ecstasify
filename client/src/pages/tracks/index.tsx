@@ -13,6 +13,11 @@ const cols: IColumn<Track>[] = [
     dataIndex: 'id',
   },
   {
+    title: 'Created At',
+    key: 'createdAt',
+    dataIndex: 'createdAt',
+  },
+  {
     title: 'Name',
     key: 'name',
     dataIndex: 'name',

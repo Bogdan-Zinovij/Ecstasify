@@ -1,32 +1,39 @@
-import axios, { AxiosStatic } from 'axios';
+import { IHttpClient, HttpClientRequestConfig } from './httpClient';
 
 export class HttpRequest {
-  private httpClient: AxiosStatic;
+  private httpClient: IHttpClient;
 
-  constructor(httpClient: AxiosStatic) {
+  constructor(httpClient: IHttpClient) {
     this.httpClient = httpClient;
   }
 
-  get<T>(url: string) {
+  get<T>(url: string, isAuth?: boolean) {
     return this.httpClient.request<T>({
       url,
       method: 'GET',
+      isAuth,
     });
   }
 
-  post<T, K = void>(url: string, data: K) {
-    return this.httpClient.request<T>({ url, method: 'POST', data });
+  post<T>(
+    url: string,
+    data?: HttpClientRequestConfig['data'],
+    isAuth?: boolean
+  ) {
+    return this.httpClient.request<T>({ url, method: 'POST', data, isAuth });
   }
 
-  patch<T, K = void>(url: string, data: K) {
-    return this.httpClient.request<T>({ url, method: 'PATCH', data });
+  patch<T>(
+    url: string,
+    data: HttpClientRequestConfig['data'],
+    isAuth?: boolean
+  ) {
+    return this.httpClient.request<T>({ url, method: 'PATCH', data, isAuth });
   }
 
-  delete<T = void>(url: string) {
-    return this.httpClient.request<T>({ url, method: 'DELETE' });
+  delete<T>(url: string, isAuth?: boolean) {
+    return this.httpClient.request<T>({ url, method: 'DELETE', isAuth });
   }
 }
 
-axios.defaults.baseURL = '/api/v1';
-
-export default new HttpRequest(axios);
+export default HttpRequest;
