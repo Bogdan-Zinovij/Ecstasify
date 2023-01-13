@@ -50,11 +50,11 @@ class PlaylistTrackService {
 
   async deletePlaylistTrackFromPlaylist(playlistTrackData) {
     const { playlistId, trackId } = playlistTrackData;
-    const playlistTrack = await PlaylistTracks.findOne({ where: { playlistId: playlistId, trackId: trackId } });
+    const playlistTrack = await PlaylistTracks.findOne({ where: { playlistId, trackId } });
 
     if (!playlistTrack) throw new Error(errorMessages.PLAYLIST_TRACK_NOT_EXISTS_ID);
 
-    const deleteResult = await PlaylistTracks.destroy({ where: { playlistId: playlistId, trackId: trackId } });
+    const deleteResult = await PlaylistTracks.destroy({ where: { playlistId, trackId } });
     if (!deleteResult)
       throw new Error(errorMessages.PLAYLIST_TRACK_DELETION_FAILED);
 
