@@ -1,7 +1,8 @@
 import { RootService } from '@/services';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from './root.store';
 import { Track } from '@/models/track';
+import { sortByCreatedDate } from '@/helpers';
 
 export class TracksStore {
   private rootStore?: RootStore;
@@ -19,39 +20,56 @@ export class TracksStore {
     this.rootStore = rootStore;
     this.rootService = rootServise;
 
-    makeAutoObservable(this, undefined, { autoBind: true });
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   async getAllTracks() {
-    try {
+    runInAction(() => {
       this.getAllTracksLoading = true;
-      const { getAllTracks } = this.rootService.tracksService;
-      const { data } = await getAllTracks();
+    });
 
-      this.tracks = data;
+    try {
+      const { getAllTracks } = this.rootService.tracksService;
+      const data = await getAllTracks();
+
+      if (data) {
+        runInAction(() => {
+          this.tracks = sortByCreatedDate(data);
+        });
+      }
     } catch (err) {
       console.log(err);
     }
 
-    this.getAllTracksLoading = false;
+    runInAction(() => {
+      this.getAllTracksLoading = false;
+    });
   }
 
   async createTrack(track: Track) {
-    try {
+    runInAction(() => {
       this.createTrackLoading = true;
+    });
+
+    try {
       const { createTrack } = this.rootService.tracksService;
-      await createTrack({ ...track, author: track.author.id });
+      await createTrack({ ...track, author: track.author?.id });
       this.getAllTracks();
     } catch (err) {
       console.log(err);
     }
 
-    this.createTrackLoading = false;
+    runInAction(() => {
+      this.createTrackLoading = false;
+    });
   }
 
   async deleteTrack(user: Track) {
-    try {
+    runInAction(() => {
       this.createTrackLoading = true;
+    });
+
+    try {
       const { deleteTrack } = this.rootService.tracksService;
       const { id: trackId } = user;
       await deleteTrack(trackId);
@@ -60,12 +78,17 @@ export class TracksStore {
       console.log(err);
     }
 
-    this.createTrackLoading = false;
+    runInAction(() => {
+      this.createTrackLoading = false;
+    });
   }
 
   async updateTrack(trackId: Track['id'], updatedTrackData: Track) {
-    try {
+    runInAction(() => {
       this.createTrackLoading = true;
+    });
+
+    try {
       const { updateTrack } = this.rootService.tracksService;
       await updateTrack(trackId, {
         ...updatedTrackData,
@@ -76,7 +99,9 @@ export class TracksStore {
       console.log(err);
     }
 
-    this.createTrackLoading = false;
+    runInAction(() => {
+      this.createTrackLoading = false;
+    });
   }
 
   resetTracks() {
