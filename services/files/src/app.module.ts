@@ -11,7 +11,6 @@ import { FilesModule } from './modules/files/files.module';
     ServeStaticModule.forRoot({
       rootPath: STATIC_FOLDER_PATH,
     }),
-    ,
     DatabaseModule,
     FilesModule,
   ],
