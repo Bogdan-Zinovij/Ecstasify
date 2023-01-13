@@ -12,7 +12,7 @@ import { CreateFeatureDto, UpdateFeatureDto } from '../dto';
 import { FeatureEntity } from '../entities';
 import { FeaturesService } from '../services/features.service';
 
-@Controller('subscriptions/features')
+@Controller('features')
 export class FeaturesController {
   constructor(private readonly featuresService: FeaturesService) {}
 

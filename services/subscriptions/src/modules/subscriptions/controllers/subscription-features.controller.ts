@@ -15,7 +15,7 @@ import {
 import { SubscriptionFeatureEntity } from '../entities';
 import { SubscriptionFeaturesService } from '../services/subscription-features.service';
 
-@Controller('subscriptions/subscription-features')
+@Controller('subscription-features')
 export class SubscriptionFeaturesController {
   constructor(
     private readonly subscriptionFeaturesService: SubscriptionFeaturesService,

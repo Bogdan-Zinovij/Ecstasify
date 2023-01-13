@@ -6,4 +6,3 @@ kafka:
     enabled: true # при запуску будуть створені перелічені топіки
     topics:
       - name: new-user-registered
-      - name: test-topic
