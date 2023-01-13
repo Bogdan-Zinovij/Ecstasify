@@ -1,0 +1,16 @@
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: authors-virtual
+# spec:
+#   hosts:
+#     - authors-service # адреса на яку звертається клієнт
+#   http:
+#     - route:
+#         - destination:
+#             host: authors-service # адреса на яку перенаправляється клієнт
+      # timeout: 5s
+      # retries:
+      # attempts: 3
+      # retryOn: 5xx
+      # perTryTimeout: 5s

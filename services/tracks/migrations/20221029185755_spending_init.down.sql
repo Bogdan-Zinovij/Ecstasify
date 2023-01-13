@@ -1,1 +1,2 @@
 DROP TABLE IF EXISTS tracks;
+DROP TABLE IF EXISTS genres;
