@@ -5,5 +5,6 @@ export default class UserDto {
     this.role = model.role;
     this.createdAt = model.createdAt;
     this.updatedAt = model.updatedAt;
+    this.name = model.name;
   }
 }
