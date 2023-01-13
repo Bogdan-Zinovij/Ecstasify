@@ -10,5 +10,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   plugins: ['sonarjs'],
-  rules: {},
-}
+  rules: {
+    semi: ['error', 'always'],
+  },
+};

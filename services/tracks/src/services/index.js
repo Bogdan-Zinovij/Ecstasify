@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
-const { TrackService } = require('./trackService')
+const { TrackService } = require('./trackService');
 
-const trackService = new TrackService()
+const trackService = new TrackService();
 
-module.exports = { trackService }
+module.exports = { trackService };
