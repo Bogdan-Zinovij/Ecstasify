@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const { v4: uuid } = require('uuid');
 const { Genres } = require('../db/models/Genres');
@@ -39,8 +39,9 @@ class GenreService {
     if (!genre) throw new Error(errorMessages.GENRE_NOT_EXISTS_ID);
 
     const deleteResult = await Genres.destroy({ where: { id } });
-    if (!deleteResult)
+    if (!deleteResult) {
       throw new Error(errorMessages.GENRE_DELETION_FAILED);
+    }
 
     return genre;
   }

@@ -2,7 +2,7 @@
 
 const PREFIX = '/api/v1';
 const kafkaTopics = {
-  NEW_TRACK: "new-track-created",
+  NEW_TRACK: 'new-track-created',
 };
 const errorMessages = {
   TRACK_DELETION_FAILED: 'Failed to delete a track with specified ID',

@@ -4,26 +4,9 @@ const { Tracks } = require('../db/models/Tracks');
 const { Genres } = require('../db/models/Genres');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
-const { kafkaTopics, errorMessages } = require('../config');
+const { errorMessages } = require('../config');
 
 class TrackService {
-  // notificationProducer;
-
-  // constructor(notificationProducer) {
-  //   this.notificationProducer = notificationProducer;
-  //   setTimeout(() => {
-  //     this.setup();
-  //   }, 20000);
-  // }
-
-  // async setup() {
-  //   try {
-  //     await this.notificationProducer.connect();
-  //   } catch (err) {
-  //     console.error(errorMessages.KAFKA_FAILED_CONNECT + err);
-  //   }
-  // }
-
   async getTracks() {
     const tracks = await Tracks.findAll({ include: Genres });
     const trackAuthors = await this.getAllTracksAuthors();
@@ -61,11 +44,6 @@ class TrackService {
 
     const createdTrack = await Tracks.create(trackData);
     createdTrack.author = author;
-
-    // await this.notificationProducer.send({
-    //   topic: kafkaTopics.NEW_TRACK,
-    //   messages: [{ value: JSON.stringify(createdTrack) }],
-    // });
 
     return this.getTrackById(trackID);
   }
