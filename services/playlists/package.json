@@ -4,7 +4,11 @@
   "description": "",
   "main": "./src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "npm run lint -- --fix --ignore-path .gitignore",
+    "format": "prettier --ignore-path .gitignore --check .",
+    "format:fix": "prettier --ignore-path .gitignore --write ."
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +22,15 @@
     "pg": "^8.8.0",
     "sequelize": "^6.28.0",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.4",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-sonarjs": "^0.18.0",
+    "prettier": "2.8.2"
   }
 }
