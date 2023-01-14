@@ -1,9 +1,9 @@
 import { toast, TypeOptions } from 'react-toastify';
 
-class ErrorHandler {
+export class ErrorHandler {
   handle(msg: string, type: TypeOptions) {
     toast(msg, { type, theme: 'colored' });
   }
 }
 
-export default new ErrorHandler();
+export default ErrorHandler;
