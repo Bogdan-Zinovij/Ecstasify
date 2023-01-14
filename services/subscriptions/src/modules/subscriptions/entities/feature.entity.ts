@@ -1,8 +1,8 @@
+import { BaseEntityWithId } from 'src/common/entities';
 import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  BaseEntity,
   Column,
   Entity,
   OneToMany,
@@ -10,7 +10,7 @@ import {
 import { SubscriptionFeatureEntity } from './subscription-feature.entity';
 
 @Entity('features')
-export class FeatureEntity extends BaseEntity {
+export class FeatureEntity extends BaseEntityWithId {
   @PrimaryGeneratedColumn('uuid')
   public readonly id: string;
 

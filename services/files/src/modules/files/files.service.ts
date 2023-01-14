@@ -62,7 +62,7 @@ export class FilesService {
   }
 
   async writeFile(file: Express.Multer.File): Promise<Partial<FileEntity>> {
-    const fileExt = file.originalname.split('.').pop();
+    const fileExt = file?.originalname.split('.').pop();
     const fileName = uuid.v4();
     const fileNameWithExt = fileName + '.' + fileExt;
     const filePath = path.join(STATIC_FOLDER_PATH, fileNameWithExt);
