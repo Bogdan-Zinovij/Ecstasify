@@ -1,11 +1,11 @@
-import { IColumn } from '@/components/data-table/interface';
+import { IColumn } from '@/components/data-table/data-table.interface';
 import AuthorForm from './components/author-form';
 import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
 import EntityDashboard from '@/components/entity-dashboard';
 import { Author } from '@/models/author';
 
-const cols: IColumn<Author>[] = [
+const columns: IColumn<Author>[] = [
   {
     title: 'ID',
     key: 'id',
@@ -30,7 +30,7 @@ const AuthorsPage = () => {
 
   return (
     <EntityDashboard<Author>
-      columns={cols}
+      columns={columns}
       dataSource={authors}
       EntityForm={AuthorForm}
       getAllRecords={getAllAuthors}

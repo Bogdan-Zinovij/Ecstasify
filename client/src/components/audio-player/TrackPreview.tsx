@@ -9,7 +9,11 @@ import { Box } from '@mui/system';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import * as s from './styles';
 
-const TrackPreview = ({ isFavorite = true }) => {
+type TrackPreviewProps = {
+  isFavorite: boolean;
+};
+
+const TrackPreview = ({ isFavorite = true }: TrackPreviewProps) => {
   return (
     <Card elevation={0} sx={s.trackCard}>
       <CardMedia
