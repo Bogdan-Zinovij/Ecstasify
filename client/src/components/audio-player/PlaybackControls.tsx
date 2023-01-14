@@ -40,6 +40,8 @@ const PlaybackControls = () => {
 
     return () => {
       removeAudioListeners();
+      pauseAudio();
+      setAudioSource('');
     };
   }, []);
 
