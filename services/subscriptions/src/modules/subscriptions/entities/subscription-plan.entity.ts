@@ -1,17 +1,16 @@
+import { BaseEntityWithId } from 'src/common/entities';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
-  ManyToOne,
   OneToMany,
 } from 'typeorm';
 import { SubscriptionFeatureEntity } from './subscription-feature.entity';
 
 @Entity('subscription-plans')
-export class SubscriptionPlanEntity extends BaseEntity {
+export class SubscriptionPlanEntity extends BaseEntityWithId {
   @PrimaryGeneratedColumn('uuid')
   public readonly id: string;
 

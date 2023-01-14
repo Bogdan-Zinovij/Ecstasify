@@ -26,7 +26,7 @@ class KafkaNotificationProducerService {
   async send(notification) {
     await this.producer.send(notification).catch((err) => {
       console.log(err);
-    })
+    });
   }
 }
 

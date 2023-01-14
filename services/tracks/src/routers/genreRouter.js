@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Router = require('express');
 const genreController = require('../controllers/genreController');

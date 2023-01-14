@@ -18,7 +18,7 @@ const Genres = db.define(
   },
   {
     timestamps: false,
-  },
+  }
 );
 
 module.exports = { Genres };

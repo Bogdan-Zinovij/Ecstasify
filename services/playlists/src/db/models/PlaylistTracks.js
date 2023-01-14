@@ -22,7 +22,7 @@ const PlaylistTracks = db.define(
   },
   {
     timestamps: false,
-  },
+  }
 );
 
 module.exports = { PlaylistTracks };

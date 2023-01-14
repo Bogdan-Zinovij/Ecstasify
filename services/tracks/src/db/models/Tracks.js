@@ -28,7 +28,7 @@ const Tracks = db.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-  },
+  }
 );
 
 module.exports = { Tracks };

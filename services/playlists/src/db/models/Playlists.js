@@ -20,7 +20,7 @@ const Playlists = db.define(
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-  },
+  }
 );
 
 module.exports = { Playlists };

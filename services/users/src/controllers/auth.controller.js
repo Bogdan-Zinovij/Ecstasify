@@ -23,7 +23,6 @@ class AuthController {
       });
       res.status(201).json(authData);
     } catch (err) {
-      console.log(err);
       const { responseStatus, message } = convertErrToHttpForm(err);
       res.status(responseStatus).json({ message });
     }

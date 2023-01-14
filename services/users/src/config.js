@@ -24,3 +24,10 @@ export const roles = {
   USER: 'USER',
   ADMIN: 'ADMIN',
 };
+
+export const userValidationConfig = {
+  MIN_NAME_LENGTH: 2,
+  MAX_NAME_LENGTH: 20,
+  MIN_PASS_LENGTH: 8,
+  MAX_PASS_LENGTH: 16,
+};
