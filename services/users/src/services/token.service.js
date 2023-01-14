@@ -21,8 +21,8 @@ class TokenService {
   }
 
   async saveToken(userId, refreshToken) {
-    const tokenData = await Token.findOne({ where: { userId } });
-    if (tokenData) {
+    const tokenFromDb = await Token.findOne({ where: { userId } });
+    if (tokenFromDb) {
       return Token.update({ refreshToken }, { where: { userId } });
     }
 
