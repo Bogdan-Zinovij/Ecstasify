@@ -6,7 +6,7 @@ const { errorMessages } = require('../config');
 
 class PlaylistService {
   async getPlaylists() {
-    return Playlists.findAll({ order: ['id'] });;
+    return Playlists.findAll({ order: ['id'] });
   }
 
   async getPlaylistById(id) {
@@ -19,7 +19,7 @@ class PlaylistService {
 
   async createPlaylist(playlistData) {
     const newPlaylist = { ...playlistData, id: uuid() };
-    
+
     return Playlists.create(newPlaylist);
   }
 
@@ -38,8 +38,7 @@ class PlaylistService {
     if (!playlist) throw new Error(errorMessages.PLAYLIST_NOT_EXISTS_ID);
 
     const deleteResult = await Playlists.destroy({ where: { id } });
-    if (!deleteResult)
-      throw new Error(errorMessages.PLAYLIST_DELETION_FAILED);
+    if (!deleteResult) throw new Error(errorMessages.PLAYLIST_DELETION_FAILED);
 
     return playlist;
   }
