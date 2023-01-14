@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci --production
+RUN npm i
 
 COPY . .
  
@@ -18,4 +18,4 @@ FROM nginx:1.21.6-alpine
 
 WORKDIR /usr/share/nginx/html
 
-COPY --from=build /app/build ./
+COPY --from=build /app/dist ./
