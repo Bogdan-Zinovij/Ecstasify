@@ -4,6 +4,7 @@ import { AudioPlayerStore } from './audio-player.store';
 import { AuthStore } from './auth.store';
 import { AuthorsStore } from './authors.store';
 import { ProfileStore } from './profile.store';
+import { SubscriptionsStore } from './subscriptions.store';
 import { TracksStore } from './tracks.store';
 import { UsersStore } from './users.store';
 
@@ -17,6 +18,7 @@ export class RootStore {
   audioPlayerStore = new AudioPlayerStore(this.rootService, this);
   authStore = new AuthStore(this.rootService, this);
   profileStore = new ProfileStore(this.rootService, this);
+  subscriptionsStore = new SubscriptionsStore(this.rootService, this);
 }
 
 export const store = new RootStore();

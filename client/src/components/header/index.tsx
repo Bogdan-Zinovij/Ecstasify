@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <AppBar color="transparent" position="static" elevation={0}>
       <Toolbar
-        sx={{ padding: '32px 32px 0 32px', justifyContent: 'space-between' }}
+        sx={{ padding: '10px 32px 0 32px', justifyContent: 'space-between' }}
       >
         <PageNavigationControls />
         <ProfileChip />
