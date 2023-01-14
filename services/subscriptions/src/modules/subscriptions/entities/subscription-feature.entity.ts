@@ -1,9 +1,9 @@
 import { Type } from 'class-transformer';
+import { BaseEntityWithId } from 'src/common/entities';
 import {
   Column,
   Entity,
   ManyToOne,
-  BaseEntity,
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
@@ -14,7 +14,7 @@ import { FeatureEntity } from './feature.entity';
 import { SubscriptionPlanEntity } from './subscription-plan.entity';
 
 @Entity('subscription-features')
-export class SubscriptionFeatureEntity extends BaseEntity {
+export class SubscriptionFeatureEntity extends BaseEntityWithId {
   @PrimaryGeneratedColumn('uuid')
   public readonly id: string;
 
