@@ -14,7 +14,7 @@ export class RootService {
 
   constructor(rootStore: RootStore) {
     const httpRequest = new HttpRequest(
-      new CustomHttpClient({ baseUrl: '/api/v1', rootStore })
+      new CustomHttpClient({ baseUrl: import.meta.env.VITE_API_URL, rootStore })
     );
 
     this.usersService = new UsersService(httpRequest);
