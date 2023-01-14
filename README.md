@@ -8,28 +8,28 @@ Tracks service:
 
 - GET http://localhost/api/v1/tracks
 - GET http://localhost/api/v1/tracks/:id
-- POST http://localhost/api/v1/tracks
+- POST http://localhost/api/v1/tracks <br>
   `body: {
     "name": "Time",
     "author": "Danya"
 }`
-- PATCH http://localhost/api/v1/tracks/:id
+- PATCH http://localhost/api/v1/tracks/:id <br>
   `body: {
     "name": "Gth",
     "author": "Artem"
 }`
-- DELETE http://localhost/api/v1/tracks/:id
+- DELETE http://localhost/api/v1/tracks/:id <br>
 
 Subscriptions service:
 
 - GET http://localhost/api/v1/subscriptions/subscription-plans
 - GET http://localhost/api/v1/subscriptions/subscription-plans/:id
-- POST http://localhost/api/v1/subscriptions/subscription-plans
+- POST http://localhost/api/v1/subscriptions/subscription-plans <br>
   `body: {
     "name": "Artem",
     "price": "20"
 }`
-- PATCH http://localhost/api/v1/subscriptions/subscription-plans/:id
+- PATCH http://localhost/api/v1/subscriptions/subscription-plans/:id <br>
   `body: {
     "name": "Artem",
     "price": "20"
@@ -40,45 +40,45 @@ Users service:
 
 > Auth
 
-- POST http://localhost/api/v1/users/auth/sign-up
+- POST http://localhost/api/v1/users/auth/sign-up <br>
   `body: {
     "name": "Bogdan",
     "password": "1236",
     "email": "test@n.et"
 }`
-- POST http://localhost/api/v1/users/auth/sign-in
+- POST http://localhost/api/v1/users/auth/sign-in <br>
   `body: {
     "password": "1236",
     "email": "test@n.et"
 }`
-- POST http://localhost/api/v1/users/auth/sign-out
+- POST http://localhost/api/v1/users/auth/sign-out <br>
   `Authorization: Bearer <token>`
-- POST http://localhost/api/v1/users/auth/sign-refresh
+- POST http://localhost/api/v1/users/auth/sign-refresh <br>
   `Authorization: Bearer <token>`
-- POST http://localhost/api/v1/users/auth/sign-verify
+- POST http://localhost/api/v1/users/auth/sign-verify <br>
   `body: {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 }`
 
 > Users CRUD
 
-- GET http://localhost/api/v1/users
+- GET http://localhost/api/v1/users <br>
   `Authorization: Bearer <token>`
-- GET http://localhost/api/v1/users/:id
+- GET http://localhost/api/v1/users/:id <br>
   `Authorization: Bearer <token>`
-- POST http://localhost/api/v1/users
-  `Authorization: Bearer <token>`
+- POST http://localhost/api/v1/users <br>
+  `Authorization: Bearer <token>` <br>
   `body: {
     "name": "Bogdan",
     "password": "1236",
     "email": "test@n.et"
 }`
-- PATCH http://localhost/api/v1/users/:id
-  `Authorization: Bearer <token>`
+- PATCH http://localhost/api/v1/users/:id <br>
+  `Authorization: Bearer <token>` <br>
   `body: {
     "name": "Artem",
     "password": "1234",
     "email": "test@n.et"
 }`
-- DELETE http://localhost/api/v1/users/:id
+- DELETE http://localhost/api/v1/users/:id <br>
   `Authorization: Bearer <token>`
