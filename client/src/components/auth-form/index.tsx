@@ -1,5 +1,4 @@
 import { useStore } from '@/hooks';
-import { Routes } from '@/router/routes';
 import { SignInRequest, SignUpRequest } from '@/services/users.service';
 import { AuthFormMode } from '@/types/auth';
 import { TextField, Button, Box, CircularProgress, Stack } from '@mui/material';
@@ -7,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../logo';
-import * as S from './styles';
+import * as s from './styles';
 
 interface IAuthFormProps {
   mode: AuthFormMode;
@@ -39,11 +38,11 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
   };
 
   const toggleAuthPage = () => {
-    navigate(isSignInMode ? Routes.SignUp : Routes.SignIn);
+    navigate(isSignInMode ? '/auth/sign-up' : '/auth/sign-in');
   };
 
   return (
-    <Box sx={S.authFormWrapper}>
+    <Box sx={s.authFormWrapper}>
       <Box
         sx={{
           background: ({ gradients }) => gradients.main,
@@ -52,7 +51,7 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
       >
         <Logo />
       </Box>
-      <Box sx={S.controlsWrapper}>
+      <Box sx={s.controlsWrapper}>
         {mode === 'sign-up' ? (
           <Controller
             name="name"
@@ -99,7 +98,6 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
             );
           }}
         />
-        {/* create basic button component with loading prop */}
         <Button
           onClick={
             isSignInMode
@@ -108,7 +106,7 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
           }
           disableElevation
           variant="contained"
-          sx={S.containedBtn}
+          sx={s.containedBtn}
           size="large"
           disabled={signInLoading || signUpLoading}
         >
