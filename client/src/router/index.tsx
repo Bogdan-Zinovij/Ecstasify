@@ -1,6 +1,5 @@
 import AuthPage from '@/pages/auth';
-import { Routes as RouterRoutes, Route } from 'react-router-dom';
-import { Routes } from './routes';
+import { Routes, Route } from 'react-router-dom';
 import UsersPage from '@/pages/users';
 import TracksPage from '@/pages/tracks';
 import SubscriptionsPage from '@/pages/subscriptions';
@@ -11,7 +10,7 @@ import { UserRole } from '@/enums/user-role';
 
 const Router = () => {
   return (
-    <RouterRoutes>
+    <Routes>
       <Route path="/" element={<PrivateLayout />}>
         <Route index element={<div>🏠 Home page</div>} />
       </Route>
@@ -27,14 +26,14 @@ const Router = () => {
       <Route path="/auth" element={<PublicLayout />}>
         <Route
           path="sign-in"
-          element={<AuthPage key={Routes.SignIn} mode="sign-in" />}
+          element={<AuthPage key="sign-in" mode="sign-in" />}
         />
         <Route
           path="sign-up"
-          element={<AuthPage key={Routes.SignUp} mode="sign-up" />}
+          element={<AuthPage key="sign-up" mode="sign-up" />}
         />
       </Route>
-    </RouterRoutes>
+    </Routes>
   );
 };
 

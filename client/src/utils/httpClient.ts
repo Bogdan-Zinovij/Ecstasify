@@ -1,6 +1,6 @@
 import { RootStore } from '@/stores/root.store';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
-import errorHandler from './errorHandler';
+import { ErrorHandler } from './errorHandler';
 
 export type HttpClientRequestConfig = {
   url: string;
@@ -18,6 +18,7 @@ class CustomHttpClient implements IHttpClient {
   private axios: AxiosInstance;
   private rootStore: RootStore;
   baseUrl: string;
+  errorHandler: ErrorHandler;
 
   constructor({
     baseUrl,
@@ -29,6 +30,7 @@ class CustomHttpClient implements IHttpClient {
     this.axios = axios.create();
     this.baseUrl = baseUrl;
     this.rootStore = rootStore;
+    this.errorHandler = new ErrorHandler();
 
     this.registerInterceptors();
   }
@@ -116,7 +118,7 @@ class CustomHttpClient implements IHttpClient {
       }
 
       for (const message of messages) {
-        errorHandler.handle(message, 'error');
+        this.errorHandler.handle(message, 'error');
       }
     }
 

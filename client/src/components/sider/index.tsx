@@ -1,4 +1,3 @@
-import { Routes } from '@/router/routes';
 import {
   LibraryMusic,
   Group,
@@ -34,22 +33,22 @@ const Sider = () => {
       menuItems = [
         {
           label: 'Users',
-          path: Routes.Users,
+          path: '/users',
           icon: <Group />,
         },
         {
           label: 'Tracks',
-          path: Routes.Tracks,
+          path: '/tracks',
           icon: <LibraryMusic />,
         },
         {
           label: 'Subscriptions',
-          path: Routes.Subscriptions,
+          path: '/subscriptions',
           icon: <CardGiftcard />,
         },
         {
           label: 'Authors',
-          path: Routes.Authors,
+          path: '/authors',
           icon: <AccountCircle />,
         },
       ];

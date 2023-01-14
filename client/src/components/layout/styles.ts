@@ -1,7 +1,5 @@
 import { Styles } from '@/types/styles';
 
-export const sideBarWrapper: Styles = {};
-
 export const layout: Styles = {
   maxHeight: '100vh',
   height: '100%',
