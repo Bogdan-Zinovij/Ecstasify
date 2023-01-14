@@ -1,0 +1,39 @@
+image:
+  name: files
+  tag: 0.1
+
+postgresql:
+  nameOverride: postgres-files
+  fullnameOverride: postgres-files
+  postgresqlDatabase: 'demo'
+  postgresqlUsername: 'postgres'
+  postgresqlPassword: 'postgres'
+  persistence:
+    size: 1Gi
+    mountPath: /var/lib/pg/data/files
+
+migrations:
+  image:
+    name: files-migrations
+    tag: 0.1
+  config:
+    POSTGRESQL_URL: 'postgres://postgres:postgres@postgres-files:5432/demo?sslmode=disable'
+    VERSION: '20221030231223'
+
+configs:
+  POSTGRES_DB: demo
+  POSTGRES_HOST: postgres-files
+
+secrets:
+  POSTGRES_USER: 'cG9zdGdyZXM='
+  POSTGRES_PASSWORD: 'cG9zdGdyZXM='
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+ingress:
+  path: /api/v1/files
+  port: http

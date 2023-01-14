@@ -5,7 +5,10 @@ import {
   BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
+import { SubscriptionFeatureEntity } from './subscription-feature.entity';
 
 @Entity('subscription-plans')
 export class SubscriptionPlanEntity extends BaseEntity {
@@ -17,6 +20,17 @@ export class SubscriptionPlanEntity extends BaseEntity {
 
   @Column({ type: 'numeric', scale: 2, precision: 9 })
   public readonly price: number;
+
+  @OneToMany(
+    () => SubscriptionFeatureEntity,
+    ({ subscriptionPlan }) => subscriptionPlan,
+    {
+      onDelete: 'SET NULL',
+      nullable: true,
+      eager: false,
+    },
+  )
+  public readonly subscriptionFeatures?: Partial<SubscriptionFeatureEntity>[];
 
   @CreateDateColumn({
     readonly: true,

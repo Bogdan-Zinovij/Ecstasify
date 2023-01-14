@@ -1,28 +1,31 @@
 'use strict';
 
 const { Tracks } = require('../db/models/Tracks');
+const { Genres } = require('../db/models/Genres');
 const { v4: uuid } = require('uuid');
 const { axiosClient } = require('../config/axios.config');
-const { kafkaTopics } = require('../constants');
+const { kafkaTopics, errorMessages } = require('../config');
 
 class TrackService {
-  notificationProducer;
+  // notificationProducer;
 
-  constructor(notificationProducer) {
-    this.notificationProducer = notificationProducer;
-    this.setup();
-  }
+  // constructor(notificationProducer) {
+  //   this.notificationProducer = notificationProducer;
+  //   setTimeout(() => {
+  //     this.setup();
+  //   }, 20000);
+  // }
 
-  async setup() {
-    try {
-      await this.notificationProducer.connect();
-    } catch (err) {
-      console.error("Error while connecting to kafka: " + err);
-    }
-  }
+  // async setup() {
+  //   try {
+  //     await this.notificationProducer.connect();
+  //   } catch (err) {
+  //     console.error(errorMessages.KAFKA_FAILED_CONNECT + err);
+  //   }
+  // }
 
   async getTracks() {
-    const tracks = await Tracks.findAll({ order: ['id'] });
+    const tracks = await Tracks.findAll({ include: Genres });
     const trackAuthors = await this.getAllTracksAuthors();
 
     for (const track of tracks) {
@@ -31,7 +34,7 @@ class TrackService {
       );
 
       if (matchedTrackAuthor.length === 0) {
-        throw new Error('Author not found!');
+        throw new Error(errorMessages.AUTHOR_NOT_FOUND);
       }
       track.author = matchedTrackAuthor[0];
     }
@@ -40,9 +43,9 @@ class TrackService {
   }
 
   async getTrackById(id) {
-    const track = await Tracks.findOne({ where: { id } });
+    const track = await Tracks.findOne({ where: { id }, include: Genres });
 
-    if (!track) throw new Error('Track with the specified ID does not exist');
+    if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     const author = await this.getTrackAuthor(track.author);
     track.author = author;
@@ -59,17 +62,17 @@ class TrackService {
     const createdTrack = await Tracks.create(trackData);
     createdTrack.author = author;
 
-    await this.notificationProducer.send({
-      topic: kafkaTopics.NEW_TRACK,
-      messages: [{ value: JSON.stringify(createdTrack) }]
-    });
+    // await this.notificationProducer.send({
+    //   topic: kafkaTopics.NEW_TRACK,
+    //   messages: [{ value: JSON.stringify(createdTrack) }],
+    // });
 
-    return createdTrack;
+    return this.getTrackById(trackID);
   }
 
   async updateTrack(id, trackData) {
     const track = await Tracks.findOne({ where: { id } });
-    if (!track) throw new Error('Track with the specified ID does not exist');
+    if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     if (trackData.author) await this.getTrackAuthor(trackData.author);
 
@@ -81,11 +84,10 @@ class TrackService {
   async deleteTrack(id) {
     const track = await Tracks.findOne({ where: { id } });
 
-    if (!track) throw new Error('Track with the specified ID does not exist');
+    if (!track) throw new Error(errorMessages.TRACK_NOT_EXISTS_ID);
 
     const deleteResult = await Tracks.destroy({ where: { id } });
-    if (!deleteResult)
-      throw new Error('Failed to delete a track with specified ID');
+    if (!deleteResult) throw new Error(errorMessages.TRACK_DELETION_FAILED);
 
     return track;
   }
@@ -95,12 +97,12 @@ class TrackService {
       .get(`authors/${trackAuthorId}`)
       .catch((err) => {
         console.log(err);
-        throw new Error('Author not found!');
+        throw new Error(errorMessages.AUTHOR_NOT_FOUND);
       });
 
     const trackAuthor = trackAuthorRes?.data;
     if (!trackAuthor) {
-      throw new Error('Author not found!');
+      throw new Error(errorMessages.AUTHOR_NOT_FOUND);
     }
 
     return trackAuthor;
@@ -111,24 +113,16 @@ class TrackService {
       .get('authors')
       .catch((err) => {
         console.log(err);
-        throw new Error('Authors not found!');
+        throw new Error(errorMessages.AUTHORS_NOT_FOUND);
       });
 
     const allTracksAuthors = allTracksAuthorsRes?.data;
 
     if (!allTracksAuthors) {
-      throw new Error('Authors not found!');
+      throw new Error(errorMessages.AUTHORS_NOT_FOUND);
     }
 
     return allTracksAuthors;
-  }
-
-  async postBrokenRequest() {
-    await axiosClient.post('authors/broken').catch((err) => {
-      console.log(err);
-      throw new Error('Failed to fetch');
-    });
-    return 'No error occurred';
   }
 }
 

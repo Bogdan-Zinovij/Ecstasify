@@ -12,7 +12,7 @@ import { CreateSubscriptionPlanDto, UpdateSubscriptionPlanDto } from '../dto';
 import { SubscriptionPlanEntity } from '../entities';
 import { SubscriptionPlansService } from '../services/subscription-plans.service';
 
-@Controller('subscriptions/subscription-plans')
+@Controller('subscription-plans')
 export class SubscriptionPlansController {
   constructor(
     private readonly subscriptionPlansService: SubscriptionPlansService,
