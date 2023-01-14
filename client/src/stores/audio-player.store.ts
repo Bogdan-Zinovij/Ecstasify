@@ -3,7 +3,6 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from './root.store';
 
 export class AudioPlayerStore {
-  // create parent class with this fields?
   private rootStore: RootStore;
   private rootService: RootService;
 

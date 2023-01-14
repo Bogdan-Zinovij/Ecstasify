@@ -1,11 +1,11 @@
 import { User } from '@/models/user';
-import { IColumn } from '@/components/data-table/interface';
+import { IColumn } from '@/components/data-table/data-table.interface';
 import UserForm from './components/user-form';
 import { useStore } from '@/hooks';
 import { observer } from 'mobx-react-lite';
 import EntityDashboard from '@/components/entity-dashboard';
 
-const cols: IColumn<User>[] = [
+const columns: IColumn<User>[] = [
   {
     title: 'ID',
     key: 'id',
@@ -35,7 +35,7 @@ const UsersPage = () => {
 
   return (
     <EntityDashboard<User>
-      columns={cols}
+      columns={columns}
       dataSource={users}
       EntityForm={UserForm}
       getAllRecords={getAllUsers}

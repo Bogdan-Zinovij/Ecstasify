@@ -4,7 +4,7 @@ import { Add } from '@mui/icons-material';
 import { Box, IconButton, LinearProgress, Tooltip } from '@mui/material';
 import { useEffect } from 'react';
 import DataTable from '../data-table';
-import { IColumn } from '../data-table/interface';
+import { IColumn } from '../data-table/data-table.interface';
 import SectionHeader from '../section-header';
 
 type EntityDashboardProps<T> = {

@@ -8,7 +8,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { MoreVert } from '@mui/icons-material';
-import { IColumn } from './interface';
+import { IColumn } from './data-table.interface';
 
 interface IDataRowProps<T> {
   row: T;
@@ -26,7 +26,6 @@ const DataRow = <T,>({
   onEdit,
 }: IDataRowProps<T>) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -55,7 +54,7 @@ const DataRow = <T,>({
         <IconButton onClick={handleClick}>
           <MoreVert color="primary" />
         </IconButton>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
+        <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseMenu}>
           <MenuItem
             onClick={() => {
               onDelete?.(row);

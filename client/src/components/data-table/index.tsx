@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@mui/material';
 import DataRow from './DataRow';
-import { IColumn } from './interface';
+import { IColumn } from './data-table.interface';
 import * as s from './styles';
 
 interface IDataTableProps<T> {

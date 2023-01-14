@@ -1,4 +1,4 @@
-import { IColumn } from '@/components/data-table/interface';
+import { IColumn } from '@/components/data-table/data-table.interface';
 import { Track } from '@/models/track';
 import { useStore } from '@/hooks';
 import EntityDashboard from '@/components/entity-dashboard';
@@ -6,7 +6,7 @@ import TrackForm from './components/track-form';
 import { observer } from 'mobx-react-lite';
 import { Author } from '@/models/author';
 
-const cols: IColumn<Track>[] = [
+const columns: IColumn<Track>[] = [
   {
     title: 'ID',
     key: 'id',
@@ -42,7 +42,7 @@ const TracksPage = () => {
 
   return (
     <EntityDashboard<Track>
-      columns={cols}
+      columns={columns}
       dataSource={tracks}
       EntityForm={TrackForm}
       getAllRecords={getAllTracks}
