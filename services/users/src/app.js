@@ -1,17 +1,16 @@
-'use strict';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import userRouter from './routers/user.router.js';
+import authRouter from './routers/auth.router.js';
+import { PREFIX } from './config.js';
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const userController = require('./controllers/userController');
-const { PREFIX } = require('./config');
 const app = express();
 
 app.use(bodyParser.json());
-app
-  .get(PREFIX + '/users', userController.getUsers)
-  .get(PREFIX + '/users/:id', userController.getUserById)
-  .post(PREFIX + '/users', userController.createUser)
-  .patch(PREFIX + '/users/:id', userController.updateUser)
-  .delete(PREFIX + '/users/:id', userController.deleteUser);
+app.use(cookieParser());
 
-module.exports = app;
+app.use(PREFIX + '/users', userRouter);
+app.use(PREFIX + '/users/auth', authRouter);
+
+export default app;

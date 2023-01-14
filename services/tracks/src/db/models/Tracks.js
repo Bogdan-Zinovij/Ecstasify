@@ -7,7 +7,7 @@ const Tracks = db.define(
   'tracks',
   {
     id: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.UUID,
       primaryKey: true,
       allowNull: false,
     },
@@ -19,12 +19,16 @@ const Tracks = db.define(
       type: DataTypes.STRING(64),
       allowNull: false,
     },
+    genreId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
   },
   {
     timestamps: true,
     createdAt: true,
     updatedAt: true,
-  },
+  }
 );
 
 module.exports = { Tracks };

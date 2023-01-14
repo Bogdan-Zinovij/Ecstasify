@@ -1,14 +1,16 @@
+import { BaseEntityWithId } from 'src/common/entities';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { SubscriptionFeatureEntity } from './subscription-feature.entity';
 
 @Entity('subscription-plans')
-export class SubscriptionPlanEntity extends BaseEntity {
+export class SubscriptionPlanEntity extends BaseEntityWithId {
   @PrimaryGeneratedColumn('uuid')
   public readonly id: string;
 
@@ -17,6 +19,17 @@ export class SubscriptionPlanEntity extends BaseEntity {
 
   @Column({ type: 'numeric', scale: 2, precision: 9 })
   public readonly price: number;
+
+  @OneToMany(
+    () => SubscriptionFeatureEntity,
+    ({ subscriptionPlan }) => subscriptionPlan,
+    {
+      onDelete: 'SET NULL',
+      nullable: true,
+      eager: false,
+    },
+  )
+  public readonly subscriptionFeatures?: Partial<SubscriptionFeatureEntity>[];
 
   @CreateDateColumn({
     readonly: true,

@@ -1,0 +1,39 @@
+image:
+  name: authors
+  tag: 0.1
+
+postgresql:
+  nameOverride: postgres-authors
+  fullnameOverride: postgres-authors
+  postgresqlDatabase: 'authors'
+  postgresqlUsername: 'authors'
+  postgresqlPassword: 'authors'
+  persistence:
+    size: 1Gi
+    mountPath: /var/lib/pg/data/authors
+
+migrations:
+  image:
+    name: authors-migrations
+    tag: 0.1
+  config:
+    POSTGRESQL_URL: 'postgres://authors:authors@postgres-authors:5432/authors?sslmode=disable'
+    VERSION: '20221030101907'
+
+configs:
+  POSTGRES_DB: authors
+  POSTGRES_HOST: postgres-authors
+
+secrets:
+  POSTGRES_USER: ''
+  POSTGRES_PASSWORD: ''
+
+service:
+  ports:
+    - name: http
+      port: 80
+      containerPort: 8080
+
+ingress:
+  path: /api/v1/authors
+  port: http
