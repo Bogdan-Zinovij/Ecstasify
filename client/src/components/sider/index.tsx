@@ -27,10 +27,10 @@ const Sider = () => {
   const { isAdmin } = useStore('profileStore');
 
   const getMenuItems = () => {
-    let menuItems: MenuItem[] = [];
+    const menuItems: MenuItem[] = [];
 
     if (isAdmin) {
-      menuItems = [
+      menuItems.concat([
         {
           label: 'Users',
           path: '/users',
@@ -51,7 +51,7 @@ const Sider = () => {
           path: '/authors',
           icon: <AccountCircle />,
         },
-      ];
+      ]);
     }
 
     return menuItems;

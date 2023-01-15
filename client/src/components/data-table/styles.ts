@@ -13,3 +13,13 @@ export const tableCell: Styles = {
   background: 'none',
   whiteSpace: 'nowrap',
 };
+
+export const rowWrapper: Styles = {
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+};
+
+export const rowCell: Styles = {
+  whiteSpace: 'nowrap',
+};

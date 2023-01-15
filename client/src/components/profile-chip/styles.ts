@@ -25,3 +25,8 @@ export const chip: Styles = {
   },
   fontSize: '14px',
 };
+
+export const avatar: Styles = {
+  width: '25px',
+  height: '25px',
+};

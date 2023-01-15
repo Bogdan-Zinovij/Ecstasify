@@ -85,3 +85,7 @@ export const slider: Styles = {
   },
   padding: '8px 0',
 };
+
+export const favoriteIcon: Styles = {
+  color: '#e74c3c',
+};

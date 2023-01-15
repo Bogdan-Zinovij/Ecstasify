@@ -26,7 +26,7 @@ const ProfileChip = () => {
     <Box>
       <Chip
         sx={s.chip}
-        avatar={<Avatar sx={{ width: '25px', height: '25px' }} />}
+        avatar={<Avatar sx={s.avatar} />}
         label={`${currentUser?.name} ${isAdmin ? '(Admin)' : ''}`}
         onClick={handleChipClick}
       />
