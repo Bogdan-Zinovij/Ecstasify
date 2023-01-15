@@ -1,8 +1,7 @@
-import { useStores } from '@/hooks';
-import { Avatar, Chip, ChipProps, Menu, MenuItem } from '@mui/material';
+import { useMenuPopover, useStores } from '@/hooks';
+import { Avatar, Chip, Menu, MenuItem } from '@mui/material';
 import { Box } from '@mui/system';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import * as s from './styles';
 
@@ -12,15 +11,7 @@ const ProfileChip = () => {
     profileStore: { currentUser, isAdmin },
   } = useStores();
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
-
-  const handleChipClick: ChipProps['onClick'] = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const { anchorEl, open, closeMenu, openMenu } = useMenuPopover();
 
   return (
     <Box>
@@ -28,7 +19,7 @@ const ProfileChip = () => {
         sx={s.chip}
         avatar={<Avatar sx={s.avatar} />}
         label={`${currentUser?.name} ${isAdmin ? '(Admin)' : ''}`}
-        onClick={handleChipClick}
+        onClick={openMenu}
       />
       <Menu
         elevation={0}
@@ -42,8 +33,8 @@ const ProfileChip = () => {
         }}
         sx={s.menu}
         anchorEl={anchorEl}
-        open={!!anchorEl}
-        onClose={handleMenuClose}
+        open={open}
+        onClose={closeMenu}
       >
         <MenuItem onClick={signOut}>
           <LogoutIcon /> Sign Out

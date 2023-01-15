@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   TableRowProps,
   TableRow,
@@ -10,6 +9,7 @@ import {
 import { MoreVert } from '@mui/icons-material';
 import { IColumn } from './data-table.interface';
 import * as s from './styles';
+import { useMenuPopover } from '@/hooks';
 
 interface IDataRowProps<T> {
   row: T;
@@ -26,22 +26,16 @@ const DataRow = <T,>({
   onDelete,
   onEdit,
 }: IDataRowProps<T>) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(e.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
+  const { open, closeMenu, openMenu, anchorEl } = useMenuPopover();
 
   const handleRowDelete = () => {
     onDelete?.(row);
-    handleCloseMenu();
+    closeMenu();
   };
 
   const handleRowEdit = () => {
     onEdit?.(row);
-    handleCloseMenu();
+    closeMenu();
   };
 
   const menuItems = [
@@ -63,10 +57,10 @@ const DataRow = <T,>({
         );
       })}
       <TableCell align="right">
-        <IconButton onClick={handleClick}>
+        <IconButton onClick={openMenu}>
           <MoreVert color="primary" />
         </IconButton>
-        <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleCloseMenu}>
+        <Menu anchorEl={anchorEl} open={open} onClose={closeMenu}>
           {menuItems.map(({ onClick, label }) => (
             <MenuItem key={label} onClick={onClick}>
               {label}
