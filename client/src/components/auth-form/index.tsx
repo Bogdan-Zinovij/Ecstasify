@@ -21,12 +21,15 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
   const { signUp, signIn, signInLoading, signUpLoading } =
     useStore('authStore');
 
+  const defaultValues = {
+    password: '',
+    email: '',
+  };
+
   const { handleSubmit, control } = useForm<AuthRequest>({
-    defaultValues: {
-      name: '',
-      password: '',
-      email: '',
-    },
+    defaultValues: !isSignInMode
+      ? { ...defaultValues, name: '' }
+      : defaultValues,
   });
 
   const handleSignIn = (data: AuthRequest) => {
@@ -43,12 +46,7 @@ const AuthForm = ({ mode }: IAuthFormProps) => {
 
   return (
     <Box sx={s.authFormWrapper}>
-      <Box
-        sx={{
-          background: ({ gradients }) => gradients.main,
-          padding: '20px 0',
-        }}
-      >
+      <Box sx={s.header}>
         <Logo />
       </Box>
       <Box sx={s.controlsWrapper}>

@@ -26,7 +26,9 @@ export class UsersStore {
   }
 
   async getUser(id: string) {
-    this.getUserLoading = true;
+    runInAction(() => {
+      this.getUserLoading = true;
+    });
 
     const { getUser } = this.rootService.usersService;
     const user = await getUser(id);
@@ -34,7 +36,9 @@ export class UsersStore {
       this.user = user;
     }
 
-    this.getUserLoading = false;
+    runInAction(() => {
+      this.getUserLoading = false;
+    });
   }
 
   setUser(user: User) {
@@ -46,17 +50,13 @@ export class UsersStore {
       this.getAllUsersLoading = true;
     });
 
-    try {
-      const { getAllUsers } = this.rootService.usersService;
-      const data = await getAllUsers();
+    const { getAllUsers } = this.rootService.usersService;
+    const data = await getAllUsers();
 
-      if (data) {
-        runInAction(() => {
-          this.users = sortByCreatedDate(data);
-        });
-      }
-    } catch (err) {
-      console.log(err);
+    if (data) {
+      runInAction(() => {
+        this.users = sortByCreatedDate(data);
+      });
     }
 
     runInAction(() => {
@@ -69,13 +69,9 @@ export class UsersStore {
       this.createUserLoading = true;
     });
 
-    try {
-      const { createUser } = this.rootService.usersService;
-      await createUser(user);
-      this.getAllUsers();
-    } catch (err) {
-      console.log(err);
-    }
+    const { createUser } = this.rootService.usersService;
+    await createUser(user);
+    this.getAllUsers();
 
     runInAction(() => {
       this.createUserLoading = false;
@@ -87,14 +83,10 @@ export class UsersStore {
       this.createUserLoading = true;
     });
 
-    try {
-      const { deleteUser } = this.rootService.usersService;
-      const { id: userId } = user;
-      await deleteUser(userId);
-      this.getAllUsers();
-    } catch (err) {
-      console.log(err);
-    }
+    const { deleteUser } = this.rootService.usersService;
+    const { id: userId } = user;
+    await deleteUser(userId);
+    this.getAllUsers();
 
     runInAction(() => {
       this.createUserLoading = false;
@@ -106,13 +98,9 @@ export class UsersStore {
       this.createUserLoading = true;
     });
 
-    try {
-      const { updateUser } = this.rootService.usersService;
-      await updateUser(userId, updatedUserData);
-      this.getAllUsers();
-    } catch (err) {
-      console.log(err);
-    }
+    const { updateUser } = this.rootService.usersService;
+    await updateUser(userId, updatedUserData);
+    this.getAllUsers();
 
     runInAction(() => {
       this.createUserLoading = false;

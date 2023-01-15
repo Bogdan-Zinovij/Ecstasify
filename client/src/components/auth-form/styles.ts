@@ -24,3 +24,8 @@ export const controlsWrapper: Styles = {
   gap: '20px',
   padding: '20px 40px 40px 40px',
 };
+
+export const header: Styles = {
+  background: ({ gradients }) => gradients.main,
+  padding: '20px 0',
+};
