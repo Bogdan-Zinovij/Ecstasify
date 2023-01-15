@@ -1,4 +1,7 @@
 import { body, param } from 'express-validator';
+import { authorValidationConfig } from '../config.js';
+
+const { MIN_NAME_LENGTH, MAX_NAME_LENGTH } = authorValidationConfig;
 
 export const idParamValidation = param(
   'id',
@@ -7,8 +10,11 @@ export const idParamValidation = param(
 
 export const authorValidScheme = [
   body('id', 'The id field should not passed into req.body').not().exists(),
-  body('name', 'The name should be between 2 and 20 characters long').isLength({
-    min: 2,
-    max: 20,
+  body(
+    'name',
+    `Name should be from ${MIN_NAME_LENGTH} to ${MAX_NAME_LENGTH} characters`,
+  ).isLength({
+    min: MIN_NAME_LENGTH,
+    max: MAX_NAME_LENGTH,
   }),
 ];

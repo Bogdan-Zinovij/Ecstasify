@@ -28,7 +28,7 @@ class UserService {
     const newUser = { ...userData };
     newUser.id = uuid();
     newUser.password = await bcrypt.hash(userData.password, SALT);
-    newUser.role = roles.ADMIN;
+    newUser.role = roles.USER;
 
     await User.create(newUser);
 
