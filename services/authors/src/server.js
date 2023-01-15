@@ -7,7 +7,7 @@ const EXPRESS_PORT = process.env.EXPRESS_PORT || 8080;
 
 (async () => {
   try {
-    await db.authenticate();
+    await db.sync({ force: true });
   } catch (err) {
     console.log(err);
   }
