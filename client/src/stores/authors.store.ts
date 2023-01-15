@@ -28,17 +28,13 @@ export class AuthorsStore {
       this.getAllAuthorsLoading = true;
     });
 
-    try {
-      const { getAllAuthors } = this.rootService.authorsService;
-      const data = await getAllAuthors();
+    const { getAllAuthors } = this.rootService.authorsService;
+    const data = await getAllAuthors();
 
-      if (data) {
-        runInAction(() => {
-          this.authors = sortByCreatedDate(data);
-        });
-      }
-    } catch (err) {
-      console.log(err);
+    if (data) {
+      runInAction(() => {
+        this.authors = sortByCreatedDate(data);
+      });
     }
 
     runInAction(() => {
@@ -51,13 +47,9 @@ export class AuthorsStore {
       this.createAuthorLoading = true;
     });
 
-    try {
-      const { createAuthor } = this.rootService.authorsService;
-      await createAuthor(author);
-      this.getAllAuthors();
-    } catch (err) {
-      console.log(err);
-    }
+    const { createAuthor } = this.rootService.authorsService;
+    await createAuthor(author);
+    this.getAllAuthors();
 
     runInAction(() => {
       this.createAuthorLoading = false;
@@ -65,14 +57,10 @@ export class AuthorsStore {
   }
 
   async deleteAuthor(author: Author) {
-    try {
-      const { deleteAuthor } = this.rootService.authorsService;
-      const { id: authorId } = author;
-      await deleteAuthor(authorId);
-      this.getAllAuthors();
-    } catch (err) {
-      console.log(err);
-    }
+    const { deleteAuthor } = this.rootService.authorsService;
+    const { id: authorId } = author;
+    await deleteAuthor(authorId);
+    this.getAllAuthors();
   }
 
   async updateAuthor(authorId: Author['id'], updatedAuthorData: Author) {
@@ -80,13 +68,9 @@ export class AuthorsStore {
       this.createAuthorLoading = true;
     });
 
-    try {
-      const { updateAuthor } = this.rootService.authorsService;
-      await updateAuthor(authorId, updatedAuthorData);
-      this.getAllAuthors();
-    } catch (err) {
-      console.log(err);
-    }
+    const { updateAuthor } = this.rootService.authorsService;
+    await updateAuthor(authorId, updatedAuthorData);
+    this.getAllAuthors();
 
     runInAction(() => {
       this.createAuthorLoading = false;

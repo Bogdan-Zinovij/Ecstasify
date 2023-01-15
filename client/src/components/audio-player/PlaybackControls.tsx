@@ -33,9 +33,7 @@ const PlaybackControls = () => {
   const [seeking, setSeeking] = useState(false);
 
   useEffect(() => {
-    setAudioSource(
-      'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview122/v4/96/7e/ea/967eea0f-3d8e-9bb6-b4c5-fb255f50b906/mzaf_16046209671483865399.plus.aac.ep.m4a'
-    );
+    setAudioSource(import.meta.env.VITE_TEST_AUDIO_SRC);
     attachAudioListeners();
 
     return () => {
@@ -109,10 +107,10 @@ const PlaybackControls = () => {
       <Box sx={s.progressWrapper}>
         <PlaybackTime align="right">{formattedAudioCurrentTime}</PlaybackTime>
         <Slider
-          disabled={disabledControls}
           size="small"
           sx={s.slider}
           value={displayCurrentTime}
+          disabled={disabledControls}
           max={hasLoaded ? getAudioDuration() : 0}
           onChangeCommitted={(_, value) => {
             setSeeking(false);

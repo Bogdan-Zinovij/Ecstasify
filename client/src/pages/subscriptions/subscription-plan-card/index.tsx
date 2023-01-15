@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { CheckCircleOutline, CheckCircle } from '@mui/icons-material';
 import { SubscriptionFeature as SubscriptionFeatureType } from '@/models/subscription';
+import * as s from './styles';
 
 const SubscriptionFeature = ({ text }: { text: string }) => {
   return (
@@ -17,7 +18,7 @@ const SubscriptionFeature = ({ text }: { text: string }) => {
   );
 };
 
-type SubscriptionPlanCardProps = {
+export type SubscriptionPlanCardProps = {
   isActive?: boolean;
   name: string;
   price: string;
@@ -34,12 +35,11 @@ const SubscriptionPlanCard = ({
     <Card
       elevation={0}
       sx={{
+        ...s.cardWrapper,
         border: ({ palette }) =>
           `${isActive ? '3px' : '1px'} solid ${
             isActive ? palette.primary.main : palette.divider
           }`,
-        borderRadius: '10px',
-        padding: '15px',
       }}
     >
       <CardContent>

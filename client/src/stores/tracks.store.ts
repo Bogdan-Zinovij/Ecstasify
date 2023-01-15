@@ -28,17 +28,13 @@ export class TracksStore {
       this.getAllTracksLoading = true;
     });
 
-    try {
-      const { getAllTracks } = this.rootService.tracksService;
-      const data = await getAllTracks();
+    const { getAllTracks } = this.rootService.tracksService;
+    const data = await getAllTracks();
 
-      if (data) {
-        runInAction(() => {
-          this.tracks = sortByCreatedDate(data);
-        });
-      }
-    } catch (err) {
-      console.log(err);
+    if (data) {
+      runInAction(() => {
+        this.tracks = sortByCreatedDate(data);
+      });
     }
 
     runInAction(() => {
@@ -51,13 +47,9 @@ export class TracksStore {
       this.createTrackLoading = true;
     });
 
-    try {
-      const { createTrack } = this.rootService.tracksService;
-      await createTrack({ ...track, author: track.author?.id });
-      this.getAllTracks();
-    } catch (err) {
-      console.log(err);
-    }
+    const { createTrack } = this.rootService.tracksService;
+    await createTrack({ ...track, author: track.author?.id });
+    this.getAllTracks();
 
     runInAction(() => {
       this.createTrackLoading = false;
@@ -69,14 +61,10 @@ export class TracksStore {
       this.createTrackLoading = true;
     });
 
-    try {
-      const { deleteTrack } = this.rootService.tracksService;
-      const { id: trackId } = user;
-      await deleteTrack(trackId);
-      this.getAllTracks();
-    } catch (err) {
-      console.log(err);
-    }
+    const { deleteTrack } = this.rootService.tracksService;
+    const { id: trackId } = user;
+    await deleteTrack(trackId);
+    this.getAllTracks();
 
     runInAction(() => {
       this.createTrackLoading = false;
@@ -88,16 +76,12 @@ export class TracksStore {
       this.createTrackLoading = true;
     });
 
-    try {
-      const { updateTrack } = this.rootService.tracksService;
-      await updateTrack(trackId, {
-        ...updatedTrackData,
-        author: updatedTrackData.author.id,
-      });
-      this.getAllTracks();
-    } catch (err) {
-      console.log(err);
-    }
+    const { updateTrack } = this.rootService.tracksService;
+    await updateTrack(trackId, {
+      ...updatedTrackData,
+      author: updatedTrackData.author.id,
+    });
+    this.getAllTracks();
 
     runInAction(() => {
       this.createTrackLoading = false;
