@@ -4,6 +4,7 @@ import { Box, LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import PremiumPlans from './premium-plans';
+import * as s from './styles';
 
 const SubscriptionsPage = () => {
   const { subscriptions, getSubscriptions, getSubscriptionsLoading } =
@@ -14,15 +15,11 @@ const SubscriptionsPage = () => {
   }, []);
 
   if (getSubscriptionsLoading && !subscriptions) {
-    return (
-      <LinearProgress
-        sx={{ position: 'absolute', top: 0, left: 0, width: '100%' }}
-      />
-    );
+    return <LinearProgress sx={s.progress} />;
   }
 
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={s.pageWrapper}>
       <SectionHeader
         title="Subscriptions"
         description="List of available subscription plans."

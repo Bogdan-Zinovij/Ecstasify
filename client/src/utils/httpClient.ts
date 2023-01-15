@@ -38,39 +38,46 @@ class CustomHttpClient implements IHttpClient {
   private registerInterceptors() {
     this.axios.interceptors.response.use(
       (response) => response,
-      async (err) => {
-        const axiosError = err as AxiosError;
-        const originalRequest = axiosError.config as AxiosRequestConfig & {
-          sent: boolean;
-        };
-
-        if (!axiosError?.response || !originalRequest)
-          return Promise.reject(err);
-
-        if (axiosError?.response?.status === 401 && !originalRequest.sent) {
-          originalRequest.sent = true;
-
-          try {
-            const accessToken = await this.rootStore.authStore.refreshAuth();
-            const tokenType = 'Bearer';
-
-            if (accessToken) {
-              return this.axios.request({
-                ...originalRequest,
-                headers: {
-                  ...originalRequest.headers,
-                  Authorization: `${tokenType} ${accessToken}`,
-                },
-              });
-            }
-          } catch (err) {
-            return null;
-          }
-        } else {
-          return Promise.reject(err);
-        }
-      }
+      this.handleUnauthorized
     );
+  }
+
+  private async handleUnauthorized(axiosError: AxiosError) {
+    const originalRequest = axiosError.config as AxiosRequestConfig & {
+      sent: boolean;
+    };
+
+    if (!axiosError?.response || !originalRequest) {
+      return Promise.reject(axiosError);
+    }
+
+    if (axiosError?.response?.status === 401 && !originalRequest.sent) {
+      originalRequest.sent = true;
+
+      try {
+        const accessToken = await this.rootStore.authStore.refreshAuth();
+
+        if (accessToken) {
+          return this.axios.request({
+            ...originalRequest,
+            headers: {
+              ...originalRequest.headers,
+              Authorization: this.getAuthHeader(accessToken),
+            },
+          });
+        }
+      } catch (err) {
+        return null;
+      }
+    } else {
+      return Promise.reject(axiosError);
+    }
+  }
+
+  getAuthHeader(accessToken?: string) {
+    const { auth } = this.rootStore.authStore;
+    const tokenType = 'Bearer';
+    return `${tokenType} ${accessToken ?? auth.accessToken}`;
   }
 
   async request<T>({
@@ -86,12 +93,9 @@ class CustomHttpClient implements IHttpClient {
     }
 
     if (isAuth) {
-      const { auth } = this.rootStore.authStore;
-      const tokenType = 'Bearer';
-
       requestConfig = {
         ...requestConfig,
-        headers: { Authorization: `${tokenType} ${auth.accessToken}` },
+        headers: { Authorization: this.getAuthHeader() },
       };
     }
 

@@ -10,7 +10,7 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import * as s from './styles';
 
 type TrackPreviewProps = {
-  isFavorite: boolean;
+  isFavorite?: boolean;
 };
 
 const TrackPreview = ({ isFavorite = true }: TrackPreviewProps) => {
@@ -37,7 +37,7 @@ const TrackPreview = ({ isFavorite = true }: TrackPreviewProps) => {
       <Tooltip title="Add To Favorites">
         <IconButton>
           {isFavorite ? (
-            <Favorite sx={{ color: '#e74c3c' }} fontSize="small" />
+            <Favorite sx={s.favoriteIcon} fontSize="small" />
           ) : (
             <FavoriteBorder fontSize="small" />
           )}
