@@ -6,6 +6,7 @@ import {
   idParamValidation,
   userValidScheme,
 } from '../middlewares/validation/user.validation.js';
+import validateRequest from '../middlewares/validation/validate-request.js';
 
 const userRouter = new Router();
 
@@ -16,6 +17,7 @@ userRouter
     authMiddleware,
     permissionMiddleware,
     userValidScheme,
+    validateRequest,
     userController.createUser,
   )
   .get(
@@ -23,6 +25,7 @@ userRouter
     authMiddleware,
     permissionMiddleware,
     idParamValidation,
+    validateRequest,
     userController.getUserById,
   )
   .patch(
@@ -31,6 +34,7 @@ userRouter
     permissionMiddleware,
     idParamValidation,
     userValidScheme,
+    validateRequest,
     userController.updateUser,
   )
   .delete(
@@ -38,6 +42,7 @@ userRouter
     authMiddleware,
     permissionMiddleware,
     idParamValidation,
+    validateRequest,
     userController.deleteUser,
   );
 
