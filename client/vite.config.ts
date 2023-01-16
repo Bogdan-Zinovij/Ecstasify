@@ -15,7 +15,7 @@ export default ({ mode }) => {
     },
     server: {
       proxy: {
-        [process.env.VITE_API_URL]: {
+        [env.VITE_API_URL]: {
           target: env.VITE_API_HOST,
           changeOrigin: true,
           secure: false,
