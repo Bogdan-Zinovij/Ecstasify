@@ -8,6 +8,7 @@ export const kafkaTopics = {
 export const KAFKA_GROUP_ID = 'test-group';
 
 export const errorMessages = {
+  VALIDATION_ERROR: 'The request contains invalid data',
   UNAUTHORIZED: 'The user is not authorized',
   INTERNAL_SERVER_ERROR: 'Internal server error',
   PERMISSION_DENIED: 'Permission denied. Only Admin can access this endpoint',
