@@ -27,10 +27,10 @@ const Sider = () => {
   const { isAdmin } = useStore('profileStore');
 
   const getMenuItems = () => {
-    const menuItems: MenuItem[] = [];
+    let menuItems: MenuItem[] = [];
 
     if (isAdmin) {
-      menuItems.concat([
+      menuItems = menuItems.concat([
         {
           label: 'Users',
           path: '/users',
