@@ -57,7 +57,7 @@ class UsersService extends BaseService {
   };
 
   signOut = () => {
-    return this.httpRequest.post('/users/auth/sign-out');
+    return this.httpRequest.post('/users/auth/sign-out', null, false);
   };
 
   refreshAuth = () => {
