@@ -1,7 +1,7 @@
 import { Subscription } from '@/models/subscription';
 import { RootService } from '@/services';
 import { RootStore } from './root.store';
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 export class SubscriptionsStore {
   private rootStore: RootStore;
@@ -18,17 +18,25 @@ export class SubscriptionsStore {
   }
 
   async getSubscriptions() {
-    this.getSubscriptionsLoading = true;
+    runInAction(() => {
+      this.getSubscriptionsLoading = true;
+    });
 
     const { getAllSubscriptions } = this.rootService.subscriptionsService;
     const subscriptions = await getAllSubscriptions();
 
     if (subscriptions) {
-      this.subscriptions = subscriptions;
+      this.setSubscriptions(subscriptions);
     } else {
-      this.subscriptions = [];
+      this.setSubscriptions([]);
     }
 
-    this.getSubscriptionsLoading = false;
+    runInAction(() => {
+      this.getSubscriptionsLoading = false;
+    });
+  }
+
+  setSubscriptions(subscriptions: Subscription[]) {
+    this.subscriptions = subscriptions;
   }
 }

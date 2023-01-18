@@ -122,7 +122,7 @@ export class AuthStore {
 
       return res.accessToken;
     } else {
-      this.setAuth({} as Auth);
+      this.signOut();
     }
   }
 }

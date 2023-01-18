@@ -1,3 +1,4 @@
+import { Errors } from '@/enums/error';
 import { RootService } from '@/services';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from './root.store';
@@ -58,10 +59,7 @@ export class AudioPlayerStore {
   handleAudioError() {
     this.hasError = true;
     this.hasLoaded = true;
-    this.rootStore.errorHandler.handle(
-      'Something went wrong while loading audio!',
-      'warning'
-    );
+    this.rootStore.errorHandler.handle(Errors.AudioLoadError, 'warning');
   }
 
   syncAudioCurrentTime() {

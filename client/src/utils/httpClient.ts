@@ -1,3 +1,4 @@
+import { Errors } from '@/enums/error';
 import { RootStore } from '@/stores/root.store';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ErrorHandler } from './errorHandler';
@@ -14,23 +15,26 @@ export interface IHttpClient {
   request<T>(config: HttpClientRequestConfig): Promise<T | null>;
 }
 
-class CustomHttpClient implements IHttpClient {
-  private axios: AxiosInstance;
-  private rootStore: RootStore;
-  baseUrl: string;
-  errorHandler: ErrorHandler;
+type HttpRequestError = AxiosError<{
+  message?: string;
+  errors?: { msg: string }[];
+}>;
 
-  constructor({
-    baseUrl,
-    rootStore,
-  }: {
-    baseUrl: string;
-    rootStore: RootStore;
-  }) {
-    this.axios = axios.create();
+type CustomHttpClientArgs = {
+  baseUrl: string;
+  rootStore: RootStore;
+};
+
+class CustomHttpClient implements IHttpClient {
+  private axios: AxiosInstance = axios.create();
+  private errorHandler: ErrorHandler = new ErrorHandler();
+  private rootStore: RootStore;
+
+  baseUrl: string;
+
+  constructor({ baseUrl, rootStore }: CustomHttpClientArgs) {
     this.baseUrl = baseUrl;
     this.rootStore = rootStore;
-    this.errorHandler = new ErrorHandler();
 
     this.registerInterceptors();
   }
@@ -38,7 +42,7 @@ class CustomHttpClient implements IHttpClient {
   private registerInterceptors() {
     this.axios.interceptors.response.use(
       (response) => response,
-      this.handleUnauthorized
+      this.handleUnauthorized.bind(this)
     );
   }
 
@@ -54,30 +58,45 @@ class CustomHttpClient implements IHttpClient {
     if (axiosError?.response?.status === 401 && !originalRequest.sent) {
       originalRequest.sent = true;
 
-      try {
-        const accessToken = await this.rootStore.authStore.refreshAuth();
+      const accessToken = await this.rootStore.authStore.refreshAuth();
 
-        if (accessToken) {
-          return this.axios.request({
-            ...originalRequest,
-            headers: {
-              ...originalRequest.headers,
-              Authorization: this.getAuthHeader(accessToken),
-            },
-          });
-        }
-      } catch (err) {
-        return null;
+      if (accessToken) {
+        return this.axios.request({
+          ...originalRequest,
+          headers: {
+            ...originalRequest.headers,
+            ...this.getAuthHeader(accessToken),
+          },
+        });
       }
     } else {
       return Promise.reject(axiosError);
     }
   }
 
-  getAuthHeader(accessToken?: string) {
+  private getAuthHeader(accessToken?: string) {
     const { auth } = this.rootStore.authStore;
     const tokenType = 'Bearer';
-    return `${tokenType} ${accessToken ?? auth.accessToken}`;
+    return { Authorization: `${tokenType} ${accessToken ?? auth.accessToken}` };
+  }
+
+  private handleRequestError(httpRequestError: HttpRequestError) {
+    const { message, errors } = httpRequestError?.response?.data ?? {};
+    const messages = [];
+
+    if (message) {
+      messages.push(message);
+    } else if (errors) {
+      for (const error of errors) {
+        messages.push(error.msg);
+      }
+    } else {
+      messages.push(Errors.DefaultRequestError);
+    }
+
+    for (const message of messages) {
+      this.errorHandler.handle(message, 'error');
+    }
   }
 
   async request<T>({
@@ -95,35 +114,15 @@ class CustomHttpClient implements IHttpClient {
     if (isAuth) {
       requestConfig = {
         ...requestConfig,
-        headers: { Authorization: this.getAuthHeader() },
+        headers: { ...this.getAuthHeader() },
       };
     }
 
     try {
       const res = await this.axios.request<T>(requestConfig);
-
       return res?.data;
     } catch (err) {
-      const { response } = err as AxiosError<{
-        message?: string;
-        errors?: { msg: string }[];
-      }>;
-
-      const messages = [];
-
-      if (response?.data?.message) {
-        messages.push(response?.data?.message);
-      } else if (response?.data?.errors) {
-        for (const error of response?.data?.errors ?? []) {
-          messages.push(error.msg);
-        }
-      } else {
-        messages.push('Something went wrong! 😢');
-      }
-
-      for (const message of messages) {
-        this.errorHandler.handle(message, 'error');
-      }
+      this.handleRequestError(err as HttpRequestError);
     }
 
     return null;
