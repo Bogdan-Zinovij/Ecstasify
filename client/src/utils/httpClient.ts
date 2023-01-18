@@ -1,3 +1,4 @@
+import { Errors } from '@/enums/error';
 import { RootStore } from '@/stores/root.store';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { ErrorHandler } from './errorHandler';
@@ -90,7 +91,7 @@ class CustomHttpClient implements IHttpClient {
         messages.push(error.msg);
       }
     } else {
-      messages.push('Something went wrong! 😢');
+      messages.push(Errors.DefaultRequestError);
     }
 
     for (const message of messages) {
